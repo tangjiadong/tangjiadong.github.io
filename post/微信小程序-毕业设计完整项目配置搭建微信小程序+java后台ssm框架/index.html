@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）" />
+    <meta property="og:title" content="微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）" />
+    <meta property="twitter:title" content="微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）" />
+    
+
+    
+    <meta name="description" content="该系统的部署步骤">
+    <meta property="og:description" content="该系统的部署步骤" />
+    <meta property="twitter:description" content="该系统的部署步骤" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/wechat" title="Wechat">
+                            Wechat
+                        </a>
+                        
+                    </div>
+                    <h1>微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Sunday, December 22, 2019
+                        
+                            <span id="/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#开发工具">开发工具</a></li>
+    <li><a href="#登录账号">登录账号</a></li>
+    <li><a href="#项目导入">项目导入</a>
+      <ul>
+        <li><a href="#微信小程序"><strong>微信小程序</strong></a></li>
+        <li><a href="#idea">IDEA</a></li>
+        <li><a href="#微信小程序-毕业设计完整项目介绍以及源码下载">微信小程序-毕业设计完整项目介绍以及源码下载</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h2 id="开发工具">开发工具</h2>
+<ol>
+<li>后台编辑器：IntelliJ IDEA</li>
+<li>前台编辑器：微信开发者工具（如果不习惯该工具的编辑器，可以使用Visual Studio Code进行编码，仅使用微信开发者工具的模拟器进行预览）</li>
+<li>数据库：Mysql</li>
+<li>JDK版本：jdk1.8</li>
+<li>Tomcat 7.0.52</li>
+<li>Apache-maven-3.3.9</li>
+</ol>
+<h2 id="登录账号">登录账号</h2>
+<p>微信小程序和后台管理登录账号一致</p>
+<ul>
+<li>管理员账号：admin</li>
+<li>讲师账号：1001</li>
+<li>学员账号：10001</li>
+<li>密码均为：123
+Web后台管理登录首页地址：http://localhost:8080/login</li>
+</ul>
+<h2 id="项目导入">项目导入</h2>
+<h3 id="微信小程序"><strong>微信小程序</strong></h3>
+<ol>
+<li>微信开发者工具导入该项目的路径；
+  <img src="https://img-blog.csdnimg.cn/2019060811595667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4Mjg1NTM3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+
+</li>
+<li>将AppID修改为自己在卡微信公众平台注册的AppID；</li>
+<li>在app.json全局配置中可以pages第一个页面路径即为小程序的首页，可以自行调整进行界面预览；
+
+  <img src="https://img-blog.csdnimg.cn/20190608120538869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4Mjg1NTM3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+
+</li>
+</ol>
+<h3 id="idea">IDEA</h3>
+<ol>
+<li>使用 IntelliJ IDEA 导入项目，选择Maven项目选项，选择到该项目路径中的pom.xml进行导入，一路点击next就行，导入项目后，等待使用Maven构建该项目；
+
+  <img src="https://img-blog.csdnimg.cn/2019060811481819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4Mjg1NTM3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+
+</li>
+<li>项目运行配置：Edit Configurations-&gt;选择Tomcat Server-&gt;local配置Tomcat服务器
+
+  <img src="https://img-blog.csdnimg.cn/20190608121022143.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4Mjg1NTM3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+
+</li>
+<li>数据库创建：在你的Navicat for Mysql中，创建一个数据库名称为 examination_system 的数据库，并导入提供的sql 文件；</li>
+<li>进入src/main/resources修改jdbc.properties配置文件修改为你自己的数据库用户名和密码；</li>
+</ol>
+<h3 id="微信小程序-毕业设计完整项目介绍以及源码下载">微信小程序-毕业设计完整项目介绍以及源码下载</h3>
+<p>链接：https://blog.csdn.net/qq_38285537/article/details/91056177</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/mysql%E5%91%BD%E4%BB%A4/" data-toggle="tooltip" data-placement="top" title="《MySQL必知必会》-MySQL数据库常用命令">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/" data-toggle="tooltip" data-placement="top" title="微信小程序-毕业设计完整项目介绍（微信小程序&#43;Java后台SSM框架）">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

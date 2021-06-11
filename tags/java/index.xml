@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Tang Blog</title>
+    <link>https://tangjiadong.gitee.io/tangblog/tags/java/</link>
+    <description>Recent content in Java on Tang Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://tangjiadong.gitee.io/tangblog/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jenkins自动化部署</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/jenkins/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/jenkins/</guid>
+      <description>Jenkins 部署架构 安装步骤 安装服务器：139.196.19.64 官网下载Jenkins：https://www.jenkins.io/downloa</description>
+    </item>
+    
+    <item>
+      <title>聚合支付开发：支付宝、微信、银联</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/%E6%94%AF%E4%BB%98/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/%E6%94%AF%E4%BB%98/</guid>
+      <description>一、支付宝沙箱版 访问路径：http://localhost:8081/pay/generate/order 商家账号：ttskma2358@s</description>
+    </item>
+    
+    <item>
+      <title>Docker容器</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/docker/</link>
+      <pubDate>Sat, 22 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/docker/</guid>
+      <description>Docker Docker为什么出现 一款产品：开发-&amp;gt;上线 部署应用环境，应用配置！ 传统：开发jar包，运维来做！ 现在：开发打包部署上线，一套流程做</description>
+    </item>
+    
+    <item>
+      <title>Linux服务器Java常用开发环境搭建</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/jobtone%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/jobtone%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/</guid>
+      <description>Linux服务器部署 jobtone环境部署过程记录 139.196.19.64 Linux常用命令 #查看CentOS版本命令 cat /etc/redhat-release #查看Redis版本命令 [root@iZbp11jns0niwirtdz4xacZ ~]# redis-cli 127.0.0.1:6379&amp;gt; auth 123456 OK 127.0.0.1:6379&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>MybatisPlus：为简化开发而生</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/mybatisplus/</link>
+      <pubDate>Sat, 23 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/mybatisplus/</guid>
+      <description>MybatisPlus 简介 地址：https://baomidou.com/guide/ Mybatis-Plus（简称MP）是一个 Mybatis 的增强工具，在 Mybatis 的基础上只做增</description>
+    </item>
+    
+    <item>
+      <title>《MySQL必知必会》-MySQL数据库常用命令</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/mysql%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/mysql%E5%91%BD%E4%BB%A4/</guid>
+      <description>MySQL命令 MySQL的基本操作可以包括两个方面：MySQL常用语句如高频率使用的增删改查（CRUD）语句和MySQL高级功能，如存储过程</description>
+    </item>
+    
+    <item>
+      <title>《MySQL必知必会》Java开发数据库设计的14个技巧，规范数据库的设计方法</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/java%E5%BC%80%E5%8F%91%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%8414%E4%B8%AA%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/java%E5%BC%80%E5%8F%91%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%8414%E4%B8%AA%E6%8A%80%E5%B7%A7/</guid>
+      <description>Java开发数据库设计的14个技巧 1. 原始单据与实体之间的关系 可以是一对一、一对多、多对多的关系。在一般情况下，它们是一对一的关系：即一张原始</description>
+    </item>
+    
+    <item>
+      <title>《Java核心技术卷I》-反射机制的常用方法</title>
+      <link>https://tangjiadong.gitee.io/tangblog/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</guid>
+      <description>Java 反射机制 在 Java 中，并不是所有的类型信息都能在编译阶段明确，有一些类型信息需要在运行时才能确定，这种机制被称为 RTTI，英文全称为 Run-Time Type Iden</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="《Java核心技术卷I》-反射机制的常用方法" />
+    <meta property="og:title" content="《Java核心技术卷I》-反射机制的常用方法" />
+    <meta property="twitter:title" content="《Java核心技术卷I》-反射机制的常用方法" />
+    
+
+    
+    <meta name="description" content="在 Java 中，并不是所有的类型信息都能在编译阶段明确，有一些类型信息需要在运行时才能确定">
+    <meta property="og:description" content="在 Java 中，并不是所有的类型信息都能在编译阶段明确，有一些类型信息需要在运行时才能确定" />
+    <meta property="twitter:description" content="在 Java 中，并不是所有的类型信息都能在编译阶段明确，有一些类型信息需要在运行时才能确定" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>《Java核心技术卷I》-反射机制的常用方法-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                    </div>
+                    <h1>《Java核心技术卷I》-反射机制的常用方法</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Monday, November 4, 2019
+                        
+                            <span id="/tangblog/post/%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#01-class类">01、 Class类</a></li>
+        <li><a href="#02-获取class对象的其他方式">02、 获取Class对象的其他方式</a></li>
+        <li><a href="#03-class类提供的常用方法">03、 Class类提供的常用方法</a></li>
+        <li><a href="#04-反射">04、 反射</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h1 id="java-反射机制">Java 反射机制</h1>
+<p>在 Java 中，并不是所有的类型信息都能在编译阶段明确，有一些类型信息需要在运行时才能确定，这种机制被称为 RTTI，英文全称为 <code>Run-Time Type Identification</code>，即运行时类型识别，有没有一点“知行合一”的味道？运行时类型识别主要由Class类实现。</p>
+<h3 id="01-class类">01、 Class类</h3>
+<p>在Java中，我们常用“class”（首字母为小写的c）关键字来定义一个类，说这个类是对某一类对象的抽象。你比如说王二是一个网络知名作者，我们可以这样简单地定义作者类：</p>
+<pre><code>package com.cmower.java_demo.fifteen;
+
+class Author {
+	private String pen_name;
+	private String real_name;
+}
+复制代码
+</code></pre><p>现在，我们想知道Writer这个类本身的一些信息（比如说类名），该怎么办呢？这时候就需要用到“Class”（首字母为大写的C）类，该类包含了与类有关的信息。请看以下代码：</p>
+<pre><code>public class Test {
+	public static void main (String [] args) {
+		Author wanger = new Author();
+		Class c1 = wanger.getClass();
+		System.out.println(c1.getName());
+		//输出 com.cmower.java_demo.fifteen.Author
+	}
+}
+复制代码
+</code></pre><p>当我们创建了作者对象wanger后，就可以通过<code>wanger.getClass()</code>获取wanger的Class对象，通过<code>c1.getName()</code>可获得wanger对象的类名。</p>
+<p>想象一下，经过五年的刻意练习，王二从一名写作爱好者晋升为一名作家了。我们用代码来假装一下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.cmower.java_demo.fifteen<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Author</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> String pen_name<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">private</span> String real_name<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Writer</span> <span style="color:#66d9ef">extends</span> Author <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> String honour<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span> <span style="color:#f92672">(</span>String <span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		Author wanger <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Writer<span style="color:#f92672">();</span>
+		Class c1 <span style="color:#f92672">=</span> wanger<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">();</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c1<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+		<span style="color:#75715e">//输出 com.cmower.java_demo.fifteen.Writer
+</span><span style="color:#75715e"></span>	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在上例中，即使我们将Writer的对象引用wanger向上转型为Author，wanger的Class对象类型依然是Writer（通过输出结果可以判定）。这也就是说，<strong>Java能够在运行时自动识别类型的信息</strong>，它不会因为wanger的引用类型是Author而丢失wanger真正的类型信息（Writer）。Java是怎么做到这一点呢？</p>
+<p>当Java创建某个类的对象，比如Writer类对象时，Java会检查内存中是否有相应的Class对象。如果内存中没有相应的Class对象，那么Java会在.class文件中寻找Writer类的定义，并加载Writer类的Class对象。</p>
+<p>一旦Class对象加载成功，就可以用它来创建这种类型的所有对象。这也就是说，每个对象在运行时都会有对应的Class对象，这个Class对象包含了这个对象的类型信息。因此，我们能够通过Class对象知道某个对象“真正”的类型，并不会因为向上转型而丢失。</p>
+<h3 id="02-获取class对象的其他方式">02、 获取Class对象的其他方式</h3>
+<p>在使用<code>getClass()</code>方法获取一个类的Class对象时，我们必须要先获取这个类的对象，比如上面提到的wanger。如果我们之前没有获取这个类的对象，就需要用另外两种方式来获取类的Class对象：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Class c2 <span style="color:#f92672">=</span> Writer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c2<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+
+<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+	Class c3 <span style="color:#f92672">=</span> Class<span style="color:#f92672">.</span><span style="color:#a6e22e">forName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.cmower.java_demo.fifteen.Writer&#34;</span><span style="color:#f92672">);</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c3<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>ClassNotFoundException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>1）当使用<code>.class</code>来获取Class对象时，不会自动地初始化该Class对象，初始化被延迟到了对静态方法或者非final静态域进行首次引用时才执行。这样做不仅更简单，而且更安全，因为它在编译时就会受到检查（因此不需要置于try语句块中）。</p>
+<p>2）<code>Class.forName</code>会自动地初始化该Class对象，但需要指定类名，并且需要置于try语句块中。</p>
+<h3 id="03-class类提供的常用方法">03、 Class类提供的常用方法</h3>
+<p>Class类为我们提供了一些非常有用的方法，比如说<code>getName()</code>用来返回类名，<code>getPackage()</code>返回类所在的包名。</p>
+<p>我们还可以利用Class类提供的<code>newInstance()</code>方法来创建相应类的对象，比如:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Class c2 <span style="color:#f92672">=</span> Writer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c2<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+
+<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+	Writer wangsan <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Writer<span style="color:#f92672">)</span> c2<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">();</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>wangsan<span style="color:#f92672">);</span>
+	<span style="color:#75715e">// 输出：com.cmower.java_demo.fifteen.Writer@7852e922
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InstantiationException <span style="color:#f92672">|</span> IllegalAccessException e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	e1<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>由于我们在创建Class对象c2时没有使用泛型，所以<code>newInstance()</code>返回的对象类型需要强转为Writer。我们可以在此基础上进行改进，示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Class<span style="color:#f92672">&lt;</span>Writer<span style="color:#f92672">&gt;</span> c4 <span style="color:#f92672">=</span> Writer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c4<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+
+<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+	Writer wangsan <span style="color:#f92672">=</span> c4<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">();</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>wangsan<span style="color:#f92672">);</span>
+	<span style="color:#75715e">// 输出：com.cmower.java_demo.fifteen.Writer@7852e922
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InstantiationException <span style="color:#f92672">|</span> IllegalAccessException e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	e1<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="04-反射">04、 反射</h3>
+<p>我们还可以通过<code>getFields()</code>获取所有public修饰的字段，通过<code>getMethods()</code>返回所有public修饰的方法。</p>
+<p>甚至，我们还可以通过<code>getDeclaredFields()</code>获取更多字段，包括公共、受保护、默认(包)访问和私有字段，但不包括继承字段。对应的，<code>getDeclaredMethods()</code>用来获取更多方法。示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.cmower.java_demo.fifteen<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.lang.reflect.Field<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.lang.reflect.Method<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Author</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> String pen_name<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">private</span> String real_name<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Writer</span> <span style="color:#66d9ef">extends</span> Author <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> String honour<span style="color:#f92672">;</span>
+
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">makeMoney</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;很多很多钱&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+		Class<span style="color:#f92672">&lt;</span>Writer<span style="color:#f92672">&gt;</span> c4 <span style="color:#f92672">=</span> Writer<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">;</span>
+		System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>c4<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+
+		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+			Writer wangsan <span style="color:#f92672">=</span> c4<span style="color:#f92672">.</span><span style="color:#a6e22e">newInstance</span><span style="color:#f92672">();</span>
+			System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>wangsan<span style="color:#f92672">);</span>
+
+			Field<span style="color:#f92672">[]</span> fields <span style="color:#f92672">=</span> c4<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredFields</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Field field <span style="color:#f92672">:</span> fields<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+				System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>field<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+			<span style="color:#f92672">}</span>
+
+			Method<span style="color:#f92672">[]</span> methods <span style="color:#f92672">=</span> c4<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaredMethods</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Method method <span style="color:#f92672">:</span> methods<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+				System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>method<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+			<span style="color:#f92672">}</span>
+		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InstantiationException <span style="color:#f92672">|</span> IllegalAccessException e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			e1<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+		<span style="color:#f92672">}</span>
+
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>上面的例子其实涉及到了反射，Field、Method（还有例子中未提到的Constructor）都来自java.lang.reflect类库。Class类与java.lang.reflect类库一起对反射的概念进行了支持。</p>
+<p>有时候，我们需要从磁盘文件或网络文件中读取一串字节码，并把它转换成一个类，这时候就需要用到反射。最常见的典型例子就是将一串JSON字符串（在网络传输中最初的形态可能是字节数组）反射为对应类型的对象。</p>
+<p>阿里巴巴提供的FastJSON提供了 <code>toJSONString()</code> 和 <code>parseObject()</code> 方法来将 Java 对象与 JSON 相互转换。调用toJSONString方法即可将对象转换成 JSON 字符串，parseObject 方法则反过来将 JSON 字符串转换成对象。FastJSON的内部其实用的就是反射机制。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.cmower.common.util<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.UnsupportedEncodingException<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> org.apache.commons.logging.Log<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.commons.logging.LogFactory<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.alibaba.fastjson.JSON<span style="color:#f92672">;</span>
+
+<span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;all&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JsonUtil</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Log logger <span style="color:#f92672">=</span> LogFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getLog</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;json&#34;</span><span style="color:#f92672">);</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">objectToByte</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> UnsupportedEncodingException <span style="color:#f92672">{</span>
+		String jsonStr <span style="color:#f92672">=</span> JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">toJSONString</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">);</span>
+		logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;序列化后数据：&#34;</span> <span style="color:#f92672">+</span> jsonStr<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">return</span> jsonStr<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">byteToObject</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> data<span style="color:#f92672">,</span> Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> obj<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> UnsupportedEncodingException <span style="color:#f92672">{</span>
+		String objectString <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+		logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;反序列化后数据 : &#34;</span> <span style="color:#f92672">+</span> objectString<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">return</span> JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">parseObject</span><span style="color:#f92672">(</span>objectString<span style="color:#f92672">,</span> obj<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Object <span style="color:#a6e22e">stringToObject</span><span style="color:#f92672">(</span>String data<span style="color:#f92672">,</span> Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> obj<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> UnsupportedEncodingException <span style="color:#f92672">{</span>
+		logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;反序列化后数据 : &#34;</span> <span style="color:#f92672">+</span> data<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">return</span> JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">parseObject</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> obj<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/vuex/" data-toggle="tooltip" data-placement="top" title="Vuex">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/java%E5%BC%80%E5%8F%91%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%8414%E4%B8%AA%E6%8A%80%E5%B7%A7/" data-toggle="tooltip" data-placement="top" title="《MySQL必知必会》Java开发数据库设计的14个技巧，规范数据库的设计方法">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="Jenkins自动化部署" />
+    <meta property="og:title" content="Jenkins自动化部署" />
+    <meta property="twitter:title" content="Jenkins自动化部署" />
+    
+
+    
+    <meta name="description" content="前、后端项目自动化部署记录">
+    <meta property="og:description" content="前、后端项目自动化部署记录" />
+    <meta property="twitter:description" content="前、后端项目自动化部署记录" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>Jenkins自动化部署-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/jenkins/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtpycjj1uj31hc0u0qv7.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                    </div>
+                    <h1>Jenkins自动化部署</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Monday, May 24, 2021
+                        
+                            <span id="/tangblog/post/jenkins/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#部署架构">部署架构</a></li>
+    <li><a href="#安装步骤">安装步骤</a></li>
+    <li><a href="#基础设置">基础设置</a></li>
+    <li><a href="#服务器环境">服务器环境</a>
+      <ul>
+        <li><a href="#git">git</a></li>
+        <li><a href="#maven">maven</a></li>
+      </ul>
+    </li>
+    <li><a href="#设置">设置</a>
+      <ul>
+        <li><a href="#新建节点">新建节点</a></li>
+      </ul>
+    </li>
+    <li><a href="#自动化部署发布">自动化部署发布</a>
+      <ul>
+        <li><a href="#java">Java</a></li>
+        <li><a href="#h5">H5</a></li>
+      </ul>
+    </li>
+    <li><a href="#构建触发器"><strong>构建触发器</strong></a>
+      <ul>
+        <li><a href="#固定时间触发"><strong>固定时间触发</strong></a></li>
+        <li><a href="#推送代码自动构建">推送代码自动构建</a></li>
+        <li><a href="#自动丢弃构建历史数据">自动丢弃构建历史数据</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h1 id="jenkins">Jenkins</h1>
+<h2 id="部署架构">部署架构</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp23104u44j30o40blgpt.jpg" alt="image-20210330175650259">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp3cpqw2f0j30kd0b1goe.jpg" alt="image-20210331201731858">
+
+</p>
+<h2 id="安装步骤">安装步骤</h2>
+<p><strong>安装服务器：139.196.19.64</strong></p>
+<ol>
+<li>官网下载Jenkins：https://www.jenkins.io/download/</li>
+<li>下载的war包放入服务器，放入Tomcat7: /usr/local/tomcat7/apache-tomcat-7.0.108/webapps</li>
+<li>访问：http://106.14.40.95:8000/jenkins</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gpmyhzggbrj318o0u0aom.jpg" alt="image-20210417191658824">
+
+</p>
+<ol start="2">
+<li>获取密码：dd389846b0004714bfd911586ae389a1</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim  /root/.jenkins/secrets/initialAdminPassword
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<ol start="3">
+<li>创建管理员用户</li>
+</ol>
+<p><!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --></p>
+<ol start="4">
+<li>安装额外插件</li>
+</ol>
+<p><!-- raw HTML omitted --></p>
+<h2 id="基础设置">基础设置</h2>
+<ul>
+<li>配置全局安全属性:Configure Global Security</li>
+</ul>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gpmz46bbwoj31pj0u07b5.jpg" alt="image-20210417193820613">
+
+</p>
+<ul>
+<li>添加用户</li>
+</ul>
+<h2 id="服务器环境">服务器环境</h2>
+<h3 id="git">git</h3>
+<ol>
+<li>服务器安装git，并生成公钥私钥</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install git
+git version
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ ~<span style="color:#f92672">]</span><span style="color:#75715e"># git config --global user.name &#34;tangjiadong&#34;</span>
+<span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ ~<span style="color:#f92672">]</span><span style="color:#75715e"># git config --global user.email &#34;tang897396324@163.com&#34;</span>
+<span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ ~<span style="color:#f92672">]</span><span style="color:#75715e"># ssh-keygen -t rsa -C &#34;tang897396324@163.com&#34;</span>
+</code></pre></div><ol start="2">
+<li>将生成的id_rsa.pub证书绑定到github的SSH keys，保证Linux服务器与github之间可联通</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gpns7g8j6fj31q80tkahu.jpg" alt="image-20210418122449232">
+
+</p>
+<ol start="3">
+<li>验证绑定成功</li>
+</ol>
+<pre><code class="language-ssh" data-lang="ssh">[root@iZuf6bhe673f5seh11w4akZ ~]# ssh git@github.com
+Warning: Permanently added the RSA host key for IP address '192.30.255.112' to the list of known hosts.
+PTY allocation request failed on channel 0
+Hi tangjiadong! You've successfully authenticated, but GitHub does not provide shell access.
+Connection to github.com closed.
+</code></pre><h3 id="maven">maven</h3>
+<ol>
+<li>下载并解压到服务器目录下</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gpnuktq0sij31t80ja0x2.jpg" alt="image-20210418134654437">
+
+</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://mirror-hk.koddos.net/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.zip
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y unzip zip	<span style="color:#75715e">#安装unzip</span>
+unzip apache-maven-3.8.1-bin.zip
+</code></pre></div><ol start="2">
+<li>Maven环境</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/profile
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export MAVEN_HOME<span style="color:#f92672">=</span>/usr/local/maven/apache-maven-3.8.1
+export PATH<span style="color:#f92672">=</span>$MAVEN_HOME/bin:$PATH
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ maven<span style="color:#f92672">]</span><span style="color:#75715e"># . /etc/profile</span>
+<span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ maven<span style="color:#f92672">]</span><span style="color:#75715e"># mvn -version</span>
+Apache Maven 3.8.1 <span style="color:#f92672">(</span>05c21c65bdfed0f71a2f2ada8b84da59348c4c5d<span style="color:#f92672">)</span>
+Maven home: /usr/local/maven/apache-maven-3.8.1
+Java version: 1.8.0_271, vendor: Oracle Corporation, runtime: /home/java/jdk1.8.0_271/jre
+Default locale: zh_CN, platform encoding: UTF-8
+OS name: <span style="color:#e6db74">&#34;linux&#34;</span>, version: <span style="color:#e6db74">&#34;3.10.0-1127.19.1.el7.x86_64&#34;</span>, arch: <span style="color:#e6db74">&#34;amd64&#34;</span>, family: <span style="color:#e6db74">&#34;unix&#34;</span>
+</code></pre></div><h2 id="设置">设置</h2>
+<h3 id="新建节点">新建节点</h3>
+<p>【Manage Nodes and Clouds】</p>
+<ol>
+<li>新建节点，配置路径、IP、用户名、密码</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gpnv5uvhbrj31kt0u0n36.jpg" alt="image-20210418140707310">
+
+</p>
+<ol start="2">
+<li>验证连接</li>
+</ol>
+<p><!-- raw HTML omitted --></p>
+<ol start="3">
+<li>创建任务</li>
+</ol>
+<h2 id="自动化部署发布">自动化部署发布</h2>
+<h3 id="java">Java</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">BUILD_ID<span style="color:#f92672">=</span>DONTKILLME
+
+
+./etc/profile
+
+<span style="color:#75715e">#配置运行参数</span>
+export PROJ_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>pwd<span style="color:#e6db74">`</span>
+sh $PROJ_PATH/jobtone/jobtone.sh
+</code></pre></div><p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gppio6keu8j31pt0u016t.jpg" alt="image-20210420002600600">
+
+</p>
+<p>启动脚本修改下：nohup java -jar  $AppName &gt; $APP_HOME/nohup.out 2&gt;&amp;1 &amp;</p>
+<h3 id="h5">H5</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">BUILD_ID<span style="color:#f92672">=</span>DONTKILLME
+
+<span style="color:#75715e">#加载配置参数</span>
+. /etc/profile
+
+cd /root/.jenkins/workspace/jobtone-web-admin
+npm install
+
+<span style="color:#75715e">#构建项目</span>
+npm run build
+
+cp -r ./dist /home/jobtone_admin
+</code></pre></div><h2 id="构建触发器"><strong>构建触发器</strong></h2>
+<h3 id="固定时间触发"><strong>固定时间触发</strong></h3>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gpsie4ndeaj31ts0tkwit.jpg" alt="image-20210422143307258">
+
+</p>
+<p>8点，10点，12点，14点，16点，18点，20点，22点构建8次</p>
+<p>0 8,10,12,14,16,18,20,22 * * *</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">定时构建语法
+
+* * * * *
+
+<span style="color:#f92672">(</span>五颗星，中间用空格隔开）
+
+第一颗*表示分钟，取值0~59
+第二颗*表示小时，取值0~23
+第三颗*表示一个月的第几天，取值1~31
+第四颗*表示第几月，取值1~12
+第五颗*表示一周中的第几天，取值0~7，其中0和7代表的都是周日
+
+1.每30分钟构建一次：
+
+H/30 * * * *
+
+2.每2个小时构建一次
+
+H H/2 * * *
+
+3.每天早上8点构建一次
+
+<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">8</span> * * *
+
+4.每天的8点，12点，22点，一天构建3次
+
+<span style="color:#ae81ff">0</span> 8,12,22 * * *
+
+（多个时间点，中间用逗号隔开）
+
+5.8点，10点，12点，14点，16点，18点，20点，22点构建8次
+<span style="color:#ae81ff">0</span> 8,10,12,14,16,18,20,22 * * *
+</code></pre></div><h3 id="推送代码自动构建">推送代码自动构建</h3>
+<p><a href="https://www.meetkiki.com/archives/Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E2%80%94%E2%80%94%E5%BD%93github%E6%8E%A8%E9%80%81%E4%BB%A3%E7%A0%81%E6%97%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA">https://www.meetkiki.com/archives/Jenkins%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E2%80%94%E2%80%94%E5%BD%93github%E6%8E%A8%E9%80%81%E4%BB%A3%E7%A0%81%E6%97%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA</a></p>
+<h3 id="自动丢弃构建历史数据">自动丢弃构建历史数据</h3>
+<p>一次构建包含两方面的产物：构建记录和构建工件。构建记录是一种跟踪、分析和反馈的依据，具有保存价值；而已经过时的构建工件则通常可以直接丢弃。基于以上思路，Jenkins为我们提供了“丢弃旧的构建”配置功能，通过进行合理配置即可达到保存构建记录丢弃构建工件的效果，配置方式如下：</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqh5xax9i6j31gd0u0n0v.jpg" alt="image-20210513222052282">
+
+</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/%E6%94%AF%E4%BB%98/" data-toggle="tooltip" data-placement="top" title="聚合支付开发：支付宝、微信、银联">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="聚合支付开发：支付宝、微信、银联" />
+    <meta property="og:title" content="聚合支付开发：支付宝、微信、银联" />
+    <meta property="twitter:title" content="聚合支付开发：支付宝、微信、银联" />
+    
+
+    
+    <meta name="description" content="该文章描述（支付宝、微信、银联）支付开发过程及异常情况处理">
+    <meta property="og:description" content="该文章描述（支付宝、微信、银联）支付开发过程及异常情况处理" />
+    <meta property="twitter:description" content="该文章描述（支付宝、微信、银联）支付开发过程及异常情况处理" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>聚合支付开发：支付宝、微信、银联-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/%E6%94%AF%E4%BB%98/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtpy5w948j31bf0u0b2a.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="Java">
+                            Java
+                        </a>
+                        
+                    </div>
+                    <h1>聚合支付开发：支付宝、微信、银联</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Monday, May 24, 2021
+                        
+                            <span id="/tangblog/post/%E6%94%AF%E4%BB%98/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一支付宝沙箱版">一、支付宝沙箱版</a></li>
+    <li><a href="#1环境搭建">1、环境搭建</a>
+      <ul>
+        <li><a href="#工具下载">工具下载</a></li>
+        <li><a href="#netapp">Netapp</a></li>
+      </ul>
+    </li>
+    <li><a href="#2支付demo">2、支付Demo</a>
+      <ul>
+        <li><a href="#使用沙箱环境">使用沙箱环境</a></li>
+        <li><a href="#代码接入java系统">代码接入Java系统</a></li>
+      </ul>
+    </li>
+    <li><a href="#3提现demo">3、提现Demo</a></li>
+    <li><a href="#二微信支付">二、微信支付</a></li>
+    <li><a href="#1微信扫码支付申请">1、微信扫码支付申请</a></li>
+    <li><a href="#2开发文档">2、开发文档</a>
+      <ul>
+        <li><a href="#在线微信支付开发文档">在线微信支付开发文档</a></li>
+        <li><a href="#多类支付模式">多类支付模式</a></li>
+        <li><a href="#微信支付接口调用的整体思路">微信支付接口调用的整体思路</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-实现步骤">3、 实现步骤</a>
+      <ul>
+        <li><a href="#native支付">Native支付</a></li>
+      </ul>
+    </li>
+    <li><a href="#4生产环境">4、生产环境</a></li>
+    <li><a href="#三银联支付">三、银联支付</a></li>
+    <li><a href="#1文档地址">1、文档地址</a></li>
+    <li><a href="#2测试开发步骤">2、测试开发步骤</a></li>
+    <li><a href="#3踩坑日志">3、踩坑日志</a></li>
+    <li><a href="#4注意点">4、注意点</a></li>
+    <li><a href="#5生产环境">5、生产环境</a>
+      <ul>
+        <li><a href="#商户参考">商户参考</a></li>
+        <li><a href="#开发参考">开发参考</a></li>
+      </ul>
+    </li>
+    <li><a href="#四延时队列与轮询">四、延时队列与轮询</a></li>
+    <li><a href="#1分布式事务的异步通信问题">1、分布式事务的异步通信问题</a></li>
+    <li><a href="#2延时队列">2、延时队列</a>
+      <ul>
+        <li><a href="#应用场景">应用场景</a></li>
+        <li><a href="#实现思路">实现思路</a></li>
+        <li><a href="#实现支付宝订单状态查询">实现支付宝订单状态查询</a></li>
+        <li><a href="#利用延时队列反复调用查询接口">利用延时队列反复调用查询接口</a></li>
+      </ul>
+    </li>
+    <li><a href="#3轮询扫描">3、轮询扫描</a>
+      <ul>
+        <li><a href="#应用场景-1">应用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#五支付异常情况处理">五、支付异常情况处理</a></li>
+    <li><a href="#1掉单异常">1、掉单异常</a></li>
+    <li><a href="#2外部掉单">2、外部掉单</a>
+      <ul>
+        <li><a href="#增加超时时间">增加超时时间</a></li>
+        <li><a href="#接收异步通知">接收异步通知</a></li>
+        <li><a href="#掉单查询">掉单查询</a></li>
+        <li><a href="#对账">对账</a></li>
+      </ul>
+    </li>
+    <li><a href="#3内部掉单异常">3、内部掉单异常</a>
+      <ul>
+        <li><a href="#支付公司内部订单关系">支付公司内部订单关系</a></li>
+        <li><a href="#内部掉单异常的原因">内部掉单异常的原因</a></li>
+        <li><a href="#内部掉单异常解决办法">内部掉单异常解决办法</a></li>
+      </ul>
+    </li>
+    <li><a href="#4总结">4、总结</a></li>
+    <li><a href="#六幂等性">六、幂等性</a></li>
+    <li><a href="#1何为幂等性">1、何为幂等性？</a></li>
+    <li><a href="#2幂等性主要场景有哪些">2、幂等性主要场景有哪些？</a></li>
+    <li><a href="#3幂等性的作用是什么">3、幂等性的作用是什么？</a></li>
+    <li><a href="#4如何解决幂等性问题">4、如何解决幂等性问题？</a>
+      <ul>
+        <li><a href="#41-控制重复请求">4.1 控制重复请求</a></li>
+        <li><a href="#42-过滤重复动作">4.2 过滤重复动作</a></li>
+        <li><a href="#43-解决重复写">4.3 解决重复写</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h2 id="一支付宝沙箱版">一、支付宝沙箱版</h2>
+<blockquote>
+<p>访问路径：http://localhost:8081/pay/generate/order</p>
+<p>商家账号：ttskma2358@sandbox.com</p>
+<p>买家账号：gsuxcl8343@sandbox.com</p>
+</blockquote>
+<h2 id="1环境搭建">1、环境搭建</h2>
+<h3 id="工具下载">工具下载</h3>
+<p>​	https://opendocs.alipay.com/open/291/105971</p>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>商家的公钥、密钥需要使用支付宝的工具进行生成</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1dxmymj31jk0c0myu.jpg" alt="image-20200825155318139">
+
+</p>
+<ol start="2">
+<li>密钥文件成功保存至/Users/Tang/Documents/支付宝开放平台开发助手/RSA密钥,点击&quot;打开密钥文件路径&quot;按钮查看</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd11v615j30u00lodkh.jpg" alt="image-20200825160106335">
+
+</p>
+<h3 id="netapp">Netapp</h3>
+<ol start="3">
+<li>
+<p>内网穿透</p>
+<p>需要外网的支付宝来调内网的项目，需要进行特殊的处理</p>
+</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd19rsnhj30jo0bpq3j.jpg" alt="image-20200825161808220">
+
+</p>
+<p>​</p>
+<p>需要借助内网穿透工具</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1b40rhj30gn03fdfr.jpg" alt="image-20200825162322227">
+
+</p>
+<ol start="4">
+<li>
+<p>NETAPP</p>
+<p>官网：https://natapp.cn/</p>
+<p>账号：CodeTang</p>
+<p>密码：netapptang</p>
+<p>免费购买隧道(只能使用80端口)</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd172dtwj316w0u0n0q.jpg" alt="image-20200825163043623">
+
+</p>
+<p>客户端下载(Mac下载64位)</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1hnplvj31cg0i8761.jpg" alt="image-20200825164309393">
+
+</p>
+</li>
+</ol>
+<p>​		使用本地配置文件config.ini(官方原版)</p>
+<pre><code class="language-properties" data-lang="properties">#将本文件放置于natapp同级目录 程序将读取 [default] 段
+#在命令行参数模式如 natapp -authtoken=xxx 等相同参数将会覆盖掉此配置
+#命令行参数 -config= 可以指定任意config.ini文件
+[default]
+authtoken=                      #对应一条隧道的authtoken
+clienttoken=                    #对应客户端的clienttoken,将会忽略authtoken,若无请留空,
+log=none                        #log 日志文件,可指定本地文件, none=不做记录,stdout=直接屏幕输出 ,默认为none
+loglevel=ERROR                  #日志等级 DEBUG, INFO, WARNING, ERROR 默认为 DEBUG
+http_proxy=                     #代理设置 如 http://10.123.10.10:3128 非代理上网用户请务必留空
+</code></pre><p>​		配置完成实例</p>
+<pre><code class="language-properties" data-lang="properties">#将本文件放置于natapp同级目录 程序将读取 [default] 段
+#在命令行参数模式如 natapp -authtoken=xxx 等相同参数将会覆盖掉此配置
+#命令行参数 -config= 可以指定任意config.ini文件
+[default]
+authtoken=aaeea733fd00aae2      #对应一条隧道的authtoken
+clienttoken=                    #对应客户端的clienttoken,将会忽略authtoken,若无请留空,
+log=stdout                      #log 日志文件,可指定本地文件, none=不做记录,stdout=直接屏幕输出 ,默认为none
+loglevel=DEBUG                  #日志等级 DEBUG, INFO, WARNING, ERROR 默认为 DEBUG
+http_proxy=                     #代理设置 如 http://10.123.10.10:3128 非代理上网用户请务必留空
+</code></pre><p>​		运行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#执行权限</span>
+chomod a+x natapp
+<span style="color:#75715e">#运行</span>
+./natapp
+</code></pre></div><h2 id="2支付demo">2、支付Demo</h2>
+<p><a href="https://opendocs.alipay.com/open/270/106291">https://opendocs.alipay.com/open/270/106291</a></p>
+<h3 id="使用沙箱环境">使用沙箱环境</h3>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<p>进入 <strong>开放平台 &gt; 开发者中心</strong> 在开发服务选项中点击 <strong>研发服务</strong> 即可进入 <a href="https://openhome.alipay.com/platform/appDaily.htm">沙箱环境</a>。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1blc0yj31h20u00vb.jpg" alt="image-20200825175222735">
+
+</p>
+<p>将商户公钥设置到RSA2密钥中，并能获取支付宝公钥</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd19bqpxj31gc0si43l.jpg" alt="image-20200825175843301">
+
+</p>
+<blockquote>
+<p>流程图</p>
+</blockquote>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1c1obyj30pe0a4jrs.jpg" alt="image-20200826175305446">
+
+</p>
+<h3 id="代码接入java系统">代码接入Java系统</h3>
+<blockquote>
+<p><strong>支付页面调出登录账号的时候，不能在这之前打开沙箱网页，否则提示钓鱼操作</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>一定要注意使用rsaCheckV2</strong></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//AlipaySignature.rsaCheckV1最后的1对应的当然是ras老版的配置
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">boolean</span> signVerified <span style="color:#f92672">=</span> AlipaySignature<span style="color:#f92672">.</span><span style="color:#a6e22e">rsaCheckV2</span><span style="color:#f92672">(</span>
+                params<span style="color:#f92672">,</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getAlipayPublicKey</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getCharset</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignType</span><span style="color:#f92672">());</span> <span style="color:#75715e">//调用SDK验证签名
+</span></code></pre></div><blockquote>
+<p>核心代码</p>
+</blockquote>
+<p>application-dev.yml</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e">#支付宝Alipay(沙箱环境)</span>
+<span style="color:#66d9ef">ali</span>:
+  <span style="color:#66d9ef">pay</span>:
+    <span style="color:#66d9ef">alipay-public-key</span>: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApTlGyiJ+xL1xR/TwVPYzWSq0P7hT86ui/MEQAVrb3QrLvDNCs+9LXkqtPMZYSAYOL2Af/1VaJYycSXEVGKxz0tg1WJB4SUlN1X1PsXbhX/zyCgs6vzjJTmvV7o9iTirtmPbHld4oe6gOKc91XGhwsSA80ZJ6OfEYJ8m9uYaEfR1i1BpUIkezO59XI5Ggii/cG/PF8wj8V5x23f7bij0nsAo39nhGNKjfxciwaTSELR4f1upBAtIqQFyMY3IAR3T9apy5mPRj24v40ldxkppMcZ7YJIeG6y8Ub+WasOEvDCEWnd0n99v0hwC8qGwShcrXQglno5jAVQrVreYfpgHq5wIDAQAB
+    <span style="color:#66d9ef">app-id</span>: <span style="color:#ae81ff">2021000116697099</span>
+    <span style="color:#66d9ef">charset</span>: utf<span style="color:#ae81ff">-8</span>
+    <span style="color:#66d9ef">gateway-url</span>: https://openapi.alipaydev.com/gateway.do
+    <span style="color:#66d9ef">merchant-private-key</span>: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCs8+Imd2hG4F2M8hspSPvnEY5oiR98pSxrJ6IGW9WEbIWe5YSuw2cEJhhxornS1xY79mFKqzA9u0YZ/2mIhIXeTKnrzomaHE5jVFqhZ2vbw54zm4KQHc0jvbC2JsOpPuuXJeMORPiimpEOXKc9P63K58V/JGUugUyFWFm1RNp1Bwax87yuE4C6dG0gR6gVPsjDEsNGLpUEDCdWiJACJ7XDX7XorTXOMbpVwcKLG4e13YwWBX/PViewi52WEdqQd7PNmmdNRacNVQckMI9Q6lXlllVy5LdcP+5KwQh0acYcsZzNUsz0ohi6ibU9qE+Xgs0Loe3p59u6cP6rMRRMIEXHAgMBAAECggEBAJ+q+7JVdGBSjCst7CNeLKhzDcy2Iup4tpwqV6uVJnZ9lZJPBAIvhTBQVyq5duIODYnH+KPtjLjA5oPjxzLwXYIPtqNq5p/u1/NdkdoGV43od2nffFa+HH+NhNF00heybd75bDflNsEu/xGKOh8SZci31h19pSec2N8V5KOzcBauopNNsj1+arQLYnjhXq7cUlh0mOTW98TnyBei3zrUfIo5OmayUC0Ti3Cmir1IDjJuUU2I0x+F8Jt1ZwNieBBMgYwhxEX+Rjy7gkADvQWvy79dXUj4ah77o6srvZgAJy4TWNRFpKVvYDjEa59xexRcF4K+o8VcU1n1Zs/nxuddgVECgYEA55PEclgdprbYq9ROsrTlcrOuNOOT7VjYgVLAgHyTwk1Rwei7gB0QsBisW6zwB7oeFwBdyWz5wDyykrCIpmICJVbaKtVL9Bbj4mz5HfYh5tyYHMgf+FudEz0W8ptxERzmsIlinQRoQDB/+nOP/Jf2jmYZ+Nt2zf9J/DRKf0lIiSkCgYEAvzFXqYHbMbqjCOZw/9W8KLphPvSQYzM5UGc6OAYoHPusIjrqYcB2zvEapq3jfLkq+AuBAtpnZ5g+mQPRCxw5fbj57C/dc10RAr/qfFQbXQJyaVU19+BkJ7KzT3Kpi3o9wPPGt7ipbIZP1JeCuU8oM/AqHIQ7w1DaZXb0Bn/nBW8CgYBloMKwj50Loei6l+Slpp+fU91a1pj/q2LwdjmG6aUKu1Xq7FEE6zx8m4dggCeirHoyC/YcxJdiVwDjQVfm9NIOQuxhqdO4XidKIhq9nFvKbfrPfsARBVuMqt2cQL1BDlbrGI/ParS5ns87QWXqK2KHoaU6Qk4EH0n/xY8AB1Au6QKBgCik6KnUPTC5KGd/9Y2tdi6CUKH9g6RTA2AgUbQPOv/OUK2GMMVPEPK1NqEwXifphUTtzSM6IrlXGBeXRB1EhsQ/SoH3OvCHXFJlUgfUKW0AVCooPyzOuvvldVDyYzCPcAlQyXHNA9daRiY/fz69oSJJb+pYAgxnZ8YiH4YyMn5pAoGBAMPhnQ1dI0nXqB0DlrsKS+/osF/UJ9V+CdWn/F8E8ozIvENe7ZKVKZKUaSdgOZuhQgGXpJp7QtE8on4YppLdsg6KeyK6wxX6sALvs8qiJS4br49CC9trnU4YhSLR46MbchVHtecxQe7a9HRF9wKxBmoq78sqSmYdbhz5ebgojEp/
+    <span style="color:#66d9ef">notify-url</span>: http://<span style="color:#ae81ff">127.0.0.1</span>:<span style="color:#ae81ff">8888</span>/pay/notify
+    <span style="color:#66d9ef">return-url</span>: http://<span style="color:#ae81ff">127.0.0.1</span>:<span style="color:#ae81ff">8888</span>/pay/return
+    <span style="color:#66d9ef">sign-type</span>: RSA2
+</code></pre></div><p>PayProperties</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.jbt.jobtone.config.alipay<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> lombok.AllArgsConstructor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> lombok.Data<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> lombok.NoArgsConstructor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.boot.context.properties.ConfigurationProperties<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.stereotype.Component<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2020/8/26
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Data</span>
+<span style="color:#a6e22e">@NoArgsConstructor</span>
+<span style="color:#a6e22e">@AllArgsConstructor</span>
+<span style="color:#a6e22e">@Component</span>
+<span style="color:#a6e22e">@ConfigurationProperties</span><span style="color:#f92672">(</span>prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ali.pay&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PayProperties</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> String appId<span style="color:#f92672">;</span>   <span style="color:#75715e">//应用ID,您的APPID，收款账号既是您的APPID对应支付宝账号
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String merchantPrivateKey<span style="color:#f92672">;</span>  <span style="color:#75715e">//商户私钥，您的PKCS8格式RSA2私钥
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String alipayPublicKey<span style="color:#f92672">;</span>  <span style="color:#75715e">//支付宝公钥
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String notifyUrl<span style="color:#f92672">;</span>   <span style="color:#75715e">//服务器异步通知页面路径
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String returnUrl<span style="color:#f92672">;</span>   <span style="color:#75715e">//页面跳转同步通知页面路径
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String signType<span style="color:#f92672">;</span>    <span style="color:#75715e">//签名方式
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String charset<span style="color:#f92672">;</span>     <span style="color:#75715e">//字符编码格式
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String gatewayUrl<span style="color:#f92672">;</span>  <span style="color:#75715e">//支付宝网关
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>PayController</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.jbt.jobtone.controller<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.alipay.api.AlipayApiException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.alipay.api.AlipayClient<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.alipay.api.DefaultAlipayClient<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.alipay.api.internal.util.AlipaySignature<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.alipay.api.request.AlipayTradePagePayRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.jbt.jobtone.config.alipay.PayProperties<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.jbt.jobtone.entity.OrderRecords<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.jbt.jobtone.service.OrderRecordsService<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.swagger.annotations.Api<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.swagger.annotations.ApiImplicitParam<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.swagger.annotations.ApiImplicitParams<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> io.swagger.annotations.ApiOperation<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> lombok.extern.slf4j.Slf4j<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.slf4j.Logger<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.slf4j.LoggerFactory<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Autowired<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.transaction.annotation.Transactional<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.CrossOrigin<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RequestMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.ResponseBody<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RestController<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> springfox.documentation.annotations.ApiIgnore<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpSession<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.UnsupportedEncodingException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.math.BigDecimal<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.text.SimpleDateFormat<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.*<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2020/8/26
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@RestController</span>
+<span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/pay&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@CrossOrigin</span>
+<span style="color:#a6e22e">@Slf4j</span>
+<span style="color:#a6e22e">@Transactional</span>
+<span style="color:#a6e22e">@Api</span><span style="color:#f92672">(</span>tags <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;支付宝支付接口&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PayController</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> PayProperties payProperties<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> OrderRecordsService orderRecordsService<span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">private</span> Logger logger <span style="color:#f92672">=</span> LoggerFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getLogger</span><span style="color:#f92672">(</span>PayController<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 调用支付宝接口封装方法
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param outTradeNo  外部订单号，也就是商户订单号，也就是我们生成的订单号
+</span><span style="color:#75715e">     * @param totalAmount 订单的总金额
+</span><span style="color:#75715e">     * @param subject     订单的标题
+</span><span style="color:#75715e">     * @param body        商品的描述
+</span><span style="color:#75715e">     * @return 返回到页面上显示的支付宝登录界面
+</span><span style="color:#75715e">     * @throws AlipayApiException
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">sendRequestToAliPay</span><span style="color:#f92672">(</span>String outTradeNo<span style="color:#f92672">,</span> BigDecimal totalAmount<span style="color:#f92672">,</span> String subject<span style="color:#f92672">,</span> String body<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> AlipayApiException <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//获得初始化的AlipayClient
+</span><span style="color:#75715e"></span>        AlipayClient alipayClient <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultAlipayClient<span style="color:#f92672">(</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getGatewayUrl</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getAppId</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getMerchantPrivateKey</span><span style="color:#f92672">(),</span>
+                <span style="color:#e6db74">&#34;json&#34;</span><span style="color:#f92672">,</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getCharset</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getAlipayPublicKey</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignType</span><span style="color:#f92672">());</span>
+
+        <span style="color:#75715e">//设置请求参数
+</span><span style="color:#75715e"></span>        AlipayTradePagePayRequest alipayRequest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AlipayTradePagePayRequest<span style="color:#f92672">();</span>
+        alipayRequest<span style="color:#f92672">.</span><span style="color:#a6e22e">setReturnUrl</span><span style="color:#f92672">(</span>payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getReturnUrl</span><span style="color:#f92672">());</span>
+        alipayRequest<span style="color:#f92672">.</span><span style="color:#a6e22e">setNotifyUrl</span><span style="color:#f92672">(</span>payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getNotifyUrl</span><span style="color:#f92672">());</span>
+
+        <span style="color:#75715e">//若想给BizContent增加其他可选请求参数，以增加自定义超时时间参数timeout_express来举例说明
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//		+ &#34;\&#34;timeout_express\&#34;:\&#34;10m\&#34;,&#34;
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
+</span><span style="color:#75715e"></span>        alipayRequest<span style="color:#f92672">.</span><span style="color:#a6e22e">setBizContent</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;{\&#34;out_trade_no\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> outTradeNo <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;,&#34;</span>
+                <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;total_amount\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> totalAmount <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;,&#34;</span>
+                <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;subject\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> subject <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;,&#34;</span>
+                <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;body\&#34;:\&#34;&#34;</span> <span style="color:#f92672">+</span> body <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;,&#34;</span>
+                <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\&#34;product_code\&#34;:\&#34;FAST_INSTANT_TRADE_PAY\&#34;}&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">//请求
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> alipayClient<span style="color:#f92672">.</span><span style="color:#a6e22e">pageExecute</span><span style="color:#f92672">(</span>alipayRequest<span style="color:#f92672">).</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#a6e22e">@ApiOperation</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;调用支付宝支付,生成订单编号,支付宝流水号&#34;</span><span style="color:#f92672">,</span> produces <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;application/json&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@ApiImplicitParams</span><span style="color:#f92672">({</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;订单表id(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orderNum&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;订单号(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;alipayNum&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;支付宝流水号(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consumeMoney&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;消费金额&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consumeType&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;消费类型 1:下载简历 2:悬赏岗位 3:开通简历库 4:激活账户&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consumeUserId&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;消费用户id&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consumeCompanyId&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;消费企业id&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orderRemark&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;订单备注&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;createTime&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;订单创建时间(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;updateTime&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;订单更新时间(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">),</span>
+            <span style="color:#a6e22e">@ApiImplicitParam</span><span style="color:#f92672">(</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;idDel&#34;</span><span style="color:#f92672">,</span> value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;是否删除 0:未删除 1:删除(后台生成)&#34;</span><span style="color:#f92672">,</span> required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">})</span>
+    <span style="color:#75715e">// 这里必须加@ResponseBody注解，让当前方法的返回值成为响应体，在浏览器界面上显示支付宝支付界面
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@ResponseBody</span>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/generate/order&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">generateOrder</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@ApiIgnore</span> HttpSession session<span style="color:#f92672">,</span> OrderRecords orderRecords<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> AlipayApiException <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 1.生成订单号并设置到orderVO对象中
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// ①根据当前日期时间生成字符串
+</span><span style="color:#75715e"></span>        String time <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SimpleDateFormat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;yyyyMMddHHmmss&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+        <span style="color:#75715e">// ②使用UUID生成用户ID部分
+</span><span style="color:#75715e"></span>        String user <span style="color:#f92672">=</span> UUID<span style="color:#f92672">.</span><span style="color:#a6e22e">randomUUID</span><span style="color:#f92672">().</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">().</span><span style="color:#a6e22e">replace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">toUpperCase</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">// ③组装
+</span><span style="color:#75715e"></span>        String orderNum <span style="color:#f92672">=</span> time <span style="color:#f92672">+</span> user<span style="color:#f92672">;</span>
+        <span style="color:#75715e">// ④设置到OrderVO对象中
+</span><span style="color:#75715e"></span>        orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">setOrderNum</span><span style="color:#f92672">(</span>orderNum<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// ※将OrderVO对象存入Session域
+</span><span style="color:#75715e"></span>        session<span style="color:#f92672">.</span><span style="color:#a6e22e">setAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;orderRecords&#34;</span><span style="color:#f92672">,</span> orderRecords<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// 2.调用专门封装好的方法给支付宝接口发送请求
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> sendRequestToAliPay<span style="color:#f92672">(</span>orderNum<span style="color:#f92672">,</span> orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">getConsumeMoney</span><span style="color:#f92672">(),</span> orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">getConsumeType</span><span style="color:#f92672">(),</span> orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">getConsumeType</span><span style="color:#f92672">());</span>
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 页面跳转同步通知
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param request
+</span><span style="color:#75715e">     * @param session
+</span><span style="color:#75715e">     * @return
+</span><span style="color:#75715e">     * @throws AlipayApiException
+</span><span style="color:#75715e">     * @throws UnsupportedEncodingException
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@ApiOperation</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;页面跳转同步通知&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@ResponseBody</span>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/return&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">returnUrlMethod</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpSession session<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> AlipayApiException<span style="color:#f92672">,</span> UnsupportedEncodingException <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// 获取支付宝GET过来反馈信息
+</span><span style="color:#75715e"></span>        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> params <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;();</span>
+        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">[]&gt;</span> requestParams <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameterMap</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Iterator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> iter <span style="color:#f92672">=</span> requestParams<span style="color:#f92672">.</span><span style="color:#a6e22e">keySet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">iterator</span><span style="color:#f92672">();</span> iter<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">();</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            String name <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">)</span> iter<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">();</span>
+            String<span style="color:#f92672">[]</span> values <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">[])</span> requestParams<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+            String valueStr <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> values<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                valueStr <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">==</span> values<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">?</span> valueStr <span style="color:#f92672">+</span> values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>
+                        <span style="color:#f92672">:</span> valueStr <span style="color:#f92672">+</span> values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#75715e">// 乱码解决，这段代码在出现乱码时使用
+</span><span style="color:#75715e"></span>            valueStr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>valueStr<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;utf-8&#34;</span><span style="color:#f92672">);</span>
+            params<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> valueStr<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#66d9ef">boolean</span> signVerified <span style="color:#f92672">=</span> AlipaySignature<span style="color:#f92672">.</span><span style="color:#a6e22e">rsaCheckV2</span><span style="color:#f92672">(</span>
+                params<span style="color:#f92672">,</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getAlipayPublicKey</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getCharset</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignType</span><span style="color:#f92672">());</span> <span style="color:#75715e">//调用SDK验证签名
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>signVerified<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// 商户订单号
+</span><span style="color:#75715e"></span>            String orderNum <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;out_trade_no&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#75715e">// 支付宝交易号
+</span><span style="color:#75715e"></span>            String payOrderNum <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;trade_no&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#75715e">// 付款金额
+</span><span style="color:#75715e"></span>            String orderAmount <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;total_amount&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// 保存到数据库
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 1.从Session域中获取OrderVO对象
+</span><span style="color:#75715e"></span>            OrderRecords orderRecords <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>OrderRecords<span style="color:#f92672">)</span> session<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;orderRecords&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#75715e">// 2.将商户订单号,支付宝交易号,付款金额设置到Order对象中
+</span><span style="color:#75715e"></span>            orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">setOrderNum</span><span style="color:#f92672">(</span>orderNum<span style="color:#f92672">);</span>
+            orderRecords<span style="color:#f92672">.</span><span style="color:#a6e22e">setAlipayNum</span><span style="color:#f92672">(</span>payOrderNum<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// 3.调用OrderService执行save方法
+</span><span style="color:#75715e"></span>            orderRecordsService<span style="color:#f92672">.</span><span style="color:#a6e22e">save</span><span style="color:#f92672">(</span>orderRecords<span style="color:#f92672">);</span>
+
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;**********OrderRecords save************&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;trade_no(支付宝交易号):&#34;</span> <span style="color:#f92672">+</span> payOrderNum <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;br/&gt;out_trade_no(商户订单号):&#34;</span> <span style="color:#f92672">+</span> orderNum <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;br/&gt;total_amount(付款金额):&#34;</span> <span style="color:#f92672">+</span> orderAmount<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// 页面显示信息：验签失败
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;验签失败&#34;</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * 服务器异步通知(支付宝服务器发送的请求)
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param request
+</span><span style="color:#75715e">     * @throws UnsupportedEncodingException
+</span><span style="color:#75715e">     * @throws AlipayApiException
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@ApiOperation</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;服务器异步通知&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#a6e22e">@ResponseBody</span>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/notify&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">notifyUrlMethod</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> UnsupportedEncodingException<span style="color:#f92672">,</span> AlipayApiException <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">//获取支付宝POST过来反馈信息
+</span><span style="color:#75715e"></span>        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> params <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;();</span>
+        Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">[]&gt;</span> requestParams <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameterMap</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Iterator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> iter <span style="color:#f92672">=</span> requestParams<span style="color:#f92672">.</span><span style="color:#a6e22e">keySet</span><span style="color:#f92672">().</span><span style="color:#a6e22e">iterator</span><span style="color:#f92672">();</span> iter<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">();</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            String name <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">)</span> iter<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">();</span>
+            String<span style="color:#f92672">[]</span> values <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">[])</span> requestParams<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>name<span style="color:#f92672">);</span>
+            String valueStr <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> values<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                valueStr <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">==</span> values<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">?</span> valueStr <span style="color:#f92672">+</span> values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span>
+                        <span style="color:#f92672">:</span> valueStr <span style="color:#f92672">+</span> values<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#75715e">//乱码解决，这段代码在出现乱码时使用
+</span><span style="color:#75715e"></span>            valueStr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>valueStr<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;utf-8&#34;</span><span style="color:#f92672">);</span>
+            params<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>name<span style="color:#f92672">,</span> valueStr<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#66d9ef">boolean</span> signVerified <span style="color:#f92672">=</span> AlipaySignature<span style="color:#f92672">.</span><span style="color:#a6e22e">rsaCheckV1</span><span style="color:#f92672">(</span>
+                params<span style="color:#f92672">,</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getAlipayPublicKey</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getCharset</span><span style="color:#f92672">(),</span>
+                payProperties<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignType</span><span style="color:#f92672">());</span> <span style="color:#75715e">//调用SDK验证签名
+</span><span style="color:#75715e"></span>
+		<span style="color:#75715e">/* 实际验证过程建议商户务必添加以下校验：
+</span><span style="color:#75715e">		1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+</span><span style="color:#75715e">		2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+</span><span style="color:#75715e">		3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
+</span><span style="color:#75715e">		4、验证app_id是否为该商户本身。
+</span><span style="color:#75715e">		*/</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>signVerified<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">//验证成功
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//商户订单号
+</span><span style="color:#75715e"></span>            String out_trade_no <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;out_trade_no&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">//支付宝交易号
+</span><span style="color:#75715e"></span>            String trade_no <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;trade_no&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">//交易状态
+</span><span style="color:#75715e"></span>            String trade_status <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getParameter</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;trade_status&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ISO-8859-1&#34;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;out_trade_no=&#34;</span> <span style="color:#f92672">+</span> out_trade_no<span style="color:#f92672">);</span>
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;trade_no=&#34;</span> <span style="color:#f92672">+</span> trade_no<span style="color:#f92672">);</span>
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;trade_status=&#34;</span> <span style="color:#f92672">+</span> trade_status<span style="color:#f92672">);</span>
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span><span style="color:#75715e">//验证失败
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//调试用，写文本函数记录程序运行情况是否正常
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//String sWord = AlipaySignature.getSignCheckContentV1(params);
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//AlipayConfig.logResult(sWord);
+</span><span style="color:#75715e"></span>            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;验证失败&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="3提现demo">3、提现Demo</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AlipayRefund</span> <span style="color:#f92672">{</span>
+
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Logger logger <span style="color:#f92672">=</span> LoggerFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getLogger</span><span style="color:#f92672">(</span>AlipayRefund<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+
+	<span style="color:#75715e">/**
+</span><span style="color:#75715e">	 * 支付宝退款方法
+</span><span style="color:#75715e">	 * @param orderId  订单id
+</span><span style="color:#75715e">	 * @param tradeNo  支付宝交易号
+</span><span style="color:#75715e">	 * @param totalAmount  退款金额，该金额不能大于订单金额,单位为元，支持两位小数
+</span><span style="color:#75715e">	 * @param refundId  标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传
+</span><span style="color:#75715e">	 * @return
+</span><span style="color:#75715e">	 */</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">alipayCreateOrderRefund</span><span style="color:#f92672">(</span>String orderId<span style="color:#f92672">,</span>String tradeNo<span style="color:#f92672">,</span>String totalAmount<span style="color:#f92672">,</span>String refundId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		Result res <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Result<span style="color:#f92672">();</span>
+		<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>Validata<span style="color:#f92672">.</span><span style="color:#a6e22e">isNullOrEmpty</span><span style="color:#f92672">(</span>orderId<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> Validata<span style="color:#f92672">.</span><span style="color:#a6e22e">isNullOrEmpty</span><span style="color:#f92672">(</span>tradeNo<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> Validata<span style="color:#f92672">.</span><span style="color:#a6e22e">isNullOrEmpty</span><span style="color:#f92672">(</span>totalAmount<span style="color:#f92672">)){</span>
+			res<span style="color:#f92672">.</span><span style="color:#a6e22e">setCode</span><span style="color:#f92672">(</span>Result<span style="color:#f92672">.</span><span style="color:#a6e22e">CODE_PARA_ERROR</span><span style="color:#f92672">);</span>
+			res<span style="color:#f92672">.</span><span style="color:#a6e22e">setMsg</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;方法必传参数有误&#34;</span><span style="color:#f92672">);</span>
+			<span style="color:#66d9ef">return</span> res<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+		
+		<span style="color:#75715e">//AlipayClient alipayClient = new com.alipay.api.DefaultAlipayClient(&#34;https://openapi.alipay.com/gateway.do&#34;,&#34;app_id&#34;,&#34;your private_key&#34;,&#34;json&#34;,&#34;GBK&#34;,&#34;alipay_public_key&#34;,&#34;RSA2&#34;);
+</span><span style="color:#75715e"></span>		AlipayClient alipayClient <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> com<span style="color:#f92672">.</span><span style="color:#a6e22e">alipay</span><span style="color:#f92672">.</span><span style="color:#a6e22e">api</span><span style="color:#f92672">.</span><span style="color:#a6e22e">DefaultAlipayClient</span><span style="color:#f92672">(</span>AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">GET_WAY</span><span style="color:#f92672">,</span> AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">APP_ID</span><span style="color:#f92672">,</span> AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">ALIPAY_PRIVATE_KEY</span><span style="color:#f92672">,</span>AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">FORMAT</span><span style="color:#f92672">,</span> AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">CHARSET</span><span style="color:#f92672">,</span> AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">ALIPAY_PUBLIC_KEY</span><span style="color:#f92672">,</span> AlipayConstant<span style="color:#f92672">.</span><span style="color:#a6e22e">SIGN_TYPE</span><span style="color:#f92672">);</span>
+		AlipayTradeRefundRequest request <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AlipayTradeRefundRequest<span style="color:#f92672">();</span>
+		
+        AlipayTradeRefundModel model<span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AlipayTradeRefundModel<span style="color:#f92672">();</span>
+        model<span style="color:#f92672">.</span><span style="color:#a6e22e">setOutTradeNo</span><span style="color:#f92672">(</span>orderId<span style="color:#f92672">);</span><span style="color:#75715e">//订单支付时传入的商户订单号
+</span><span style="color:#75715e"></span>        model<span style="color:#f92672">.</span><span style="color:#a6e22e">setTradeNo</span><span style="color:#f92672">(</span>tradeNo<span style="color:#f92672">);</span><span style="color:#75715e">//支付宝交易号
+</span><span style="color:#75715e"></span>        model<span style="color:#f92672">.</span><span style="color:#a6e22e">setRefundAmount</span><span style="color:#f92672">(</span>totalAmount<span style="color:#f92672">);</span><span style="color:#75715e">//refund_amount    需要退款的金额，该金额不能大于订单金额,单位为元
+</span><span style="color:#75715e"></span>        
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>Validata<span style="color:#f92672">.</span><span style="color:#a6e22e">isNullOrEmpty</span><span style="color:#f92672">(</span>refundId<span style="color:#f92672">)){</span>
+        	model<span style="color:#f92672">.</span><span style="color:#a6e22e">setOutRequestNo</span><span style="color:#f92672">(</span>refundId<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        
+        request<span style="color:#f92672">.</span><span style="color:#a6e22e">setBizModel</span><span style="color:#f92672">(</span>model<span style="color:#f92672">);</span><span style="color:#75715e">//请求参数
+</span><span style="color:#75715e"></span>
+        AlipayTradeRefundResponse  response <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            response <span style="color:#f92672">=</span> alipayClient<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+            
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>response<span style="color:#f92672">.</span><span style="color:#a6e22e">isSuccess</span><span style="color:#f92672">()){</span>
+            	res<span style="color:#f92672">.</span><span style="color:#a6e22e">setCode</span><span style="color:#f92672">(</span>Result<span style="color:#f92672">.</span><span style="color:#a6e22e">CODE_OK</span><span style="color:#f92672">);</span>
+                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;支付宝：支付订单支付结果查询：订单out_trade_no----&#34;</span><span style="color:#f92672">+</span>orderId<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;---订单退款成功！&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                res<span style="color:#f92672">.</span><span style="color:#a6e22e">setCode</span><span style="color:#f92672">(</span>Result<span style="color:#f92672">.</span><span style="color:#a6e22e">CODE_ERROR</span><span style="color:#f92672">);</span>
+                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;支付宝：支付订单支付结果查询：订单out_trade_no----&#34;</span><span style="color:#f92672">+</span>orderId<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;---订单退款失败！&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+            res<span style="color:#f92672">.</span><span style="color:#a6e22e">setMsg</span><span style="color:#f92672">(</span>response<span style="color:#f92672">.</span><span style="color:#a6e22e">getSubMsg</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span> AlipayApiException e<span style="color:#f92672">){</span>
+            res<span style="color:#f92672">.</span><span style="color:#a6e22e">setCode</span><span style="color:#f92672">(</span>Result<span style="color:#f92672">.</span><span style="color:#a6e22e">CODE_ERROR</span><span style="color:#f92672">);</span>
+            res<span style="color:#f92672">.</span><span style="color:#a6e22e">setMsg</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;调用支付宝退款接口失败&#34;</span><span style="color:#f92672">);</span>
+            logger<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;支付宝订单退款失败&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> res<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="二微信支付">二、微信支付</h2>
+<h2 id="1微信扫码支付申请">1、微信扫码支付申请</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1golvkgpm4nj21aa0nh427.jpg" alt="image-20210316172942269">
+
+</p>
+<p>微信扫码支付是商户系统按微信支付协议生成支付二维码，用户再用微信“扫一扫”完成支付的模式。该模式适用于PC网站支付、实体店单品或订单支付、媒体广告支付等场景。</p>
+<p><strong>第一步：注册公众号（类型须为：服务号</strong>）</p>
+<p>请根据营业执照类型选择以下主体注册：<a href="http://kf.qq.com/faq/120911VrYVrA151009JB3i2Q.html">个体工商户</a>| <a href="http://kf.qq.com/faq/120911VrYVrA151013MfYvYV.html">企业/公司</a>| <a href="http://kf.qq.com/faq/161220eaAJjE161220IJn6zU.html">政府</a>| <a href="http://kf.qq.com/faq/161220IFBJFv161220YnqAbQ.html">媒体</a>| <a href="http://kf.qq.com/faq/120911VrYVrA151013nYFZ7Z.html">其他类型</a>。</p>
+<p><strong>第二步：认证公众号</strong></p>
+<p>公众号认证后才可申请微信支付，认证费：300元/次。</p>
+<p><strong>第三步：提交资料申请微信支付</strong></p>
+<p>登录公众平台，点击左侧菜单【微信支付】，开始填写资料等待审核，审核时间为1-5个工作日内。</p>
+<p><strong>第四步：开户成功，登录商户平台进行验证</strong></p>
+<p>资料审核通过后，请登录联系人邮箱查收商户号和密码，并登录商户平台填写财付通备付金打的小额资金数额，完成账户验证。</p>
+<p><strong>第五步：在线签署协议</strong></p>
+<p>本协议为线上电子协议，签署后方可进行交易及资金结算，签署完立即生效。</p>
+<p>appid：微信公众账号或开放平台APP的唯一标识</p>
+<p>much_id：商户号</p>
+<p>key：商户密钥</p>
+<h2 id="2开发文档">2、开发文档</h2>
+<h3 id="在线微信支付开发文档">在线微信支付开发文档</h3>
+<p><a href="https://pay.weixin.qq.com/wiki/doc/api/index.html">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></p>
+<h3 id="多类支付模式">多类支付模式</h3>
+<ol>
+<li>付款码支付</li>
+</ol>
+<p>付款码支付是用户展示微信钱包内的“刷卡条码/二维码”给商户系统扫描后直接完成支付的模式。主要应用线下面对面收银的场景。</p>
+<ol start="2">
+<li>Native支付</li>
+</ol>
+<p>Native支付是商户系统按微信支付协议生成支付二维码，用户再用微信“扫一扫”完成支付的模式。该模式适用于<strong>PC网站支付</strong>、实体店单品或订单支付、媒体广告支付等场景。</p>
+<ol start="3">
+<li>JSAPI支付</li>
+</ol>
+<p>JSAPI支付是用户在微信中打开商户的H5页面，商户在H5页面通过调用微信支付提供的JSAPI接口调起微信支付模块完成支付。应用场景有：</p>
+<p>◆ 用户在<strong>微信公众账号内进入商家公众号，打开某个主页面</strong>，完成支付</p>
+<p>◆ 用户的好友在朋友圈、聊天窗口等分享商家页面连接，用户点击链接打开商家页面，完成支付</p>
+<p>◆ 将商户页面转换成二维码，用户扫描二维码后在微信浏览器中打开页面后完成支付</p>
+<ol start="4">
+<li>APP支付</li>
+</ol>
+<p>APP支付又称移动端支付，是商户通过在移动端应用APP中集成开放SDK调起微信支付模块完成支付的模式。</p>
+<ol start="5">
+<li>H5支付</li>
+</ol>
+<p>H5支付主要是在手机、ipad等移动设备中通过<strong>浏览器来唤起</strong>微信支付的支付产品。</p>
+<ol start="6">
+<li>小程序支付</li>
+</ol>
+<p>小程序支付是专门被定义使用在小程序中的支付产品。目前在小程序中能且只能使用小程序支付的方式来唤起微信支付。</p>
+<h3 id="微信支付接口调用的整体思路">微信支付接口调用的整体思路</h3>
+<p>按API要求组装参数，以XML方式发送（POST）给微信支付接口（URL）,微信支付接口也是以XML方式给予响应。程序根据返回的结果（其中包括支付URL）生成二维码或判断订单状态。</p>
+<pre><code>appid：微信公众账号或开放平台APP的唯一标识
+mch_id：商户号  (配置文件中的partner)
+partnerkey：商户密钥
+sign:数字签名, 根据微信官方提供的密钥和一套算法生成的一个加密信息, 就是为了保证交易的安全性
+</code></pre><h2 id="3-实现步骤">3、 实现步骤</h2>
+<p>前端需要判断支付的方式，不同的支付方式跳转不同的支付链接</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1golpm8bja0j20n10clk00.jpg" alt="image-20210316140345930">
+
+</p>
+<p>订单表中加入字段用来区分支付方式：pay_method（支付方式）</p>
+<h3 id="native支付">Native支付</h3>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1golq9r6agqj20np0ndgmz.jpg" alt="原生支付模式二时序图">
+
+</p>
+<p>业务流程说明：</p>
+<p>（1）商户后台系统根据用户选购的商品生成订单。</p>
+<p>（2）用户确认支付后调用微信支付【<a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">统一下单API</a>】生成预支付交易；</p>
+<p>（3）微信支付系统收到请求后生成预支付交易单，并返回交易会话的二维码链接code_url。</p>
+<p>（4）商户后台系统根据返回的code_url（有效时间：2小时）生成二维码。</p>
+<p>（5）用户打开微信“扫一扫”扫描二维码，微信客户端将扫码内容发送到微信支付系统。</p>
+<p>（6）微信支付系统收到客户端请求，验证链接有效性后发起用户支付，要求用户授权。</p>
+<p>（7）用户在微信客户端输入密码，确认支付后，微信客户端提交授权。</p>
+<p>（8）微信支付系统根据用户授权完成支付交易。</p>
+<p>（9）微信支付系统完成支付交易后给微信客户端返回交易结果，并将交易结果通过短信、微信消息提示用户。微信客户端展示支付交易结果页面。</p>
+<p>（10）微信支付系统通过发送异步消息通知（10次，直到服务器返回微信支付状态成功为止）商户后台系统支付结果。商户后台系统需回复接收情况，通知微信后台系统不再发送该单的支付通知。</p>
+<p>（11）未收到支付通知的情况，商户后台系统调用【<a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_2">查询订单API</a>】。</p>
+<p>（12）商户确认订单已支付后给用户发货。</p>
+<hr>
+<p>查询支付状态</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEly1goo65v98owj30g80j70ur.jpg" alt="image-20210318170723966">
+
+</p>
+<p>SUCCESS&ndash;支付成功
+REFUND&ndash;转入退款
+NOTPAY&ndash;未支付
+CLOSED&ndash;已关闭
+REVOKED&ndash;已撤销(刷卡支付)
+USERPAYING&ndash;用户支付中
+PAYERROR&ndash;支付失败(其他原因，如银行返回失败)
+ACCEPT&ndash;已接收，等待扣款</p>
+<p>QRcode.js-&gt;生成二维码</p>
+<p>控制台- 2021-03-18 18:34:51.928 [http-nio-8081-exec-1] ERROR org.thymeleaf.TemplateEngine - [THYMELEAF][http-nio-8081-exec-1] Exception processing template &ldquo;wxPay/status/query&rdquo;: Error resolving template [wxPay/status/query], template might not exist or might not be accessible by any of the configured Template Resolvers
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [wxPay/status/query], template might not exist or might not be accessible by any of the configured Template Resolvers</p>
+<p>org.thymeleaf.exceptions.TemplateInputException: Error resolving template [wxPay/status/query], template might not exist or might not be accessible by any of the configured Template Resolvers</p>
+<h2 id="4生产环境">4、生产环境</h2>
+<p>申请审核商户支付资料</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEly1gonv2mu2gmj30j80jz41y.jpg" alt="image-20210318104339955">
+
+</p>
+<p>商户中心申请开通Native支付</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEly1gonzxoo8shj311i0emgn0.jpg" alt="image-20210318133156620">
+
+</p>
+<h2 id="三银联支付">三、银联支付</h2>
+<p>测试商户登陆账号：jdtang tang0317</p>
+<p>聚合支付中间商：ping++, mustpay</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1i5z7dj30p50d0dgw.jpg" alt="image-20201103154713814">
+
+</p>
+<h2 id="1文档地址">1、文档地址</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1efemmj30sh08xmxm.jpg" alt="image-20201109144407398">
+
+</p>
+<p>商户网站: <a href="https://merchant.unionpay.com/join/">https://merchant.unionpay.com/join/</a></p>
+<p>商户入网测试中心：https://open.unionpay.com/tjweb/user/mchTest/param</p>
+<p>Demo下载:https://open.unionpay.com/tjweb/acproduct/list?apiSvcId=448&amp;index=4</p>
+<p>Demo商家账号的测试环境的测试卡信息：https://open.unionpay.com/tjweb/support/faq/mchlist?id=4</p>
+<p>在线支付应答码：https://open.unionpay.com/tjweb/doc/respcode/list?type=1</p>
+<h2 id="2测试开发步骤">2、测试开发步骤</h2>
+<p>退货接口：https://open.unionpay.com/tjweb/acproduct/APIList?apiservId=448&amp;acpAPIId=756&amp;bussType=0</p>
+<p>FAQ列表：https://open.unionpay.com/tjweb/support/faq/mchlist?id=228</p>
+<p>申请测试商户号</p>
+<p>集成银联支付</p>
+<p>支付回调</p>
+<p><strong>测试卡号信息</strong></p>
+<p>测试卡号信息：
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1cjz1jj300k00k0fw.jpg" alt="测试环境发卡仿真配置的支付账号（仅供测试使用）">
+
+</p>
+<table>
+<thead>
+<tr>
+<th align="left">卡号</th>
+<th align="left">卡性质</th>
+<th align="left">机构名称</th>
+<th align="left">手机号码</th>
+<th align="left">密码</th>
+<th align="left">CVN2</th>
+<th align="left">有效期</th>
+<th align="left">证件号</th>
+<th align="left">姓名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">6216261000000000018</td>
+<td align="left">借记卡</td>
+<td align="left">平安银行</td>
+<td align="left">13552535506</td>
+<td align="left">123456</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">341126197709218366</td>
+<td align="left">全渠道</td>
+</tr>
+<tr>
+<td align="left">6221558812340000</td>
+<td align="left">贷记卡</td>
+<td align="left">平安银行</td>
+<td align="left">13552535506</td>
+<td align="left">123456</td>
+<td align="left">123</td>
+<td align="left">2311</td>
+<td align="left">341126197709218366</td>
+<td align="left">互联网</td>
+</tr>
+<tr>
+<td align="left">网关、WAP短信验证码：111111</td>
+<td align="left">控件短信验证码：123456</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>B2C个人网银\B2B企业网银测试卡： 
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1cjz1jj300k00k0fw.jpg" alt="B2C、B2B网银卡号">
+
+</p>
+<table>
+<thead>
+<tr>
+<th align="left">卡号/付款方账户</th>
+<th align="left">支付类型</th>
+<th align="left">姓名/付款方名称</th>
+<th align="left">手机号</th>
+<th align="left">身份证号</th>
+<th align="left">账户开户行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">6212149999960000008</td>
+<td align="left">个人网银卡号</td>
+<td align="left">网银</td>
+<td align="left">13812345678</td>
+<td align="left">110101199003070257</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">6224249999960008</td>
+<td align="left">个人网银卡号</td>
+<td align="left">支付</td>
+<td align="left">13222222255</td>
+<td align="left">220102199007075743</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">321214600078</td>
+<td align="left">企业网银卡号</td>
+<td align="left">付款方账户测试名称</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">621214600078</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3踩坑日志">3、踩坑日志</h2>
+<ol>
+<li>调用在线支付界面报商户状态不正确[2500103]</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd17i27wj30t3090wf0.jpg" alt="image-20201109143547223">
+
+</p>
+<p>​	联系在线客服：手动启用商户状态</p>
+<ol start="2">
+<li>交易失败 10[9100003]Invalid field[txnAmt]</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd16in1zj30s908odgd.jpg" alt="image-20201109180217965">
+
+</p>
+<p>​	数据错误</p>
+<ol start="3">
+<li>银联支付成功之后怎么还一直给服务器发送后台通知</li>
+</ol>
+<p>参考下faq：https://open.unionpay.com/tjweb/support/faq/mchlist?id=72</p>
+<p><a href="https://open.unionpay.com/tjweb/support/faq/mchlist?id=74">https://open.unionpay.com/tjweb/support/faq/mchlist?id=74</a></p>
+<p>返回：CURL PERFORM ERROR [28]</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1a70kxj30900b9wer.jpg" alt="image-20201112141741423">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1d35rzj30bf0bzmxl.jpg" alt="image-20201112141749570">
+
+</p>
+<ol start="4">
+<li>退货</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1ex1xyj30jo07kmxp.jpg" alt="image-20201118093801832">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd161ix0j30me091q3i.jpg" alt="image-20201118093831572">
+
+</p>
+<ol start="5">
+<li>生产交易失败如何处理？</li>
+</ol>
+<p><a href="https://open.unionpay.com/tjweb/support/faq/mchlist?id=217">https://open.unionpay.com/tjweb/support/faq/mchlist?id=217</a></p>
+<h2 id="4注意点">4、注意点</h2>
+<p>同步通知与异步通知区别：</p>
+<ul>
+<li>
+<p>如果同步通知的过程中；用户不小心关闭了浏览器；或者浏览器卡死了； 异步也能收到通知；记录支付状态；</p>
+</li>
+<li>
+<p>如果自己的服务器没有正确返回接受到通知的状态； 支付宝的服务器会在一段时间内持续的往自己的服务器发送异步通知； 一直到成功；</p>
+</li>
+</ul>
+<p>总结：同步用于即时通知完成；异步用于防止信息漏发漏收</p>
+<h2 id="5生产环境">5、生产环境</h2>
+<h3 id="商户参考">商户参考</h3>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gokj96h77yj20rp0b9gp2.jpg" alt="image-20210315133803537">
+
+</p>
+<p>商户入网指南：https://merchant.unionpay.com/join/help/director</p>
+<p>商户申请步骤：https://merchant.unionpay.com/join/mchntsign/saveprod?prodId=1</p>
+<p><!-- raw HTML omitted --></p>
+<p>审核成功</p>
+<p><!-- raw HTML omitted --></p>
+<p>入网成功</p>
+<p><!-- raw HTML omitted --></p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/e6c9d24egy1gokcsdrumlj21a20eh3zi.jpg" alt="image-20210315095419780">
+
+</p>
+<p>通过邮件获取证书和参数</p>
+<p>​		已完成入网的商户会收到业务发送的一封入网参数通知邮件，请按业务的邮件（或者开放平台下载《证书下载、导出及上传流程》https://open.unionpay.com/tjweb/doc/mchnt/list）在商户服务平台或机构服务平台下载证书、导出证书，并启用。证书启用后10分钟生效。如果不启用，对前台类接口会直接跳回前台通知地址，其中respMsg为9100004；对后台类接口则直接应答respMsg为9100004。</p>
+<p><!-- raw HTML omitted --></p>
+<p><strong>证书下载、导出及上传流程1.2.pdf</strong></p>
+<h3 id="开发参考">开发参考</h3>
+<p><a href="https://open.unionpay.com/tjweb/support/faq/mchlist?id=39">https://open.unionpay.com/tjweb/support/faq/mchlist?id=39</a></p>
+<pre><code>如何上线？如何切换生产？切换生产有哪些需要改动的地方？切换生产需要做哪些配置更改？如何开通正式环境？
+
+商户在完成测试后，可以自行切换银联生产环境进行验证投产，生产环境即需要使用真实银行卡会发生真实交易扣款的环境。
+
+切换生产需要修改的地方如下：
+
+1. 已完成入网的商户会收到业务发送的一封入网参数通知邮件，请按业务的邮件（或者开放平台下载《证书下载、导出及上传流程》https://open.unionpay.com/tjweb/doc/mchnt/list）在商户服务平台或机构服务平台下载证书、导出证书，并启用。证书启用后10分钟生效。如果不启用，对前台类接口会直接跳回前台通知地址，其中respMsg为9100004；对后台类接口则直接应答respMsg为9100004。
+
+2. 修改配置：
+
+1) 修改配置文件里的私钥和公钥证书、私钥证书密码与后台url地址为生产的（测试与生产地址不同，请参考FAQ）。
+2) 将开发包内生产的公钥证书放到配置文件中对应的目录，将导出的生产私钥证书放到配置文件中对应的目录。
+3) 测试时用的商户号如果不是正式商户号，请替换正式商户号。（商户号需要和登录商户服务平台后默认页面显示的商户号相同）
+4) 对手机控件接入，需贵司app开发将startPay函数的mode参数修改为00。
+
+注：在生产环境测试的时候，交易金额请勿小于1角。
+
+3.  生产地址FAQ详见：https://open.unionpay.com/tjweb/support/faq/mchlist?id=228
+
+    生产证书FAQ详见：https://open.unionpay.com/tjweb/support/faq/mchlist?id=372
+
+    还没有入网、没有收到正式入网参数信息通知邮件的话：详见FAQ：https://open.unionpay.com/tjweb/support/faq/mchlist?id=373 和 https://open.unionpay.com/tjweb/support/faq/mchlist?id=401
+
+
+4. 切换生产交易如果报错9100004，请参考faq：https://open.unionpay.com/tjweb/support/faq/mchlist?id=474
+
+5. 生产交易报错、商户号权限配置等有更多业务、生产问题，请联系业务运营咨询，咨询方式参考faq：https://open.unionpay.com/tjweb/support/faq/mchlist?id=217
+</code></pre><h2 id="四延时队列与轮询">四、延时队列与轮询</h2>
+<h2 id="1分布式事务的异步通信问题">1、分布式事务的异步通信问题</h2>
+<p>使用分布式事务异步通信的结构，一个很大的问题就是<strong>不确定性</strong>。一个消息发送过去了，不管结果如何发送端都不会原地等待接收端。直到接收端再推送回来回执消息，发送端才直到结果。但是也有可能发送端消息发送后，石沉大海，杳无音信。这时候就需要一种机制能够<strong>对这种不确定性进行补充</strong>。</p>
+<p>第一种策略就是实现起来就是<strong>延迟队列</strong>，第二种策略就是<strong>定时轮询扫描</strong>。</p>
+<p>二者的区别是<strong>延迟队列</strong>更加精准，但是如果周期太长，任务留在延迟队列中时间的就会非常长，会把队列变得冗长。</p>
+<p>那么如果遇到这种长周期的事件，而且并不需要精确到分秒级的事件，可以利用<strong>定时扫描</strong>来实现，尤其是比较消耗性能的大范围扫描，可以安排到夜间执行。</p>
+<h2 id="2延时队列">2、延时队列</h2>
+<h3 id="应用场景">应用场景</h3>
+<p>如果用户点击支付后，支付模块可能会长时间没有收到支付宝的支付成功通知。这种情况会有两种可能性，一种是用户在弹出支付宝付款界面时没有继续支付，另一种就是用户支付成功了，<strong>但是因为网络等各种问题，支付模块没有收到通知</strong>。</p>
+<p>如果是上述第二种可能性，对于用户来说体验是非常糟糕的，甚至会怀疑平台的诚信。</p>
+<p>所以为了尽可能避免第二种情况，在用户点击支付后一段时间后，不管用户是否付款，都要去<strong>主动询问支付宝</strong>，该笔单据是否付款。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd14k2q5j30oq0geaaz.jpg" alt="image-20201021150040488">
+
+</p>
+<p>图中紫线部分，就是支付模块一旦帮助用户重定向到支付宝后，就要每隔一段时间询问支付宝用户是否支付成功，直到收到支付宝的回复，或者超过了询问次数。</p>
+<h3 id="实现思路">实现思路</h3>
+<p>首先，需要知道如何主动查询支付宝中某笔交易的状态。</p>
+<p>支付宝查询接口文档：https://docs.open.alipay.com/api_1/alipay.trade.query</p>
+<p>其次，利用延迟队列反复调用。</p>
+<h3 id="实现支付宝订单状态查询">实现支付宝订单状态查询</h3>
+<h3 id="利用延时队列反复调用查询接口">利用延时队列反复调用查询接口</h3>
+<h2 id="3轮询扫描">3、轮询扫描</h2>
+<p>js轮询</p>
+<h3 id="应用场景-1">应用场景</h3>
+<p><strong>长期没有付款的订单，要定期关闭掉。</strong></p>
+<p>如果时限比较小，比如30分钟未付款的订单就关闭（一般是锁了库存的订单），也可以用<strong>延时队列</strong>解决。</p>
+<p>如果时限比较长比如1-2天，可以选择用轮询扫描。</p>
+<h2 id="五支付异常情况处理">五、支付异常情况处理</h2>
+<p><strong>支付系统中异常</strong>一些<strong>处理方式</strong>。其实这些处理方式并不只是局限于支付系统，提高自己系统的<strong>健壮性</strong>。</p>
+<p>异常是系统运行不可避免会发生的问题，如果一切都正常，我们的系统设计将会相当简单。</p>
+<p>但是可惜没有人能做到这一点，所以为了处理异常可能导致的问题，我们不得不需要加上很多额外的设计，用来应对这些异常。</p>
+<p>可以说系统设计中，异常处理需要我们着重思考，将会占据我们大部分的精力。</p>
+<p>下面我们先来看下支付系统中最常见的异常：<strong>「掉单」</strong></p>
+<h2 id="1掉单异常">1、掉单异常</h2>
+<p>一个最常见的支付平台架构关系如下所示：</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1835ubj30fl0ji0ui.jpg" alt="img">
+
+</p>
+<blockquote>
+<p>❝</p>
+<p>上图我们是站在第三方支付公司支付角度，如果是自己公司的内部支付系统，那么外部商户这一块其实就是公司内部一些系统，比如说订单系统，而外部支付渠道其实就是第三方支付公司</p>
+<p>❞</p>
+</blockquote>
+<p>我们以携程为例，在其上面发起一笔订单支付，将会经过三个系统：</p>
+<ol>
+<li>携程创建订单，向第三方支付公司发起支付请求</li>
+<li>第三方支付公司创建订单，并向工行发起支付请求</li>
+<li>工行完成扣款操作，返回第三方支付公司</li>
+<li>第三方支付完成订单更新并返回携程</li>
+<li>携程变更订单状态</li>
+</ol>
+<p>上面的流程，简单如下图所示：</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1jiz04j30jh04taa8.jpg" alt="img">
+
+</p>
+<p>在这个过程就可能会碰到，用户工行卡已经扣款，但是携程订单却还是待支付，我们通常将这种情况称为**「掉单」**。</p>
+<p>上述掉单的场景，多数是因为**「③、⑤」**环节信息丢失导致，这种掉单我们将其称为**「外部掉单」**。</p>
+<p>还有一种极少数的情况，收到 <strong>「③、⑤」<strong>环节返回信息，但是在</strong>「④、⑥」<strong>环节内部系统更新订单状态失败，从而导致丢失支付成功的信息，这类掉单由于是内部问题，我们通常将其称之为</strong>「内部掉单」</strong>。</p>
+<h2 id="2外部掉单">2、外部掉单</h2>
+<p>外部掉单是因为没有收到对端返回信息，这种情况极有可能是网络问题，也有可能对端处理逻辑太慢，导致我方请求超时，直接断开了网络请求。</p>
+<h3 id="增加超时时间">增加超时时间</h3>
+<p>对于这种情况，第一个最简单的解决办法，<strong>「适当的增加超时时间」</strong>。</p>
+<p>不过这里需要注意了，在我们增加网络超时时间之后，我们可能还需要调整整个链路的超时时间，不然有可能导致整个链路内部差事从而引起内部掉单。</p>
+<blockquote>
+<p>❝</p>
+<p>画外音：对接外部渠道，一定要**「设置网络连接超时时间与读取超时时间」**。</p>
+<p>❞</p>
+</blockquote>
+<h3 id="接收异步通知">接收异步通知</h3>
+<p>第二个办法，接收渠道异步回执通知信息。</p>
+<p>一般来说，现在支付渠道接口我们都可以上送一个异步回调地址，当渠道端处理成功，将会把成功信息通知到这个回调地址上。</p>
+<p>这种情况下，我们只需要接收通知信息，然后解析，再更新内部订单状态。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1g9ldyj30jh08g0t0.jpg" alt="img">
+
+支付系统异常处理-支付异步通知</p>
+<p>这种情况下，我们需要注意几点：</p>
+<ol>
+<li>对于异步请求信息，一定需要对通知内容进行签名验证，并校验返回的订单金额是否与商户侧的订单金额一致，防止数据泄漏导致出现“假通知”，造成资金损失。</li>
+<li>异步通知将会发送多次，所以异步通知处理需要幂等。</li>
+</ol>
+<h3 id="掉单查询">掉单查询</h3>
+<p>有的渠道可能没有提供异步通知的功能，只提供了订单查询的接口，这种情况下，我们只能使用第三种解决办法，定时掉单查询。</p>
+<p>我们可以将这类超时未知的订单的单独保存到掉单表，然后定时向渠道端查询订单的状态。</p>
+<p>若查询成功或者明确失败（比如订单不存在等），可以更新订单状态，并且删除掉单表记录。</p>
+<p>若查询依旧未知，这时我们需要等待下次查询的结果。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd15mc42j30jh0eewex.jpg" alt="img">
+
+支付系统异常处理-定时查询</p>
+<p>这里我们需要注意了，有些情况下，有可能无法查询返回订单的状态，所以我们需要设置订单查询的最大次数，防止无限查询浪费性能。</p>
+<h3 id="对账">对账</h3>
+<p>最后，极少数的情况下，订单查询与异步通知都无法获取的支付结果，这就还剩下最后一种<strong>兜底</strong>的解决办法，对账。</p>
+<p>如果第二天渠道端给的对账文件有这一笔支付结果，那么我们可以根据这个记录更新直接更新我们内部支付记录。</p>
+<blockquote>
+<p>❝</p>
+<p>画外音：稳妥一点，可以先发起查询，然后根据查询结果更新订单记录。</p>
+<p>不过有些极端情况，查询无法获取结果，那么直接更新内部记录即可。</p>
+<p>❞</p>
+</blockquote>
+<p>那如果第二天也没有这笔记录的结果，这种情况下，我们可以认为这笔是失败的。如果用户被扣款，渠道端内部将会发起退款，将支付金额返回给用户。所以这种情况可以无需处理。</p>
+<h2 id="3内部掉单异常">3、内部掉单异常</h2>
+<h3 id="支付公司内部订单关系">支付公司内部订单关系</h3>
+<p>接下来我们讲下内部掉单异常，首先我们来看下为什么会发生内部掉单的异常，这其实跟我们系统架构有关。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd12uynzj30u009yabl.jpg" alt="img">
+
+</p>
+<p>如上图所示，第三方支付公司内部表通常为支付订单与渠道订单这样一种 1 比 N 的关系。</p>
+<p>支付订单保存着外部商户系统的订单号，代表第三方支付公司内部订单与外部商户的订单的关系。</p>
+<p>而渠道订单代表着第三方支付公司与外部渠道的关系，其实对于外部渠道系统来讲，第三方支付公司就是一个外部商户。</p>
+<p>为什么需要设计这种关系那？而不是使用下面这种 1 对 1 关系的那？</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd13ctdmj30u009z0u5.jpg" alt="img">
+
+</p>
+<p>如果我们使用上图 1 对1 的订单关系，如果第一次支付支付失败，外部商户可能会再次使用相同订单号对第三方支付公司发起支付。</p>
+<p>这时如果第三方支付公司也拿相同的内部订单去请求外部渠道系统，有可能外部渠道系统并不支持同一订单号再次请求。</p>
+<p>那其实我们也有其他办法，生成一个新的内部单号，更新原有支付订单上内部记录，然后去请求外部渠道系统。但是这样的话就会丢失上次支付失败记录，这就不利于我们做一些事后统计了。</p>
+<p>那其实第三方支付公司也可以不支持相同的订单号再次发起请求，但是这样的话，就需要外部商户重新生成的新的订单号。</p>
+<p>这样的话，第三方支付公司是系统是简单了，全部复杂度都交给了外部商户。</p>
+<p>但是现实的情况，很多外部商户并不是那么容易更换生成新的订单号，所以一般第三方支付公司都需要支持同一外部商户订单号在未成功的情况下，支持重复支付。</p>
+<p>在这种情况下，就需要我们上面的 1:N 的订单关系图了。</p>
+<h3 id="内部掉单异常的原因">内部掉单异常的原因</h3>
+<p>当我们收到外部渠道系统的成功的返回信息，成功更新了渠道订单表的记录。但是由于渠道订单表与支付订单表可能不是同一个数据库，也有可能两者并不在同一个应用中，这就有可能导致更新支付订单表的更新失败。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1h7ezpj30u009ymyp.jpg" alt="img">
+
+</p>
+<p>由于支付订单表保存着外部商户订单与内部订单关系，支付订单未成功，所以外部商户也无法查询得到成功的支付结果。</p>
+<p>此时渠道订单表已经成功，所以上面外部掉单的方法并不适用内部掉单。</p>
+<h3 id="内部掉单异常解决办法">内部掉单异常解决办法</h3>
+<p><strong>「第一种解决办法，分布式事务。」</strong></p>
+<p>内部掉单异常，说白就是因为支付订单表与渠道订单表无法使用数据库事务保证两者同时更新成功或失败。</p>
+<p>那么这种情况下，我们其实就需要使用分布式事务了。</p>
+<p>不过我们没有采用这种分布式事务，一是因为之前开发的时候市面上并没有开源成熟分布式事务框架，第二自己自己开发难度又很大。</p>
+<p><strong>「第二种解决办法，异步补偿更新。」</strong></p>
+<p>当发生内部掉单的情况，即更新支付订单失败等情况，可以将这里支付订单保存到一张内部掉单表。</p>
+<p>但是这里可能会有一个问题，我们无法保证保存到内部掉单表这一步骤也一定成功。</p>
+<p>所以说，我们还需要定时查询，查询一段时间内支付订单未成功，而渠道订单表已成功的支付订单记录，然后也将其插入到内部掉单表。</p>
+<p>另一个系统应用，只需要定时扫描内部掉单表，将支付订单成功，然后再删除内部掉单记录即可。</p>
+<p>这里需要注意了，当支付订单表数据量很大之后，定时查询可能会慢，为了防止影响主库，所以这类查询可以在备库进行。</p>
+<h2 id="4总结">4、总结</h2>
+<p>今天主要介绍了支付系统中的掉单异常，这类异常往往会导致用户实际已经被扣钱，但是商户订单还是等待支付的情况。</p>
+<p>这个异常如果没有很好处理，将会导致客户用户体验很不好，还有可能收到客户的投诉。</p>
+<p>掉单的异常，通常可以外部系统与内部系统。而大部分的掉单都是因为外部系统导致，我们可以增加超时时间，掉单查询，以及接受异步通知解决 99% 的问题，剩下 1% 的掉单只能通过次日的对账来兜底。</p>
+<p>内部系统导致掉单异常是典型的分布式环境数据一致性的问题，这类问题我们可以不需要追求强一致性，只要保证最终一致性即可。我们可以使用分布式事务解决这类问题，也可以定时扫描状态不一致的订单，然后在做批量更新。</p>
+<h2 id="六幂等性">六、幂等性</h2>
+<h2 id="1何为幂等性">1、何为幂等性？</h2>
+<blockquote>
+<p>幂等（idempotence），来源于数学中的一个概念，例如：幂等函数/幂等方法（指用相同的参数重复执行，并能获得相同结果的函数，这些函数不影响系统状态，也不用担心重复执行会对系统造成改变）。</p>
+</blockquote>
+<p>简单理解即：<strong>多次调用对系统的产生的影响是一样的，即对资源的作用是一样的</strong>。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd13qndrj30ve0jhmxy.jpg" alt="img">
+
+</p>
+<p>幂等性</p>
+<p>﻿</p>
+<p>幂等性强调的是外界通过接口对系统内部的影响, 只要一次或多次调用对某一个资源应该具有同样的副作用就行。</p>
+<blockquote>
+<p>注意：这里指对资源造成的副作用必须是一样的，但是返回值允许不同！</p>
+</blockquote>
+<h2 id="2幂等性主要场景有哪些">2、幂等性主要场景有哪些？</h2>
+<p>根据上面对幂等性的定义我们得知：<strong>产生重复数据或数据不一致，这个绝大部分是由于发生了重复请求</strong>。</p>
+<p>这里的重复请求是指同一个请求在一些情况下被多次发起。</p>
+<p>﻿</p>
+<p><strong>导致这个情况会有哪些场景呢？</strong></p>
+<ul>
+<li>微服务架构下，不同微服务间会有大量的基于http,rpc或者mq消息的网络通信，会有第三个情况【未知】，也就是超时。如果超时了，微服务框架会进行重试。</li>
+<li>用户交互的时候多次点击,无意地触发多笔交易。</li>
+<li>MQ消息中间件，消息重复消费</li>
+<li>第三方平台的接口（如：支付成功回调接口），因为异常也会导致多次异步回调</li>
+<li>其他中间件/应用服务根据自身的特性，也有可能进行重试。</li>
+</ul>
+<h2 id="3幂等性的作用是什么">3、幂等性的作用是什么？</h2>
+<p>幂等性主要保证<strong>多次调用对资源的影响是一致的</strong>。</p>
+<p>在阐述作用之前，我们利用资源处理应用来说明一下：</p>
+<blockquote>
+<p>HTTP与数据库的CRUD操作对应：</p>
+<p>PUT ：CREATE</p>
+<p>GET ：READ</p>
+<p>POST ：UPDATE</p>
+<p>DELETE ：DELETE</p>
+<p>（其实不光是数据库，任何数据如文件图表都是这样）</p>
+</blockquote>
+<p>1）<strong>查询</strong></p>
+<pre><code>SELECT * FROM users WHERE xxx;
+</code></pre><p>不会对数据产生任何变化，天然具备幂等性。</p>
+<p>2）<strong>新增</strong></p>
+<pre><code>INSERT INTO users (user_id, name) VALUES (1, 'zhangsan');
+</code></pre><p>``case1：带有唯一索引（如：<code>user_id</code>），重复插入会导致后续执行失败，具有幂等性；</p>
+<p>case2：不带有唯一索引，多次插入会导致数据重复，不具有幂等性。</p>
+<p>3）<strong>修改</strong></p>
+<p>case1：直接赋值，不管执行多少次score都一样，具备幂等性。</p>
+<pre><code>UPDATE users SET score = 30 WHERE user_id = 1;
+</code></pre><p>case2：计算赋值，每次操作score数据都不一样，不具备幂等性。``</p>
+<pre><code>UPDATE users SET score = score + 30 WHERE user_id = 1;
+</code></pre><p>4）<strong>删除</strong></p>
+<p>case1：绝对值删除，重复多次结果一样，具备幂等性。</p>
+<pre><code>DELETE FROM users WHERE id = 1;
+</code></pre><p>case2：相对值删除，重复多次结果不一致，不具备幂等性。``</p>
+<pre><code>DELETE top(3) FROM users;
+</code></pre><p>总结：<strong>通常只需要对写请求（新增&amp;更新）作幂等性保证</strong>。</p>
+<h2 id="4如何解决幂等性问题">4、如何解决幂等性问题？</h2>
+<p>我们在网上搜索幂等性问题的解决方案，会有各种各样的解法，但是如何判断哪种解决方案对于自己的业务场景是最优解，这种情况下，就需要我们抓问题本质。</p>
+<p>经过以上分析，我们得到了解决幂等性问题就是<strong>要控制对资源的写操作</strong>。</p>
+<p>我们从问题各个环节流程来分析解决：</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd18v88zj31ai0izwfz.jpg" alt="img">
+
+</p>
+<p>幂等性问题分析</p>
+<h3 id="41-控制重复请求">4.1 控制重复请求</h3>
+<p>控制动作触发源头，即前端做幂等性控制实现</p>
+<blockquote>
+<p>相对不太可靠，没有从根本上解决问题，仅算作辅助解决方案。</p>
+</blockquote>
+<p><strong>主要解决方案：</strong></p>
+<ul>
+<li>控制操作次数，例如：提交按钮仅可操作一次（提交动作后按钮置灰）</li>
+<li>及时重定向，例如：下单/支付成功后跳转到成功提示页面，这样消除了浏览器前进或后退造成的重复提交问题。</li>
+</ul>
+<h3 id="42-过滤重复动作">4.2 过滤重复动作</h3>
+<p>控制过滤重复动作，是指在动作流转过程中控制有效请求数量。</p>
+<p>﻿</p>
+<p><strong>1）分布式锁</strong></p>
+<p>利用Redis记录当前处理的业务标识，当检测到没有此任务在处理中，就进入处理，否则判为重复请求，可做过滤处理。</p>
+<blockquote>
+<p>订单发起支付请求，支付系统会去Redis缓存中查询是否存在该订单号的Key，如果不存在，则向Redis增加Key为订单号。查询订单支付已经支付，如果没有则进行支付，支付完成后删除该订单号的Key。通过Redis做到了分布式锁，只有这次订单订单支付请求完成，下次请求才能进来。</p>
+</blockquote>
+<p>分布式锁相比去重表，将放并发做到了缓存中，较为高效。思路相同，同一时间只能完成一次支付请求。</p>
+<p>﻿</p>
+<p><strong>2）token令牌</strong></p>
+<p>应用流程如下：</p>
+<p>1）服务端提供了发送token的接口。执行业务前先去获取token，同时服务端会把token保存到redis中；</p>
+<p>2）然后业务端发起业务请求时，把token一起携带过去，一般放在请求头部；</p>
+<p>3）服务器判断token是否存在redis中，存在即第一次请求，可继续执行业务，执行业务完成后将token从redis中删除；</p>
+<p>4）如果判断token不存在redis中，就表示是重复操作，直接返回重复标记给client，这样就保证了业务代码不被重复执行。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1gquh2j31830otq4j.jpg" alt="img">
+
+</p>
+<p>token令牌处理流程图</p>
+<p>﻿</p>
+<p><strong>3）缓冲队列</strong></p>
+<p>把所有请求都快速地接下来，对接入缓冲管道。后续使用异步任务处理管道中的数据，过滤掉重复的请求数据。</p>
+<p>优点：同步转异步，实现高吞吐。</p>
+<p>缺点：不能及时返回处理结果，需要后续监听处理结果的异步返回数据。</p>
+<p>﻿</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnhd1474hcj312j0jnmy1.jpg" alt="img">
+
+</p>
+<p>缓冲队列</p>
+<h3 id="43-解决重复写">4.3 解决重复写</h3>
+<p>实现幂等性常见的方式有：悲观锁（for update）、乐观锁、唯一约束。</p>
+<p>﻿</p>
+<p><strong>1）悲观锁（Pessimistic Lock）</strong></p>
+<p>简单理解就是：假设每一次拿数据，都有认为会被修改，所以给数据库的行或表上锁。</p>
+<p>当数据库执行select for update时会获取被select中的数据行的行锁，因此其他并发执行的select for update如果试图选中同一行则会发生排斥（需要等待行锁被释放），因此达到锁的效果。</p>
+<blockquote>
+<p>select for update获取的行锁会在当前事务结束时自动释放，因此必须在事务中使用。（注意for update要用在索引上，不然会锁表）``</p>
+</blockquote>
+<pre><code>START TRANSACTION; # 开启事务
+SELETE * FROM users WHERE id=1 FOR UPDATE;
+UPDATE users SET name= 'xiaoming' WHERE id = 1;
+COMMIT; # 提交事务
+</code></pre><p>﻿</p>
+<p><strong>2）乐观锁（Optimistic Lock）</strong></p>
+<p>简单理解就是：就是很乐观，每次去拿数据的时候都认为别人不会修改。更新时如果version变化了，更新不会成功。</p>
+<blockquote>
+<p>不过，乐观锁存在失效的情况，就是常说的ABA问题，不过如果version版本一直是自增的就不会出现ABA的情况。``</p>
+</blockquote>
+<pre><code>UPDATE users SET name='xiaoxiao', version=(version+1) WHERE id=1 AND version=version;
+</code></pre><p>缺点：就是在操作业务前，需要先查询出当前的version版本</p>
+<p>另外，还存在一种：<strong>状态机控制</strong></p>
+<blockquote>
+<p>例如：支付状态流转流程：待支付-&gt;支付中-&gt;已支付</p>
+</blockquote>
+<p>具有一定要的前置要求的，严格来讲，也属于乐观锁的一种。</p>
+<p>﻿</p>
+<p><strong>3）唯一约束</strong></p>
+<p>常见的就是利用<strong>数据库唯一索引</strong>或者<strong>全局业务唯一标识</strong>（如：source+序列号等）。</p>
+<p>这个机制是利用了数据库的主键唯一约束的特性，解决了在insert场景时幂等问题。但主键的要求不是自增的主键，这样就需要业务生成全局唯一的主键。</p>
+<p><strong>全局ID生成方案</strong>：</p>
+<ul>
+<li><strong>UUID</strong>：结合机器的网卡、当地时间、一个随记数来生成UUID；</li>
+<li><strong>数据库自增ID</strong>：使用数据库的id自增策略，如 MySQL 的 auto_increment。</li>
+<li><strong>Redis实现</strong>：通过提供像 INCR 和 INCRBY 这样的自增原子命令，保证生成的 ID 肯定是唯一有序的。</li>
+<li><strong>雪花算法-Snowflake</strong>：由Twitter开源的分布式ID生成算法，以划分命名空间的方式将 64-bit位分割成多个部分，每个部分代表不同的含义。</li>
+</ul>
+<p>﻿</p>
+<p>小结：按照应用上的最优收益，推荐排序为：乐观锁 &gt; 唯一约束 &gt; 悲观锁。</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/docker/" data-toggle="tooltip" data-placement="top" title="Docker容器">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/jenkins/" data-toggle="tooltip" data-placement="top" title="Jenkins自动化部署">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="Docker容器" />
+    <meta property="og:title" content="Docker容器" />
+    <meta property="twitter:title" content="Docker容器" />
+    
+
+    
+    <meta name="description" content="Docker-Study记录，Docker镜像及容器常用命令">
+    <meta property="og:description" content="Docker-Study记录，Docker镜像及容器常用命令" />
+    <meta property="twitter:description" content="Docker-Study记录，Docker镜像及容器常用命令" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>Docker容器-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/docker/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtpy7lonaj31hc0u01kx.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="Java">
+                            Java
+                        </a>
+                        
+                    </div>
+                    <h1>Docker容器</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Saturday, May 22, 2021
+                        
+                            <span id="/tangblog/post/docker/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker为什么出现">Docker为什么出现</a></li>
+    <li><a href="#什么是docker">什么是Docker</a></li>
+    <li><a href="#为什么要用docker">为什么要用Docker</a></li>
+    <li><a href="#docker组成">Docker组成</a></li>
+    <li><a href="#docker镜像迁移">Docker镜像迁移</a></li>
+    <li><a href="#centos安装docker">CentOS安装Docker</a></li>
+    <li><a href="#docker-配置远程链接">Docker 配置远程链接</a></li>
+    <li><a href="#后台运行容器">后台运行容器</a>
+      <ul>
+        <li><a href="#运行nginx镜像访问容器内部">运行Nginx镜像访问容器内部</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker网络模式">Docker网络模式</a>
+      <ul>
+        <li><a href="#访问docker内的nginx"><strong>访问Docker内的Nginx</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#使用dockerfile制作docker容器">使用dockerfile制作Docker容器</a></li>
+    <li><a href="#docker镜像常用命令">Docker镜像常用命令</a>
+      <ul>
+        <li><a href="#列出镜像">列出镜像</a></li>
+        <li><a href="#删除镜像">删除镜像</a></li>
+        <li><a href="#打包镜像">打包镜像</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker容器常用命令">Docker容器常用命令</a>
+      <ul>
+        <li><a href="#新建并启动容器">新建并启动容器</a></li>
+        <li><a href="#列出容器">列出容器</a></li>
+        <li><a href="#停止容器">停止容器</a></li>
+        <li><a href="#强制停止容器">强制停止容器</a></li>
+        <li><a href="#启动容器">启动容器</a></li>
+        <li><a href="#进入容器">进入容器</a></li>
+        <li><a href="#删除容器">删除容器</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker查看相关命令">Docker查看相关命令</a>
+      <ul>
+        <li><a href="#查看容器的日志">查看容器的日志</a></li>
+        <li><a href="#修改容器的启动方式">修改容器的启动方式</a></li>
+        <li><a href="#同步宿主机时间到容器">同步宿主机时间到容器</a></li>
+        <li><a href="#指定容器时区">指定容器时区</a></li>
+        <li><a href="#查看容器资源占用状况">查看容器资源占用状况</a></li>
+        <li><a href="#查看容器磁盘使用情况">查看容器磁盘使用情况</a></li>
+        <li><a href="#执行容器内部命令">执行容器内部命令</a></li>
+        <li><a href="#指定账号进入容器内部">指定账号进入容器内部</a></li>
+        <li><a href="#查看所有网络">查看所有网络</a></li>
+        <li><a href="#创建外部网络">创建外部网络</a></li>
+        <li><a href="#指定容器网络">指定容器网络</a></li>
+        <li><a href="#修改镜像的存放位置">修改镜像的存放位置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h1 id="docker">Docker</h1>
+<h2 id="docker为什么出现">Docker为什么出现</h2>
+<p>一款产品：开发-&gt;上线	部署应用环境，应用配置！</p>
+<p>传统：开发jar包，运维来做！</p>
+<p>现在：开发打包部署上线，一套流程做完！</p>
+<p>问题：</p>
+<ul>
+<li>本地电脑可以运行！版本更新，导致服务不可用！对于运维来说，考验十分大；</li>
+<li>配置环境是十分麻烦的，每个机器都要部署环境（集群Redis、ES、Hadoop&hellip;..)！耗时费力。</li>
+<li>发布一个项目【jar包+（Redis MySQL jdk ES）】，项目如果能带上环境安装打包就会很方便！</li>
+</ul>
+<p>步骤：</p>
+<p>java开发&ndash;&gt; jar（环境） &ndash;&gt; <strong>打包项目带上环境（镜像）</strong> &ndash;&gt;<strong>Docker仓库</strong>&ndash;&gt; 下载发布的镜像，直接运行即可</p>
+<p><strong>Docker思想来源：集装箱！</strong></p>
+<p>JRE&ndash;多个应用（端口冲突）&ndash;原来都是交叉的！</p>
+<p>**隔离：Dockr核心思想！打包装箱，每个箱子都是互相隔离的。**这样连水果和生化武器都能放一起</p>
+<p><strong>Docker通过隔离机制，可以将服务器利用到极致！</strong></p>
+<h2 id="什么是docker">什么是Docker</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr60e9muipj30km08m0ww.jpg" alt="image-20210604100842815">
+
+</p>
+<h2 id="为什么要用docker">为什么要用Docker</h2>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p>传统的开发流程中，我们的项目通常需要使用 MySQL、Redis、FastDFS 等等环境，这些环境都是需要我们手动去进行下载并配置的，安装配置流程极其复杂，而且不同系统下的操作也不一样。</p>
+<p>Docker 的出现完美地解决了这一问题，我们可以在容器中安装 MySQL、Redis 等软件环境，使得应用和环境架构分开，它的优势在于：</p>
+<ol>
+<li>一致的运行环境，能够更轻松地迁移</li>
+<li>对进程进行封装隔离，容器与容器之间互不影响，更高效地利用系统资源</li>
+<li>可以通过镜像复制多个一致的容器</li>
+</ol>
+<h2 id="docker组成">Docker组成</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr61dyamtjj319s0mmdre.jpg" alt="image-20210604104259726">
+
+</p>
+<ul>
+<li>
+<p>client提供给用户一个终端，用户输入 Docker 提供的命令来管理本地或远程的服务器</p>
+</li>
+<li>
+<p>deamon：服务端守护进程，接收 Client 发送的命令并执行相应的操作</p>
+</li>
+</ul>
+<h2 id="docker镜像迁移">Docker镜像迁移</h2>
+<p>仓库作为中转站，类似百度网盘</p>
+<p>Docker提供了官方的仓库：https://hub.docker.com/</p>
+<p>备选仓库（网易云）：https://c.163yun.com/hub#/m/home/</p>
+<h2 id="centos安装docker">CentOS安装Docker</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#配置国内yum源</span>
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+<span style="color:#75715e">#yum清理</span>
+yum clean all
+yum makecache
+
+<span style="color:#75715e">#卸载旧版本</span>
+yum remove docker <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-client <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-client-latest <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-common <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-latest <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-latest-logrotate <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-logrotate <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>​         docker-engine
+
+<span style="color:#75715e">#更新yum</span>
+yum check-update
+yum update
+
+<span style="color:#75715e">#安装所需软件包</span>
+yum install -y yum-utils <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  device-mapper-persistent-data <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  lvm2
+  
+<span style="color:#75715e">#使用以下命令来设置稳定的存储库</span>
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+<span style="color:#75715e">#查看docker版本</span>
+yum list docker-ce --showduplicates | sort -r
+
+<span style="color:#75715e">#安装指定的版本</span>
+yum install docker-ce-18.09.0 docker-ce-cli-18.09.0 containerd.io
+
+<span style="color:#75715e">#启动</span>
+systemctl start docker
+
+<span style="color:#75715e">#安装完成后，运行下面的命令，验证是否安装成功。</span>
+docker version
+或者
+docker info
+</code></pre></div><h2 id="docker-配置远程链接">Docker 配置远程链接</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#编辑服务器上的docker文件</span>
+vim /usr/lib/systemd/system/docker.service
+
+<span style="color:#75715e">#修改以ExecStart开头的行（centos 7）：添加</span>
+-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+<span style="color:#75715e">#修改后保存文件，然后重启docker</span>
+systemctl daemon-reload
+service docker restart
+</code></pre></div><p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr7bni90yqj30qo06ut9d.jpg" alt="image-20210605132342588">
+
+</p>
+<h2 id="后台运行容器">后台运行容器</h2>
+<h3 id="运行nginx镜像访问容器内部">运行Nginx镜像访问容器内部</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#拉取nginx镜像</span>
+docker pull hub.c.163.com/library/nginx:1.13.0
+
+docker images
+
+<span style="color:#75715e">#运行nginx镜像(加-d为后台运行)</span>
+docker run -d hub.c.163.com/library/nginx:1.13.0
+
+<span style="color:#75715e">#查看容器id</span>
+docker ps
+
+<span style="color:#75715e">#进入容器</span>
+<span style="color:#75715e">#-it(容器内部的终端映射到当前的终端) i:容器输入有效 t:分配终端</span>
+<span style="color:#75715e">#24(容器id，可简写成两位)</span>
+<span style="color:#75715e">#bash(启动终端)</span>
+docker exec -it <span style="color:#ae81ff">24</span> bash
+
+<span style="color:#75715e">#停止容器</span>
+docker stop <span style="color:#ae81ff">24</span>
+</code></pre></div><h2 id="docker网络模式">Docker网络模式</h2>
+<ul>
+<li><strong>Bridge(桥接)</strong>：端口映射</li>
+<li><strong>Host</strong>：和主机使用同样的网络</li>
+<li>None</li>
+</ul>
+<p>90%都是用的Bridge模式</p>
+<h3 id="访问docker内的nginx"><strong>访问Docker内的Nginx</strong></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#-p(小p将服务器的8090端口映射到容器的80端口)</span>
+docker run -d -p 8080:80 hub.c.163.com/library/nginx:1.13.0
+<span style="color:#75715e">#-P(大P随机分配服务器的端口映射到容器的80端口)</span>
+docker run -d -P hub.c.163.com/library/nginx:1.13.0
+</code></pre></div><h2 id="使用dockerfile制作docker容器">使用dockerfile制作Docker容器</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">touch Dockerfile
+
+Docker File<span style="color:#f92672">[</span>
+	<span style="color:#75715e">#产生一个新的镜像</span>
+	<span style="color:#75715e">#alpine:给docker提供的linux环境</span>  
+  FROM alpine:latest
+  <span style="color:#75715e">#镜像由谁维护</span>
+  MAINTAINER tang
+  <span style="color:#75715e">#命令展示</span>
+  CMD echo <span style="color:#e6db74">&#39;hello my dockerfile&#39;</span>
+<span style="color:#f92672">]</span>
+
+<span style="color:#75715e">#制作docker容器</span>
+<span style="color:#75715e">#.号为dockerfile所在的路径</span>
+docker build -t tang_docker .
+
+<span style="color:#75715e">#运行自己的镜像</span>
+docker run tang_docker
+</code></pre></div><h2 id="docker镜像常用命令">Docker镜像常用命令</h2>
+<h3 id="列出镜像">列出镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker images
+</code></pre></div><h3 id="删除镜像">删除镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#指定名称删除镜像</span>
+docker rmi java:8
+
+<span style="color:#75715e">#指定名称删除镜像（强制）</span>
+docker rmi -f java:8
+
+<span style="color:#75715e">#删除所有没有引用的镜像</span>
+docker rmi <span style="color:#e6db74">`</span>docker images | grep none | awk <span style="color:#e6db74">&#39;{print $3}&#39;</span><span style="color:#e6db74">`</span>
+
+<span style="color:#75715e">#强制删除所有镜像</span>
+docker rmi -f <span style="color:#66d9ef">$(</span>docker images<span style="color:#66d9ef">)</span>
+</code></pre></div><h3 id="打包镜像">打包镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># -t 表示指定镜像仓库名称/镜像名称:镜像标签 .表示使用当前目录下的Dockerfile文件</span>
+docker build -t mall/mall-admin:1.0-SNAPSHOT .
+</code></pre></div><h2 id="docker容器常用命令">Docker容器常用命令</h2>
+<h3 id="新建并启动容器">新建并启动容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -p 80:80 --name nginx <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-e TZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-v /mydata/nginx/html:/usr/share/nginx/html <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-d nginx:1.17.0
+</code></pre></div><ul>
+<li>-p：将宿主机和容器端口进行映射，格式为：宿主机端口:容器端口；</li>
+<li>&ndash;name：指定容器名称，之后可以通过容器名称来操作容器；</li>
+<li>-e：设置容器的环境变量，这里设置的是时区；</li>
+<li>-v：将宿主机上的文件挂载到容器上，格式为：宿主机文件目录:容器文件目录；</li>
+<li>-d：表示容器以后台方式运行;</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -d -p 9091:9091 tang-server-tiny/tang-server-tiny:1.0.0-SNAPSHOT
+</code></pre></div><h3 id="列出容器">列出容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#列出运行中的容器</span>
+docker ps
+<span style="color:#75715e">#列出所有容器</span>
+docker ps -a
+</code></pre></div><h3 id="停止容器">停止容器</h3>
+<p>注意：<code>$ContainerName</code>表示容器名称，<code>$ContainerId</code>表示容器ID，可以使用容器名称的命令，基本也支持使用容器ID，比如下面的停止容器命令。</p>
+<pre><code>docker stop $ContainerName(or $ContainerId)
+</code></pre><p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker stop nginx
+<span style="color:#75715e">#或者</span>
+docker stop c5f5d5125587
+</code></pre></div><h3 id="强制停止容器">强制停止容器</h3>
+<pre><code>docker kill $ContainerName
+</code></pre><h3 id="启动容器">启动容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker start $ContainerName
+</code></pre></div><h3 id="进入容器">进入容器</h3>
+<ul>
+<li>先查询出容器的<code>pid</code>：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker inspect --format <span style="color:#e6db74">&#34;{{.State.Pid}}&#34;</span> $ContainerName
+<span style="color:#75715e">#例如</span>
+docker inspect --format <span style="color:#e6db74">&#34;{{.State.Pid}}&#34;</span> nginx
+</code></pre></div><ul>
+<li>根据容器的pid进入容器：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">nsenter --target <span style="color:#e6db74">&#34;</span>$pid<span style="color:#e6db74">&#34;</span> --mount --uts --ipc --net --pid
+<span style="color:#75715e">#例如</span>
+nsenter --target <span style="color:#ae81ff">75730</span> --mount --uts --ipc --net --pid
+</code></pre></div><p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr7cgqe2ayj30fj06d74z.jpg" alt="image-20210605135149633">
+
+</p>
+<h3 id="删除容器">删除容器</h3>
+<ul>
+<li>删除指定容器：</li>
+</ul>
+<pre><code>docker rm $ContainerName
+</code></pre><ul>
+<li>按名称通配符删除容器，比如删除以名称<code>mall-</code>开头的容器：</li>
+</ul>
+<pre><code>docker rm `docker ps -a | grep mall-* | awk '{print $1}'`
+</code></pre><ul>
+<li>强制删除所有容器；</li>
+</ul>
+<pre><code>docker rm -f $(docker ps -a -q)
+</code></pre><h2 id="docker查看相关命令">Docker查看相关命令</h2>
+<h3 id="查看容器的日志">查看容器的日志</h3>
+<ul>
+<li>查看容器产生的全部日志：</li>
+</ul>
+<pre><code>docker logs $ContainerName
+</code></pre><ul>
+<li>动态查看容器产生的日志：</li>
+</ul>
+<pre><code>docker logs -f $ContainerName
+</code></pre><h3 id="修改容器的启动方式">修改容器的启动方式</h3>
+<pre><code># 将容器启动方式改为always
+docker container update --restart=always $ContainerName
+</code></pre><h3 id="同步宿主机时间到容器">同步宿主机时间到容器</h3>
+<pre><code>docker cp /etc/localtime $ContainerName:/etc/
+</code></pre><h3 id="指定容器时区">指定容器时区</h3>
+<pre><code>docker run -p 80:80 --name nginx \
+-e TZ=&quot;Asia/Shanghai&quot; \
+-d nginx:1.17.0
+</code></pre><h3 id="查看容器资源占用状况">查看容器资源占用状况</h3>
+<ul>
+<li>查看指定容器资源占用状况，比如cpu、内存、网络、io状态：</li>
+</ul>
+<pre><code>docker stats $ContainerName
+</code></pre><ul>
+<li>查看所有容器资源占用情况：</li>
+</ul>
+<pre><code>docker stats -a
+</code></pre><h3 id="查看容器磁盘使用情况">查看容器磁盘使用情况</h3>
+<pre><code>docker system df
+</code></pre><h3 id="执行容器内部命令">执行容器内部命令</h3>
+<pre><code>docker exec -it $ContainerName /bin/bash
+</code></pre><h3 id="指定账号进入容器内部">指定账号进入容器内部</h3>
+<pre><code># 使用root账号进入容器内部
+docker exec -it --user root $ContainerName /bin/bash
+</code></pre><h3 id="查看所有网络">查看所有网络</h3>
+<pre><code>docker network ls
+</code></pre><h3 id="创建外部网络">创建外部网络</h3>
+<pre><code>docker network create -d bridge my-bridge-network
+</code></pre><h3 id="指定容器网络">指定容器网络</h3>
+<pre><code>docker run -p 80:80 --name nginx \
+--network my-bridge-network \
+-d nginx:1.17.0
+</code></pre><h3 id="修改镜像的存放位置">修改镜像的存放位置</h3>
+<ul>
+<li>查看Docker镜像的存放位置：</li>
+</ul>
+<pre><code>docker info | grep &quot;Docker Root Dir&quot;
+</code></pre><ul>
+<li>关闭Docker服务：</li>
+</ul>
+<pre><code>systemctl stop docker
+</code></pre><ul>
+<li>先将原镜像目录移动到目标目录：</li>
+</ul>
+<pre><code>mv /var/lib/docker /mydata/docker
+</code></pre><ul>
+<li>建立软连接：</li>
+</ul>
+<pre><code>ln -s /mydata/docker /var/lib/docker
+</code></pre><ul>
+<li>再次查看可以发现镜像存放位置已经更改</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker info | grep <span style="color:#e6db74">&#34;Docker Root Dir&#34;</span>
+</code></pre></div>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/rabbitmq/" data-toggle="tooltip" data-placement="top" title="RabbitMQ消息中间">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/%E6%94%AF%E4%BB%98/" data-toggle="tooltip" data-placement="top" title="聚合支付开发：支付宝、微信、银联">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="RabbitMQ消息中间" />
+    <meta property="og:title" content="RabbitMQ消息中间" />
+    <meta property="twitter:title" content="RabbitMQ消息中间" />
+    
+
+    
+    <meta name="description" content="RabbitMQ安装步骤、基础概念、工作模式、交换机类型">
+    <meta property="og:description" content="RabbitMQ安装步骤、基础概念、工作模式、交换机类型" />
+    <meta property="twitter:description" content="RabbitMQ安装步骤、基础概念、工作模式、交换机类型" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>RabbitMQ消息中间-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/rabbitmq/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtpy4t0omj31hc0u0n7l.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/mysql" title="Mysql">
+                            Mysql
+                        </a>
+                        
+                    </div>
+                    <h1>RabbitMQ消息中间</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Saturday, May 1, 2021
+                        
+                            <span id="/tangblog/post/rabbitmq/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#认识rabbitmq">认识RabbitMQ</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#为什么要用">为什么要用</a></li>
+        <li><a href="#使用场景">使用场景</a></li>
+        <li><a href="#特性">特性</a></li>
+      </ul>
+    </li>
+    <li><a href="#rabbitmq基础概念">RabbitMQ基础概念</a>
+      <ul>
+        <li><a href="#生产者消费者和代理">生产者、消费者和代理</a></li>
+        <li><a href="#消息队列">消息队列</a></li>
+        <li><a href="#消息流转过程">消息流转过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#rabbitmq的6种工作模式">RabbitMQ的6种工作模式</a>
+      <ul>
+        <li><a href="#简单模式">简单模式</a></li>
+        <li><a href="#工作队列模式">工作队列模式</a></li>
+        <li><a href="#交换机模式">交换机模式</a></li>
+        <li><a href="#routing转发模式">Routing转发模式</a></li>
+        <li><a href="#主题转发模式">主题转发模式</a></li>
+        <li><a href="#rpc模式">RPC模式</a></li>
+        <li><a href="#工作总结">工作总结</a></li>
+      </ul>
+    </li>
+    <li><a href="#amqptemplate接口">AmqpTemplate接口</a>
+      <ul>
+        <li><a href="#发送消息">发送消息</a></li>
+        <li><a href="#接收消息">接收消息</a></li>
+      </ul>
+    </li>
+    <li><a href="#rabbitmq安装步骤">RabbitMQ安装步骤</a></li>
+    <li><a href="#案例">案例</a>
+      <ul>
+        <li><a href="#第一个生产者">第一个生产者</a></li>
+        <li><a href="#第一个消费者">第一个消费者</a></li>
+        <li><a href="#根据消息内容做处理">根据消息内容做处理</a></li>
+        <li><a href="#多个消费者平均压力">多个消费者平均压力</a></li>
+      </ul>
+    </li>
+    <li><a href="#交换机类型">交换机类型</a>
+      <ul>
+        <li><a href="#四种类型模式">四种类型模式</a></li>
+        <li><a href="#fanout模式">fanout模式</a></li>
+        <li><a href="#direct模式">direct模式</a></li>
+        <li><a href="#topic模式">topic模式</a></li>
+      </ul>
+    </li>
+    <li><a href="#springboot整合rabbitmq">SpringBoot整合RabbitMQ</a></li>
+  </ul>
+</nav>
+                
+                <h1 id="rabbitmq">RabbitMQ</h1>
+<blockquote>
+<p>集成RabbitMQ，实现系统间的数据交换</p>
+</blockquote>
+<h2 id="认识rabbitmq">认识RabbitMQ</h2>
+<h3 id="概念">概念</h3>
+<p>MQ(Message Queue)。</p>
+<p>RabbitMQ是AMQP(高级消息队列协议)的实现。</p>
+<p>使用Erlang语言编写。</p>
+<p>RabbitMQ的处理流程：</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqsb19z2dfj30og0a2jtu.jpg" alt="image-20210523133849896">
+
+</p>
+<h3 id="为什么要用">为什么要用</h3>
+<ul>
+<li>系统解耦</li>
+<li>异步调用</li>
+<li>流量削峰</li>
+</ul>
+<h3 id="使用场景">使用场景</h3>
+<ol>
+<li>
+<p>推送通知</p>
+<p>&ldquo;发布/订阅&quot;功能来实现通知功能。</p>
+<p>&ldquo;发布/订阅&quot;功能支持三种模块：一对一、一对多、广播。</p>
+</li>
+<li>
+<p>异步任务</p>
+<p>如果某个小任务很费时，且延迟执行并不影响整个任务，则可以将该任务放入消息队列中去处理，以便加快请求响应的时间。</p>
+</li>
+<li>
+<p>多平台应用的通信</p>
+<p>消息队列是无关平台和语言的，RabbitMQ因此可以适合作为多个应用之间的松耦合的接口，且不需要发送方和接收方同时在线。</p>
+<p>这样最大限度地减少程序间的相互依赖，提高系统的可用性及拓展性。</p>
+<p>RabbitMQ提供两种事务模式：</p>
+<ul>
+<li>AMQP事务模式；</li>
+<li>Confirm事务模式；</li>
+</ul>
+</li>
+<li>
+<p>消息延迟</p>
+<p>利用RabbitMQ消息队列延迟功能，可实现订单、支付过期定时取消功能。</p>
+<p>延迟队列存储延迟消息，当消息被发送以后，消费者不是立即拿到消息，而是等待指定时间后才拿到这个消息进行消费。</p>
+<p>当然，死信、计时器、定时任务也可以实现延迟或定时功能，但是需要开发者去处理。</p>
+</li>
+<li>
+<p>远程过程调用</p>
+<p>在实际的应用场景中，有时需要一些同步处理，以等待服务器端将消息处理完成后再进行下一步处理，这相当于RPC(远程过程调用)。RabbitMQ也支持RPC。</p>
+</li>
+</ol>
+<h3 id="特性">特性</h3>
+<ul>
+<li>信息确认
+<ul>
+<li>自动应答：接收端从队列接收信息时，会自动发送应答消息给服务器端</li>
+<li>手动应答：需要开发人员手动调用方法告诉服务器端已经收到</li>
+</ul>
+</li>
+<li>队列持久化：是否持久化，要看持久化设置；</li>
+<li>信息持久化：设置properties.DeliveryMode值（1：非持久，2：持久）；</li>
+<li>消息拒收：接收端可以拒收消息，而且在发送”reject&quot;命令时，可以选择是否要把拒收的消息重新放回队列中；</li>
+<li>消息的Qos：在接收端设置的。加上如&quot;channel.BasicQos(0,1,false);&ldquo;的代码即可；</li>
+</ul>
+<h2 id="rabbitmq基础概念">RabbitMQ基础概念</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqskcddsbfj31no0hqdn9.jpg" alt="image-20210523190057401">
+
+</p>
+<h3 id="生产者消费者和代理">生产者、消费者和代理</h3>
+<ul>
+<li>生产者：消息创建者，负责创建和推动数据到消息服务器</li>
+<li>消费者：消息接收方，用于处理数据和确认消息</li>
+<li>代理：RabbitMQ本身，扮演”快递“的角色，本身不生产消息</li>
+</ul>
+<p>RabbitMQ只是为生产者和消费者提供发送和接收消息的API</p>
+<h3 id="消息队列">消息队列</h3>
+<p>多个消费者可以订阅同一个Queue</p>
+<ul>
+<li>持久性</li>
+<li>自动删除</li>
+<li>惰性</li>
+<li>排他性</li>
+</ul>
+<h3 id="消息流转过程">消息流转过程</h3>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqskhvughtj31dq0mudwm.jpg" alt="image-20210523190615480">
+
+</p>
+<h2 id="rabbitmq的6种工作模式">RabbitMQ的6种工作模式</h2>
+<h3 id="简单模式">简单模式</h3>
+<p>只有一个消费者、一个生产者、一个队列。</p>
+<p>只需要配置主机参数，其他参数使用默认值即可通信。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshgfq4wxj30my04cta3.jpg" alt="image-20210523172102149">
+
+</p>
+<h3 id="工作队列模式">工作队列模式</h3>
+<p>多个消费者，为了保证消费者之间的负载均衡和同步，需要在消息队列之间加上同步功能。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshgy6c1lj30oy08kac7.jpg" alt="image-20210523172132019">
+
+</p>
+<h3 id="交换机模式">交换机模式</h3>
+<p>简单模式和工作队列模式也使用了交换机，只是采用了默认设置的交换机。交换机的参数是可以设置的。</p>
+<p>如果消息配置的交换机参数和RabbitMQ队列绑定的交换机名称相同，则转发，否则丢弃。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshimkhpkj30o2082wh4.jpg" alt="image-20210523172308482">
+
+</p>
+<h3 id="routing转发模式">Routing转发模式</h3>
+<p>交换机要配置为direct类型，转发的规则变为检查队列中的routing key值。如果roting key值相同，则转发，否则丢弃。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshkw7wpcj30s608owhu.jpg" alt="image-20210523172519254">
+
+</p>
+<h3 id="主题转发模式">主题转发模式</h3>
+<p>交换机配置为topic类型，routing key配置失效。发送到主题交换机的信息，不能是任意routing key ，它必须是一个单词的列表，用逗号分隔。特点是可以模糊匹配，匹配规则为 *（星号）可以代替一个词；＃（＃号）可以代替零个或更多的单词。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshpct29mj30t209mwic.jpg" alt="image-20210523172937016">
+
+</p>
+<h3 id="rpc模式">RPC模式</h3>
+<p>远程调用的场景下。如果一个应用程序需要另外一个应用程序来最终返回运行结果，那这个过程可能是比较耗时的操作，使用 RPC 模式是最合适的。</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqshrooqltj30sm09ejuq.jpg" alt="image-20210523173151403">
+
+</p>
+<h3 id="工作总结">工作总结</h3>
+<table>
+<thead>
+<tr>
+<th>工作模式</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>简单模式</td>
+<td>只有一个生产者，一个消费者</td>
+</tr>
+<tr>
+<td>工作队列模式</td>
+<td>一个生产者，多个消费者，每个消费者获取到的消息唯一</td>
+</tr>
+<tr>
+<td>订阅模式</td>
+<td>一个生产者发送的消息会被多个消费者获取</td>
+</tr>
+<tr>
+<td>路由模式</td>
+<td>发送消息到交换机，并且要指定路由key，消费者再将队列绑定到交换机需要指定路由key</td>
+</tr>
+<tr>
+<td>topic模式</td>
+<td>根据主题进行匹配此时，此时队列需要绑定在一个模式上，”#”匹配一个词或多个词，“*”至匹配一个词</td>
+</tr>
+</tbody>
+</table>
+<h2 id="amqptemplate接口">AmqpTemplate接口</h2>
+<p>Spring AMQP提供了操作AMQP协议的模板类AmqpTemplate，用于发送和接收消息</p>
+<h3 id="发送消息">发送消息</h3>
+<ol>
+<li>send方法</li>
+<li>convertAndSend方法：简单了的send方法，可以自动处理消息的序列化</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqsi5cc5clj315o0iq1kx.jpg" alt="image-20210523174458563">
+
+</p>
+<h3 id="接收消息">接收消息</h3>
+<p>两种方式：</p>
+<ul>
+<li>直接去查询获取消息，调用receive方法；</li>
+<li>异步接收，通过注册一个Listener监听器来实现消息接收。接收消息需要指定队列，或设置默认的队列；</li>
+</ul>
+<p>直接接收POJO（代替消息对象）的方法receiveAndConvert并提供了各种的MessageConverter用来处理返回的Object对象。</p>
+<p>Sping-Rabbit 版本开始，Amqptemplate也提供了receiveAndReply方法来异步接收、处理及回复消息。</p>
+<h2 id="rabbitmq安装步骤">RabbitMQ安装步骤</h2>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gquz440dutj30i402ajrh.jpg" alt="image-20210525210202831">
+
+</p>
+<ol>
+<li>安装erlang</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install erlang-22.3-1.el7.x86_64.rpm
+</code></pre></div><ol start="2">
+<li>安装RabbitMQ</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#导入密钥</span>
+rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+
+yum install rabbitmq-server-3.8.2-1.el7.noarch.rpm
+</code></pre></div><ol start="3">
+<li>RabbitMQ启动</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">停止RabbitMQ
+$rabbitmqctl stop
+
+设置开机启动
+$ systemctl enable rabbitmq-server 
+
+启动RabbitMQ
+$ systemctl start rabbitmq-server
+
+看看端口有没有起来，查看状态
+
+$ rabbitmqctl status 
+
+要检查RabbitMQ服务器的状态，请运行：
+
+systemctl status rabbitmq-server
+
+开启web管理界面
+rabbitmq-plugins enable rabbitmq_management
+</code></pre></div><ol start="4">
+<li>添加admin账号，赋予administrator权限</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rabbitmqctl add_user admin password
+
+rabbitmqctl set_user_tags admin administrator
+</code></pre></div><ol start="5">
+<li>
+<p>访问浏览器进入图形化页面</p>
+<p>http://139.196.19.64:15672/#/</p>
+</li>
+</ol>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gquzbphhy9j31980nxtbq.jpg" alt="image-20210525211025937">
+
+</p>
+<h2 id="案例">案例</h2>
+<h3 id="第一个生产者">第一个生产者</h3>
+<p><strong>项目：rabbitmq</strong></p>
+<p>路径：helloworld/Send.java</p>
+<p>连接RabbitMQ前提：Virtual Host: /需要设置用户权限</p>
+<p><!-- raw HTML omitted --></p>
+<h3 id="第一个消费者">第一个消费者</h3>
+<p>路径：helloworld/Recv.java</p>
+<h3 id="根据消息内容做处理">根据消息内容做处理</h3>
+<p>需求：根据消息内容做适当延迟</p>
+<p>路径：</p>
+<p>​	workqueues/NewTask.java</p>
+<p>​	workqueues/Worker.java</p>
+<h3 id="多个消费者平均压力">多个消费者平均压力</h3>
+<p>默认：多个消费者是<strong>循环调度</strong></p>
+<p>每个消息的处理时间不一样：<strong>公平派遣</strong></p>
+<p><strong>生产者</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> workqueues<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.rabbitmq.client.Channel<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.rabbitmq.client.Connection<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.rabbitmq.client.ConnectionFactory<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2021/5/28
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NewTask</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> String TASK_QUEUE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;task_queue&#34;</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//创建连接工厂
+</span><span style="color:#75715e"></span>        ConnectionFactory factory <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConnectionFactory<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//设置RabbitMQ地址
+</span><span style="color:#75715e"></span>        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setHost</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;139.196.19.64&#34;</span><span style="color:#f92672">);</span>
+        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setUsername</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">);</span>
+        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setPassword</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">//建立连接
+</span><span style="color:#75715e"></span>        Connection connection <span style="color:#f92672">=</span> factory<span style="color:#f92672">.</span><span style="color:#a6e22e">newConnection</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//获得信道
+</span><span style="color:#75715e"></span>        Channel channel <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span><span style="color:#a6e22e">createChannel</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//声明队列
+</span><span style="color:#75715e"></span>        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">queueDeclare</span><span style="color:#f92672">(</span>TASK_QUEUE_NAME<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">/**
+</span><span style="color:#75715e">             * 平均发送消息
+</span><span style="color:#75715e">             */</span>
+            <span style="color:#75715e">/*String message;
+</span><span style="color:#75715e">            message = i + &#34;...&#34;;
+</span><span style="color:#75715e">            channel.basicPublish(&#34;&#34;, TASK_QUEUE_NAME, null, message.getBytes(&#34;UTF-8&#34;));
+</span><span style="color:#75715e">            System.out.println(&#34;发送了消息:&#34; + message);*/</span>
+
+            <span style="color:#75715e">/**
+</span><span style="color:#75715e">             * 不平均发送消息
+</span><span style="color:#75715e">             */</span>
+            String message<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">%</span> 2 <span style="color:#f92672">==</span> 0<span style="color:#f92672">){</span>
+                message <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;...&#34;</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+                message <span style="color:#f92672">=</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+            channel<span style="color:#f92672">.</span><span style="color:#a6e22e">basicPublish</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">,</span> TASK_QUEUE_NAME<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> message<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">));</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;发送了消息:&#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//关闭连接
+</span><span style="color:#75715e"></span>        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+        connection<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>消费者</strong></p>
+<p>开启多个进行消费</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> workqueues<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.rabbitmq.client.*<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2021/5/28
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worker</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">static</span> String TASK_QUEUE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;task_queue&#34;</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//创建连接工厂
+</span><span style="color:#75715e"></span>        ConnectionFactory factory <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConnectionFactory<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//设置RabbitMQ地址
+</span><span style="color:#75715e"></span>        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setHost</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;139.196.19.64&#34;</span><span style="color:#f92672">);</span>
+        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setUsername</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;admin&#34;</span><span style="color:#f92672">);</span>
+        factory<span style="color:#f92672">.</span><span style="color:#a6e22e">setPassword</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">//建立连接
+</span><span style="color:#75715e"></span>        Connection connection <span style="color:#f92672">=</span> factory<span style="color:#f92672">.</span><span style="color:#a6e22e">newConnection</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//获得信道
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">final</span> Channel channel <span style="color:#f92672">=</span> connection<span style="color:#f92672">.</span><span style="color:#a6e22e">createChannel</span><span style="color:#f92672">();</span>
+        <span style="color:#75715e">//声明队列
+</span><span style="color:#75715e"></span>        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">queueDeclare</span><span style="color:#f92672">(</span>TASK_QUEUE_NAME<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">//消费消息
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;开始接收消息&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">//希望处理的数量为1,处理完之后才能执行下一个
+</span><span style="color:#75715e"></span>        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">basicQos</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+
+        channel<span style="color:#f92672">.</span><span style="color:#a6e22e">basicConsume</span><span style="color:#f92672">(</span>TASK_QUEUE_NAME<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> DefaultConsumer<span style="color:#f92672">(</span>channel<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">//收到消息后会执行的函数
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">@Override</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleDelivery</span><span style="color:#f92672">(</span>String consumerTag<span style="color:#f92672">,</span> Envelope envelope<span style="color:#f92672">,</span> AMQP<span style="color:#f92672">.</span><span style="color:#a6e22e">BasicProperties</span> properties<span style="color:#f92672">,</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> body<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+                String message <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>body<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;UTF-8&#34;</span><span style="color:#f92672">);</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;收到消息: &#34;</span> <span style="color:#f92672">+</span> message<span style="color:#f92672">);</span>
+
+                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                    doWork<span style="color:#f92672">(</span>message<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;消息处理完成&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#75715e">//手动确认消息
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">//channel.basicConsume 的true自动确认需要改为false
+</span><span style="color:#75715e"></span>                    channel<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAck</span><span style="color:#f92672">(</span>envelope<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeliveryTag</span><span style="color:#f92672">(),</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">});</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doWork</span><span style="color:#f92672">(</span>String task<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> chars <span style="color:#f92672">=</span> task<span style="color:#f92672">.</span><span style="color:#a6e22e">toCharArray</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">char</span> ch <span style="color:#f92672">:</span> chars<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>ch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;.&#39;</span><span style="color:#f92672">){</span>
+                <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+                    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="交换机类型">交换机类型</h2>
+<p>Exchange(交换机)包含4种类型：<strong>direct、topic、fanout、headers</strong>。不同类型代表绑定到队列的行为不同</p>
+<h3 id="四种类型模式">四种类型模式</h3>
+<ul>
+<li>fanout：广播，这种模式只需要将队列绑定到交换机上即可，是不需要设置路由键的</li>
+<li>direct：直接，根据 RoutingKey（路由键） 匹配消息路由到指定的队列</li>
+<li>topic：生产者指定 RoutingKey （路由键）消息根据消费端指定的队列通过模糊匹配的方式进行相应转发</li>
+<li>headers：根据发送消息内容中的 headers 属性来匹配（几乎不用）</li>
+</ul>
+<h3 id="fanout模式">fanout模式</h3>
+<p>路径：fanout</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr3rlae3bij30qv0bajtl.jpg" alt="image-20210602113254162">
+
+</p>
+<h3 id="direct模式">direct模式</h3>
+<p>路径：direct</p>
+<p>消费者根据日志的不同等级去接收</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008i3skNgy1gr440ry5cyj30ha0a0gok.jpg" alt="image-20210602184258369">
+
+</p>
+<h3 id="topic模式">topic模式</h3>
+<p>根据复杂条件匹配消息路由到指定的队列</p>
+<p>路径：topic</p>
+<p><strong>规则：</strong></p>
+<ul>
+<li>*可以代替一个单词</li>
+<li>＃可以替代零个或多个单词</li>
+</ul>
+<h2 id="springboot整合rabbitmq">SpringBoot整合RabbitMQ</h2>
+<p>项目：</p>
+<ul>
+<li>spring-boot-rabbitmq-producer(生产者)</li>
+<li>spring-boot-rabbitmq-consumer(消费者)</li>
+</ul>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/jobtone%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/" data-toggle="tooltip" data-placement="top" title="Linux服务器Java常用开发环境搭建">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/docker/" data-toggle="tooltip" data-placement="top" title="Docker容器">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

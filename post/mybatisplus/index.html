@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="MybatisPlus：为简化开发而生" />
+    <meta property="og:title" content="MybatisPlus：为简化开发而生" />
+    <meta property="twitter:title" content="MybatisPlus：为简化开发而生" />
+    
+
+    
+    <meta name="description" content="MybatisPlus只需简单配置，即可快速进行单表 CRUD 操作，从而节省大量时间">
+    <meta property="og:description" content="MybatisPlus只需简单配置，即可快速进行单表 CRUD 操作，从而节省大量时间" />
+    <meta property="twitter:description" content="MybatisPlus只需简单配置，即可快速进行单表 CRUD 操作，从而节省大量时间" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>MybatisPlus：为简化开发而生-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/mybatisplus/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="Java">
+                            Java
+                        </a>
+                        
+                    </div>
+                    <h1>MybatisPlus：为简化开发而生</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Saturday, May 23, 2020
+                        
+                            <span id="/tangblog/post/mybatisplus/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#快速入门">快速入门</a></li>
+    <li><a href="#配合日志输出">配合日志输出</a></li>
+    <li><a href="#雪花算法">雪花算法</a>
+      <ul>
+        <li><a href="#主键生成策略">主键生成策略</a></li>
+      </ul>
+    </li>
+    <li><a href="#更新操作">更新操作</a>
+      <ul>
+        <li><a href="#updatebyid">updateById</a></li>
+      </ul>
+    </li>
+    <li><a href="#自动填充">自动填充</a></li>
+    <li><a href="#乐观锁">乐观锁</a></li>
+    <li><a href="#查询操作">查询操作</a>
+      <ul>
+        <li><a href="#selectbatchids">selectBatchIds()</a></li>
+        <li><a href="#selectbymap">selectByMap()</a></li>
+        <li><a href="#分页查询">分页查询</a></li>
+      </ul>
+    </li>
+    <li><a href="#删除操作">删除操作</a></li>
+    <li><a href="#逻辑删除">逻辑删除</a></li>
+    <li><a href="#性能分析插件">性能分析插件</a>
+      <ul>
+        <li><a href="#druid数据源集成p6spy">druid数据源集成p6spy</a></li>
+      </ul>
+    </li>
+    <li><a href="#条件参数说明">条件参数说明</a></li>
+    <li><a href="#mp-select">MP-select</a></li>
+    <li><a href="#代码生成器">代码生成器</a></li>
+    <li><a href="#mybatisplusconfig代码">MybatisPlusConfig代码</a></li>
+  </ul>
+</nav>
+                
+                <h1 id="mybatisplus">MybatisPlus</h1>
+<blockquote>
+<p>简介</p>
+</blockquote>
+<p>地址：https://baomidou.com/guide/</p>
+<p><a href="https://github.com/baomidou/mybatis-plus">Mybatis-Plus</a>（简称MP）是一个 <a href="http://www.mybatis.org/mybatis-3/">Mybatis</a> 的增强工具，在 Mybatis 的基础上只做增强不做改变，为简化开发、提高效率而生。</p>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li><strong>无侵入</strong>：Mybatis-Plus 在 Mybatis 的基础上进行扩展，只做增强不做改变，引入 Mybatis-Plus 不会对您现有的 Mybatis 构架产生任何影响，而且 MP 支持所有 Mybatis 原生的特性</li>
+<li><strong>依赖少</strong>：仅仅依赖 Mybatis 以及 Mybatis-Spring</li>
+<li><strong>损耗小</strong>：启动即会自动注入基本 CURD，性能基本无损耗，直接面向对象操作</li>
+<li><strong>预防Sql注入</strong>：内置 Sql 注入剥离器，有效预防Sql注入攻击</li>
+<li><strong>通用CRUD操作</strong>：内置通用 Mapper、通用 Service，仅仅通过少量配置即可实现单表大部分 CRUD 操作，更有强大的条件构造器，满足各类使用需求</li>
+<li><strong>多种主键策略</strong>：支持多达4种主键策略（内含分布式唯一ID生成器），可自由配置，完美解决主键问题</li>
+<li><strong>支持热加载</strong>：Mapper 对应的 XML 支持热加载，对于简单的 CRUD 操作，甚至可以无 XML 启动</li>
+<li><strong>支持ActiveRecord</strong>：支持 ActiveRecord 形式调用，实体类只需继承 Model 类即可实现基本 CRUD 操作</li>
+<li><strong>支持代码生成</strong>：采用代码或者 Maven 插件可快速生成 Mapper 、 Model 、 Service 、 Controller 层代码，支持模板引擎，更有超多自定义配置等您来使用（P.S. 比 Mybatis 官方的 Generator 更加强大！）</li>
+<li><strong>支持自定义全局通用操作</strong>：支持全局通用方法注入（ Write once, use anywhere ）</li>
+<li><strong>支持关键词自动转义</strong>：支持数据库关键词（order、key&hellip;&hellip;）自动转义，还可自定义关键词</li>
+<li><strong>内置分页插件</strong>：基于 Mybatis 物理分页，开发者无需关心具体操作，配置好插件之后，写分页等同于普通List查询</li>
+<li><strong>内置性能分析插件</strong>：可输出 Sql 语句以及其执行时间，建议开发测试时启用该功能，能有效解决慢查询</li>
+<li><strong>内置全局拦截插件</strong>：提供全表 delete 、 update 操作智能分析阻断，预防误操作</li>
+</ul>
+<h2 id="快速入门">快速入门</h2>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>
+<p>创建数据库及user表</p>
+<p>出现中文无法插入的时候</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> mybatis_plus.<span style="color:#66d9ef">user</span> <span style="color:#66d9ef">CONVERT</span> <span style="color:#66d9ef">TO</span> CHARACTER <span style="color:#66d9ef">SET</span> utf8;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">user</span>
+(
+	id BIGINT(<span style="color:#ae81ff">20</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;主键ID&#39;</span>,
+	name VARCHAR(<span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;姓名&#39;</span>,
+	age INT(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;年龄&#39;</span>,
+	email VARCHAR(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;邮箱&#39;</span>,
+	<span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span> (id)
+);
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> <span style="color:#66d9ef">user</span> (id, name, age, email) <span style="color:#66d9ef">VALUES</span>
+(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;Jone&#39;</span>, <span style="color:#ae81ff">18</span>, <span style="color:#e6db74">&#39;test1@baomidou.com&#39;</span>),
+(<span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;Jack&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#e6db74">&#39;test2@baomidou.com&#39;</span>),
+(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;Tom&#39;</span>, <span style="color:#ae81ff">28</span>, <span style="color:#e6db74">&#39;test3@baomidou.com&#39;</span>),
+(<span style="color:#ae81ff">4</span>, <span style="color:#e6db74">&#39;Sandy&#39;</span>, <span style="color:#ae81ff">21</span>, <span style="color:#e6db74">&#39;test4@baomidou.com&#39;</span>),
+(<span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#39;Billie&#39;</span>, <span style="color:#ae81ff">24</span>, <span style="color:#e6db74">&#39;test5@baomidou.com&#39;</span>);
+<span style="color:#75715e">--真实开发中，version(乐观锁)、deleted（逻辑删除）、gmt_create、gmt_modified
+</span></code></pre></div><ol start="2">
+<li>编写项目，初始化SpringBoot项目</li>
+<li>导入依赖</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--数据库驱动--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+  <span style="color:#f92672">&lt;groupId&gt;</span>mysql<span style="color:#f92672">&lt;/groupId&gt;</span>
+  <span style="color:#f92672">&lt;artifactId&gt;</span>mysql-connector-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#75715e">&lt;!--lombok--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+  <span style="color:#f92672">&lt;groupId&gt;</span>org.projectlombok<span style="color:#f92672">&lt;/groupId&gt;</span>
+  <span style="color:#f92672">&lt;artifactId&gt;</span>lombok<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#75715e">&lt;!--mybatis-plus--&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+  <span style="color:#f92672">&lt;groupId&gt;</span>com.baomidou<span style="color:#f92672">&lt;/groupId&gt;</span>
+  <span style="color:#f92672">&lt;artifactId&gt;</span>mybatis-plus-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+  <span style="color:#f92672">&lt;version&gt;</span>3.0.5<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>说明：尽量不要同时导入mybatis和mybatis-plus！版本差异!</p>
+<pre><code class="language-properties" data-lang="properties">#mysql 5 驱动不同 com.mysql.jdbc.Driver
+#com.mysql.cj.jdbc.Driver兼容com.mysql.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.url=jdbc:mysql://localhost:3306/mybatis_plus?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=GMT%2B8
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+#mysql 8 驱动不同 com.mysql.cj.jdbc.Driver 需要增加时区的配置 serverTimezone=GMT%2B8
+</code></pre><ol start="4">
+<li>在对应的Mapper上面继承基本的类BaseMapper</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Mapper</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">UserMapper</span> <span style="color:#66d9ef">extends</span> BaseMapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="5">
+<li>主启动类加@MapperScan注解扫描Mapper包下的所有接口</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//扫描Mapper文件夹
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@MapperScan</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.tang.mapper&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@SpringBootApplication</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MybatisPlusApplication</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        SpringApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>MybatisPlusApplication<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="6">
+<li>selectList()方法</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test1</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#75715e">//参数是一个Wrapper,是条件构造器,不用写为null
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">//查询全部用户
+</span><span style="color:#75715e"></span>  List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> users <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectList</span><span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+  users<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="配合日志输出">配合日志输出</h2>
+<p>上线的时候可以去除sql日志</p>
+<pre><code class="language-properties" data-lang="properties">#配置日志(Mybatis-plus提供的日志)
+mybatis-plus.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+</code></pre><h2 id="雪花算法">雪花算法</h2>
+<blockquote>
+<p>数据库插入的id的默认值为：ID_WORKER  全局的唯一id</p>
+</blockquote>
+<h3 id="主键生成策略">主键生成策略</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> IdType <span style="color:#f92672">{</span>
+    AUTO<span style="color:#f92672">(</span>0<span style="color:#f92672">),</span><span style="color:#75715e">//数据库id自增
+</span><span style="color:#75715e"></span>    NONE<span style="color:#f92672">(</span>1<span style="color:#f92672">),</span><span style="color:#75715e">//未设置主键（数据库字段设置自增）
+</span><span style="color:#75715e"></span>    INPUT<span style="color:#f92672">(</span>2<span style="color:#f92672">),</span><span style="color:#75715e">//手动输入
+</span><span style="color:#75715e"></span>    ID_WORKER<span style="color:#f92672">(</span>3<span style="color:#f92672">),</span><span style="color:#75715e">//默认全局唯一id
+</span><span style="color:#75715e"></span>    UUID<span style="color:#f92672">(</span>4<span style="color:#f92672">),</span><span style="color:#75715e">//全局唯一id uuid
+</span><span style="color:#75715e"></span>    ID_WORKER_STR<span style="color:#f92672">(</span>5<span style="color:#f92672">);</span>	<span style="color:#75715e">//ID_WORKER 字符串表示法
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>**雪花算法：**使用41bit作为毫秒数，10bit作为机器id（5个bit是数据中心，5个bit是机器ID），12bit作为毫秒内的流水号</p>
+<h2 id="更新操作">更新操作</h2>
+<h3 id="updatebyid">updateById</h3>
+<p>注意：参数是一个对象</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testUpdate</span><span style="color:#f92672">(){</span>
+  User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">();</span>
+  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setId</span><span style="color:#f92672">(</span>6L<span style="color:#f92672">);</span>
+  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;更新后的汤家栋&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#75715e">//注意：参数是一个对象
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">updateById</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>result<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="自动填充">自动填充</h2>
+<p>编写处理器</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Slf4j</span>
+<span style="color:#a6e22e">@Component</span>  <span style="color:#75715e">//一定不要忘记把处理器加到IOC容器中!
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyMetaObjectHandler</span> <span style="color:#66d9ef">implements</span> MetaObjectHandler <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//插入时的填充策略
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertFill</span><span style="color:#f92672">(</span>MetaObject metaObject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;start insert fill....&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">//setFieldValByName(String fieldName, Object fieldVal, MetaObject metaObject)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setFieldValByName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;createTime&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">(),</span>metaObject<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setFieldValByName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;updateTime&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">(),</span>metaObject<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//更新时的填充策略
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">updateFill</span><span style="color:#f92672">(</span>MetaObject metaObject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;start update fill....&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setFieldValByName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;updateTime&#34;</span><span style="color:#f92672">,</span><span style="color:#66d9ef">new</span> Date<span style="color:#f92672">(),</span>metaObject<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@TableField</span><span style="color:#f92672">(</span>fill <span style="color:#f92672">=</span> FieldFill<span style="color:#f92672">.</span><span style="color:#a6e22e">INSERT</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">private</span> Date createTime<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@TableField</span><span style="color:#f92672">(</span>fill <span style="color:#f92672">=</span> FieldFill<span style="color:#f92672">.</span><span style="color:#a6e22e">INSERT_UPDATE</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">private</span> Date updateTime<span style="color:#f92672">;</span>
+</code></pre></div><h2 id="乐观锁">乐观锁</h2>
+<blockquote>
+<p>乐观锁：它总是认为不会出现问题，无论干什么，不去上锁！如果出现了问题，再次更新值测试；</p>
+<p>悲观锁：它总是认为都会出现问题，无论干什么，都会上锁！再去操作；</p>
+</blockquote>
+<p>意图：</p>
+<p>当要更新一条记录的时候，希望这条记录没有被别人更新</p>
+<p>乐观锁实现方式：</p>
+<ul>
+<li>取出记录时，获取当前version</li>
+<li>更新时，带上这个version</li>
+<li>执行更新时， set version = newVersion where version = oldVersion</li>
+<li>如果version不对，就更新失败</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#960050;background-color:#1e0010">乐观锁：</span><span style="color:#ae81ff">1</span>.<span style="color:#960050;background-color:#1e0010">先查询，获取版本号</span><span style="color:#66d9ef">version</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">--A
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">set</span> name <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">’</span>tang<span style="color:#960050;background-color:#1e0010">‘</span> , <span style="color:#66d9ef">version</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">version</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">and</span> <span style="color:#66d9ef">version</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">--B 线程抢先完成，这个时候version = 2，会导致 A 修改失败！
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">set</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;yang&#39;</span> , <span style="color:#66d9ef">version</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">version</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">and</span> <span style="color:#66d9ef">version</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>
+<p>给数据库增加version字段（int类型，长度10，乐观锁，默认值1）</p>
+</li>
+<li>
+<p>实体类加对应的字段</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#a6e22e">@Version</span> <span style="color:#75715e">//乐观锁Version注解
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> Integer version<span style="color:#f92672">;</span>
+</code></pre></div><ol start="3">
+<li>注册组件</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.tang.config<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.mybatis.spring.annotation.MapperScan<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Bean<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.transaction.annotation.EnableTransactionManagement<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2020/8/30
+</span><span style="color:#75715e"> */</span>
+<span style="color:#75715e">//扫描Mapper文件夹
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@MapperScan</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.tang.mapper&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@EnableTransactionManagement</span>
+<span style="color:#a6e22e">@Configuration</span>  <span style="color:#75715e">//配置类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyBatisPlusConfig</span> <span style="color:#f92672">{</span>
+
+  	<span style="color:#75715e">//乐观锁插件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> OptimisticLockerInterceptor <span style="color:#a6e22e">optimisticLockerInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> OptimisticLockerInterceptor<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+    
+<span style="color:#f92672">}</span>
+
+</code></pre></div><ol start="4">
+<li>
+<p>测试</p>
+<p>测试乐观锁修改成功</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testOptimisticLockerInterceptor</span><span style="color:#f92672">(){</span>
+  <span style="color:#75715e">//1.查询用户信息
+</span><span style="color:#75715e"></span>  User user <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectById</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+  <span style="color:#75715e">//2.修改用户信息
+</span><span style="color:#75715e"></span>  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;tang&#34;</span><span style="color:#f92672">);</span>
+  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setEmail</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123@qq.com&#34;</span><span style="color:#f92672">);</span>
+  <span style="color:#75715e">//3.执行更新操作
+</span><span style="color:#75715e"></span>  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">updateById</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">==&gt;</span>  Preparing<span style="color:#f92672">:</span> UPDATE user SET name<span style="color:#f92672">=?,</span> age<span style="color:#f92672">=?,</span> email<span style="color:#f92672">=?,</span> version<span style="color:#f92672">=?,</span> create_time<span style="color:#f92672">=?,</span> update_time<span style="color:#f92672">=?</span> WHERE id<span style="color:#f92672">=?</span> <span style="color:#f92672">**</span>AND version<span style="color:#f92672">=?**</span> 
+<span style="color:#f92672">==&gt;</span> Parameters<span style="color:#f92672">:</span> tang<span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 18<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 123<span style="color:#a6e22e">@qq.com</span><span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 2<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>03<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>30 11<span style="color:#f92672">:</span>46<span style="color:#f92672">:</span>11<span style="color:#f92672">.</span><span style="color:#a6e22e">806</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 1<span style="color:#f92672">(</span>Long<span style="color:#f92672">),</span> 1<span style="color:#f92672">(</span>Integer<span style="color:#f92672">)</span>
+<span style="color:#f92672">&lt;==</span>    Updates<span style="color:#f92672">:</span> 1
+</code></pre></div><p>​		测试乐观锁其他线程修改失败</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testOptimisticLockerInterceptor2</span><span style="color:#f92672">(){</span>
+  <span style="color:#75715e">//线程1
+</span><span style="color:#75715e"></span>  User user <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectById</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;tang111&#34;</span><span style="color:#f92672">);</span>
+  user<span style="color:#f92672">.</span><span style="color:#a6e22e">setEmail</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123@qq.com&#34;</span><span style="color:#f92672">);</span>
+
+  <span style="color:#75715e">//模拟线程2执行了插队操作
+</span><span style="color:#75715e"></span>  User user2 <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectById</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">);</span>
+  user2<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;tang222&#34;</span><span style="color:#f92672">);</span>
+  user2<span style="color:#f92672">.</span><span style="color:#a6e22e">setEmail</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;123@qq.com&#34;</span><span style="color:#f92672">);</span>
+  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">updateById</span><span style="color:#f92672">(</span>user2<span style="color:#f92672">);</span>   <span style="color:#75715e">//线程2执行更新
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">//线程1执行更新操作
+</span><span style="color:#75715e"></span>  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">updateById</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>    <span style="color:#75715e">//如果没有乐观锁就会覆盖插队线程的值
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">==&gt;</span>  Preparing<span style="color:#f92672">:</span> UPDATE user SET name<span style="color:#f92672">=?,</span> age<span style="color:#f92672">=?,</span> email<span style="color:#f92672">=?,</span> version<span style="color:#f92672">=?,</span> create_time<span style="color:#f92672">=?,</span> update_time<span style="color:#f92672">=?</span> WHERE id<span style="color:#f92672">=?</span> AND version<span style="color:#f92672">=?</span> 
+<span style="color:#f92672">==&gt;</span> Parameters<span style="color:#f92672">:</span> tang222<span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 18<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 123<span style="color:#a6e22e">@qq.com</span><span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 5<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>03<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>30 11<span style="color:#f92672">:</span>57<span style="color:#f92672">:</span>45<span style="color:#f92672">.</span><span style="color:#a6e22e">123</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 1<span style="color:#f92672">(</span>Long<span style="color:#f92672">),</span> 4<span style="color:#f92672">(</span>Integer<span style="color:#f92672">)</span>
+<span style="color:#f92672">&lt;==</span>    Updates<span style="color:#f92672">:</span> 1
+
+<span style="color:#f92672">==&gt;</span>  Preparing<span style="color:#f92672">:</span> UPDATE user SET name<span style="color:#f92672">=?,</span> age<span style="color:#f92672">=?,</span> email<span style="color:#f92672">=?,</span> version<span style="color:#f92672">=?,</span> create_time<span style="color:#f92672">=?,</span> update_time<span style="color:#f92672">=?</span> WHERE id<span style="color:#f92672">=?</span> AND version<span style="color:#f92672">=?</span> 
+<span style="color:#f92672">==&gt;</span> Parameters<span style="color:#f92672">:</span> tang111<span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 18<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 123<span style="color:#a6e22e">@qq.com</span><span style="color:#f92672">(</span>String<span style="color:#f92672">),</span> 5<span style="color:#f92672">(</span>Integer<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>03<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>30 11<span style="color:#f92672">:</span>57<span style="color:#f92672">:</span>45<span style="color:#f92672">.</span><span style="color:#a6e22e">132</span><span style="color:#f92672">(</span>Timestamp<span style="color:#f92672">),</span> 1<span style="color:#f92672">(</span>Long<span style="color:#f92672">),</span> 4<span style="color:#f92672">(</span>Integer<span style="color:#f92672">)</span>
+<span style="color:#f92672">&lt;==</span>    Updates<span style="color:#f92672">:</span> 0
+</code></pre></div><h2 id="查询操作">查询操作</h2>
+<h3 id="selectbatchids">selectBatchIds()</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//批量id查询
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSelectByBatchId</span><span style="color:#f92672">(){</span>
+  List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> users <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectBatchIds</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">,</span> 2L<span style="color:#f92672">,</span> 3L<span style="color:#f92672">));</span>
+  users<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="selectbymap">selectByMap()</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//条件查询map
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSelectByMap</span><span style="color:#f92672">(){</span>
+  HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+  map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;汤家栋&#34;</span><span style="color:#f92672">);</span>
+  map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">,</span>3<span style="color:#f92672">);</span>
+  List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> users <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectByMap</span><span style="color:#f92672">(</span>map<span style="color:#f92672">);</span>
+  users<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="分页查询">分页查询</h3>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>配置拦截器组件</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//分页插件
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Bean</span>
+<span style="color:#66d9ef">public</span> PaginationInterceptor <span style="color:#a6e22e">paginationInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  PaginationInterceptor paginationInterceptor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PaginationInterceptor<span style="color:#f92672">();</span>
+  <span style="color:#66d9ef">return</span> paginationInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="2">
+<li>直接使用Page对象即可</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//分页查询
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testPage</span><span style="color:#f92672">(){</span>
+  Page<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> page <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Page<span style="color:#f92672">&lt;&gt;(</span>1<span style="color:#f92672">,</span>5<span style="color:#f92672">);</span>
+  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectPage</span><span style="color:#f92672">(</span>page<span style="color:#f92672">,</span><span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+
+  page<span style="color:#f92672">.</span><span style="color:#a6e22e">getRecords</span><span style="color:#f92672">().</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+  System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>page<span style="color:#f92672">.</span><span style="color:#a6e22e">getTotal</span><span style="color:#f92672">());</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="删除操作">删除操作</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testById</span><span style="color:#f92672">(){</span>
+  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">deleteById</span><span style="color:#f92672">(</span>2L<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testDeleteBatchIds</span><span style="color:#f92672">(){</span>
+  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">deleteBatchIds</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span>1L<span style="color:#f92672">,</span>2L<span style="color:#f92672">));</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testDeleteMap</span><span style="color:#f92672">(){</span>
+  HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span>Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;();</span>
+  map<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;汤&#34;</span><span style="color:#f92672">);</span>
+  userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">deleteByMap</span><span style="color:#f92672">(</span>map<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="逻辑删除">逻辑删除</h2>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>在数据表中增加一个deleted字段（int类型，长度1, 默认值为0）</li>
+<li>实体类中增加属性</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@TableLogic</span>
+<span style="color:#66d9ef">private</span> Integer deleted<span style="color:#f92672">;</span>
+</code></pre></div><ol start="3">
+<li>配置拦截器组件</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Bean</span>
+<span style="color:#66d9ef">public</span> ISqlInjector <span style="color:#a6e22e">sqlInjector</span><span style="color:#f92672">(){</span>
+     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> LogicSqlInjector<span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code class="language-properties" data-lang="properties">#配置逻辑删除
+mybatis-plus.global-config.db-config.logic-delete-value=1
+mybatis-plus.global-config.db-config.logic-not-delete-value=0
+</code></pre><ol start="4">
+<li>
+<p>测试</p>
+<p>逻辑删除实则是update</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">==&gt;</span>  Preparing<span style="color:#f92672">:</span> UPDATE user SET deleted<span style="color:#f92672">=</span>1 WHERE id<span style="color:#f92672">=?</span> AND deleted<span style="color:#f92672">=</span>0 
+<span style="color:#f92672">==&gt;</span> Parameters<span style="color:#f92672">:</span> 2<span style="color:#f92672">(</span>Long<span style="color:#f92672">)</span>
+<span style="color:#f92672">&lt;==</span>    Updates<span style="color:#f92672">:</span> 1
+</code></pre></div><p>​		查询的时候会帮我们自动带上deleted=0进行自动过滤</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">==&gt;</span>  Preparing<span style="color:#f92672">:</span> SELECT id<span style="color:#f92672">,</span>name<span style="color:#f92672">,</span>age<span style="color:#f92672">,</span>email<span style="color:#f92672">,</span>version<span style="color:#f92672">,</span>deleted<span style="color:#f92672">,</span>create_time<span style="color:#f92672">,</span>update_time FROM user WHERE id<span style="color:#f92672">=?</span> AND deleted<span style="color:#f92672">=</span>0 
+<span style="color:#f92672">==&gt;</span> Parameters<span style="color:#f92672">:</span> 2<span style="color:#f92672">(</span>Long<span style="color:#f92672">)</span>
+<span style="color:#f92672">&lt;==</span>      Total<span style="color:#f92672">:</span> 0
+</code></pre></div><h2 id="性能分析插件">性能分析插件</h2>
+<blockquote>
+<p>注意！该插件只用于开发环境，不建议生产环境使用。。。</p>
+</blockquote>
+<p>作用：性能分析拦截器，用于输出每条SQL语句及其执行时间</p>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<ol>
+<li>配置拦截器组件</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//SQL执行效率插件
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Bean</span>
+<span style="color:#a6e22e">@Profile</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;dev&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">})</span><span style="color:#75715e">// 设置 dev test 环境开启
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> PerformanceInterceptor <span style="color:#a6e22e">performanceInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  PerformanceInterceptor performanceInterceptor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PerformanceInterceptor<span style="color:#f92672">();</span>
+  performanceInterceptor<span style="color:#f92672">.</span><span style="color:#a6e22e">setMaxTime</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span> <span style="color:#75715e">//ms maxTime:SQL 执行最大时长，超过自动停止运行
+</span><span style="color:#75715e"></span>  performanceInterceptor<span style="color:#f92672">.</span><span style="color:#a6e22e">setFormat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//format SQL SQL是否格式化，默认false
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> performanceInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><pre><code class="language-properties" data-lang="properties">spring.profiles.active=dev
+</code></pre><ol start="2">
+<li>
+<p>测试</p>
+<p>超过规定的时间会抛出异常，则代表SQL时间运行时间过长，需要优化</p>
+</li>
+</ol>
+<pre><code class="language-properties" data-lang="properties">org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: com.baomidou.mybatisplus.core.exceptions.MybatisPlusException:  The SQL execution time is too large, please optimize ! 
+</code></pre><h3 id="druid数据源集成p6spy">druid数据源集成p6spy</h3>
+<pre><code>WallFilter目前支持哪些数据库？WallFilter针对不同的数据库使用不同的SQL Parser和相关配置信息，力求完整理解其SQL语义，从而做更准确的防御手段。Druid目前支持mysql和oracle、sql server，下一步会支持postgres。复制代码
+</code></pre><p>关闭方法1：</p>
+<p>在你的<code>DruidConfig</code>文件（如果有）中应该有类似这样的配置：</p>
+<pre><code>List&lt;Filter&gt; filters = new ArrayList&lt;&gt;();
+filters.add(wallFilter());复制代码
+</code></pre><p>注释之。</p>
+<p>关闭方法2：</p>
+<p><code>application.properties</code>中配置：</p>
+<pre><code>spring.datasource.druid.filters=stat,wall复制代码
+</code></pre><p>去掉<code>wall</code>就行了。</p>
+<h2 id="条件参数说明">条件参数说明</h2>
+<table>
+<thead>
+<tr>
+<th>查询方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setSqlSelect</td>
+<td>设置 SELECT 查询字段</td>
+</tr>
+<tr>
+<td>where</td>
+<td>WHERE 语句，拼接 + <code>WHERE 条件</code></td>
+</tr>
+<tr>
+<td>and</td>
+<td>AND 语句，拼接 + <code>AND 字段=值</code></td>
+</tr>
+<tr>
+<td>andNew</td>
+<td>AND 语句，拼接 + <code>AND (字段=值)</code></td>
+</tr>
+<tr>
+<td>or</td>
+<td>OR 语句，拼接 + <code>OR 字段=值</code></td>
+</tr>
+<tr>
+<td>orNew</td>
+<td>OR 语句，拼接 + <code>OR (字段=值)</code></td>
+</tr>
+<tr>
+<td>eq</td>
+<td>等于=</td>
+</tr>
+<tr>
+<td>allEq</td>
+<td>基于 map 内容等于=</td>
+</tr>
+<tr>
+<td>ne</td>
+<td>不等于&lt;&gt;</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>大于&gt;</td>
+</tr>
+<tr>
+<td>ge</td>
+<td>大于等于&gt;=</td>
+</tr>
+<tr>
+<td>lt</td>
+<td>小于&lt;</td>
+</tr>
+<tr>
+<td>le</td>
+<td>小于等于&lt;=</td>
+</tr>
+<tr>
+<td>like</td>
+<td>模糊查询 LIKE</td>
+</tr>
+<tr>
+<td>notLike</td>
+<td>模糊查询 NOT LIKE</td>
+</tr>
+<tr>
+<td>in</td>
+<td>IN 查询</td>
+</tr>
+<tr>
+<td>notIn</td>
+<td>NOT IN 查询</td>
+</tr>
+<tr>
+<td>isNull</td>
+<td>NULL 值查询</td>
+</tr>
+<tr>
+<td>isNotNull</td>
+<td>IS NOT NULL</td>
+</tr>
+<tr>
+<td>groupBy</td>
+<td>分组 GROUP BY</td>
+</tr>
+<tr>
+<td>having</td>
+<td>HAVING 关键词</td>
+</tr>
+<tr>
+<td>orderBy</td>
+<td>排序 ORDER BY</td>
+</tr>
+<tr>
+<td>orderAsc</td>
+<td>ASC 排序 ORDER BY</td>
+</tr>
+<tr>
+<td>orderDesc</td>
+<td>DESC 排序 ORDER BY</td>
+</tr>
+<tr>
+<td>exists</td>
+<td>EXISTS 条件语句</td>
+</tr>
+<tr>
+<td>notExists</td>
+<td>NOT EXISTS 条件语句</td>
+</tr>
+<tr>
+<td>between</td>
+<td>BETWEEN 条件语句</td>
+</tr>
+<tr>
+<td>notBetween</td>
+<td>NOT BETWEEN 条件语句</td>
+</tr>
+<tr>
+<td>addFilter</td>
+<td>自由拼接 SQL</td>
+</tr>
+<tr>
+<td>last</td>
+<td>拼接在最后，例如：last(&ldquo;LIMIT 1&rdquo;)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mp-select">MP-select</h2>
+<p>selectList()</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wrapper1</span><span style="color:#f92672">(){</span>
+    <span style="color:#75715e">//查询name不为空,邮箱不能空的用户,年龄大于等于12
+</span><span style="color:#75715e"></span>    QueryWrapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> wrapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QueryWrapper<span style="color:#f92672">&lt;&gt;();</span>
+    wrapper
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">isNotNull</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">isNotNull</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;email&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">ge</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">,</span>3<span style="color:#f92672">);</span>
+    userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectList</span><span style="color:#f92672">(</span>wrapper<span style="color:#f92672">).</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>selectOne()</p>
+<p>查询一个数据，用selectOne(),多个结果使用selectList()或selectMap()</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wrapper2</span><span style="color:#f92672">(){</span>
+    <span style="color:#75715e">//查询单个
+</span><span style="color:#75715e"></span>    QueryWrapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> wrapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QueryWrapper<span style="color:#f92672">&lt;&gt;();</span>
+    wrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">eq</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;杨&#34;</span><span style="color:#f92672">);</span>
+    User user <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectOne</span><span style="color:#f92672">(</span>wrapper<span style="color:#f92672">);</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>user<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>selectCount()</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wrapper3</span><span style="color:#f92672">(){</span>
+    QueryWrapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> wrapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QueryWrapper<span style="color:#f92672">&lt;&gt;();</span>
+    wrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">between</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">,</span>3<span style="color:#f92672">,</span>20<span style="color:#f92672">);</span><span style="color:#75715e">//区间[3,20]
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//查询结果数
+</span><span style="color:#75715e"></span>    Integer count <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectCount</span><span style="color:#f92672">(</span>wrapper<span style="color:#f92672">);</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;count=&#34;</span><span style="color:#f92672">+</span>count<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>selectMaps()</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wrapper4</span><span style="color:#f92672">(){</span>
+    QueryWrapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> wrapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QueryWrapper<span style="color:#f92672">&lt;&gt;();</span>
+    wrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">notLike</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;汤&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">.</span><span style="color:#a6e22e">likeRight</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;email&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">);</span>
+
+    List<span style="color:#f92672">&lt;</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;&gt;</span> maps <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectMaps</span><span style="color:#f92672">(</span>wrapper<span style="color:#f92672">);</span>
+    maps<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//list格式
+</span><span style="color:#75715e"></span>User<span style="color:#f92672">(</span>id<span style="color:#f92672">=</span>3<span style="color:#f92672">,</span> name<span style="color:#f92672">=</span>Tom<span style="color:#f92672">,</span> age<span style="color:#f92672">=</span>28<span style="color:#f92672">,</span> email<span style="color:#f92672">=</span>test3<span style="color:#a6e22e">@baomidou.com</span><span style="color:#f92672">,</span> version<span style="color:#f92672">=</span>1<span style="color:#f92672">,</span> deleted<span style="color:#f92672">=</span>0<span style="color:#f92672">,</span> createTime<span style="color:#f92672">=</span>Tue Aug 11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>15 CST 2020<span style="color:#f92672">,</span> updateTime<span style="color:#f92672">=</span>Tue Aug 11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>26 CST 2020<span style="color:#f92672">)</span>
+<span style="color:#75715e">//map格式
+</span><span style="color:#75715e"></span><span style="color:#f92672">{</span>update_time<span style="color:#f92672">=</span>2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>26<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> deleted<span style="color:#f92672">=</span>0<span style="color:#f92672">,</span> create_time<span style="color:#f92672">=</span>2020<span style="color:#f92672">-</span>08<span style="color:#f92672">-</span>11 05<span style="color:#f92672">:</span>16<span style="color:#f92672">:</span>15<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> name<span style="color:#f92672">=</span>Tom<span style="color:#f92672">,</span> id<span style="color:#f92672">=</span>3<span style="color:#f92672">,</span> version<span style="color:#f92672">=</span>1<span style="color:#f92672">,</span> age<span style="color:#f92672">=</span>28<span style="color:#f92672">,</span> email<span style="color:#f92672">=</span>test3<span style="color:#a6e22e">@baomidou.com</span><span style="color:#f92672">}</span>
+</code></pre></div><p>子查询</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wrapper5</span><span style="color:#f92672">(){</span>
+    QueryWrapper<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> wrapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QueryWrapper<span style="color:#f92672">&lt;&gt;();</span>
+    <span style="color:#75715e">// id在子查询中查出来
+</span><span style="color:#75715e"></span>    wrapper<span style="color:#f92672">.</span><span style="color:#a6e22e">inSql</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;select id from user where id &lt; 3&#34;</span><span style="color:#f92672">);</span>
+
+    List<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> objects <span style="color:#f92672">=</span> userMapper<span style="color:#f92672">.</span><span style="color:#a6e22e">selectObjs</span><span style="color:#f92672">(</span>wrapper<span style="color:#f92672">);</span>
+    objects<span style="color:#f92672">.</span><span style="color:#a6e22e">forEach</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">::</span>println<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> id,name,age,email,<span style="color:#66d9ef">version</span>,deleted,create_time,update_time <span style="color:#66d9ef">FROM</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">WHERE</span> deleted<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">AND</span> id <span style="color:#66d9ef">IN</span> (<span style="color:#66d9ef">select</span> id <span style="color:#66d9ef">from</span> <span style="color:#66d9ef">user</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>) 
+</code></pre></div><h2 id="代码生成器">代码生成器</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.jbt.jobtone.code<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.annotation.DbType<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.annotation.IdType<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.AutoGenerator<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.DataSourceConfig<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.GlobalConfig<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.PackageConfig<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.StrategyConfig<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.rules.DateType<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.generator.config.rules.NamingStrategy<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.junit.jupiter.api.Test<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @author Tang
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CodeGenerator</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// 1、创建代码生成器
+</span><span style="color:#75715e"></span>        AutoGenerator mpg <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AutoGenerator<span style="color:#f92672">();</span>
+
+        <span style="color:#75715e">// 2、全局配置
+</span><span style="color:#75715e"></span>        GlobalConfig gc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GlobalConfig<span style="color:#f92672">();</span>
+        String projectPath <span style="color:#f92672">=</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;user.dir&#34;</span><span style="color:#f92672">);</span>
+        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setOutputDir</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/Users/Tang/JavaCode/jobTone-server-revision/src/main/java&#34;</span><span style="color:#f92672">);</span>
+        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setAuthor</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Tang&#34;</span><span style="color:#f92672">);</span>
+        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setOpen</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span> <span style="color:#75715e">//生成后是否打开资源管理器
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setFileOverride</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span> <span style="color:#75715e">//重新生成时文件是否覆盖
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setServiceName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%sService&#34;</span><span style="color:#f92672">);</span>    <span style="color:#75715e">//去掉Service接口的首字母I
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setIdType</span><span style="color:#f92672">(</span>IdType<span style="color:#f92672">.</span><span style="color:#a6e22e">ID_WORKER</span><span style="color:#f92672">);</span> <span style="color:#75715e">//主键策略
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setDateType</span><span style="color:#f92672">(</span>DateType<span style="color:#f92672">.</span><span style="color:#a6e22e">ONLY_DATE</span><span style="color:#f92672">);</span><span style="color:#75715e">//定义生成的实体类中日期类型
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setSwagger2</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span><span style="color:#75715e">//开启Swagger2模式
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setBaseResultMap</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span><span style="color:#75715e">// XML ResultMap
+</span><span style="color:#75715e"></span>        gc<span style="color:#f92672">.</span><span style="color:#a6e22e">setBaseColumnList</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span><span style="color:#75715e">// XML columList
+</span><span style="color:#75715e"></span>        mpg<span style="color:#f92672">.</span><span style="color:#a6e22e">setGlobalConfig</span><span style="color:#f92672">(</span>gc<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// 3、数据源配置
+</span><span style="color:#75715e"></span>        DataSourceConfig dsc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DataSourceConfig<span style="color:#f92672">();</span>
+        dsc<span style="color:#f92672">.</span><span style="color:#a6e22e">setUrl</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jdbc:mysql://rm-8vb3328204044z69zqo.mysql.zhangbei.rds.aliyuncs.com:3306/jobtone?serverTimezone=GMT%2B8&#34;</span><span style="color:#f92672">);</span>
+        dsc<span style="color:#f92672">.</span><span style="color:#a6e22e">setDriverName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.mysql.cj.jdbc.Driver&#34;</span><span style="color:#f92672">);</span>
+        dsc<span style="color:#f92672">.</span><span style="color:#a6e22e">setUsername</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jxzbt&#34;</span><span style="color:#f92672">);</span>
+        dsc<span style="color:#f92672">.</span><span style="color:#a6e22e">setPassword</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;zbt111111&#34;</span><span style="color:#f92672">);</span>
+        dsc<span style="color:#f92672">.</span><span style="color:#a6e22e">setDbType</span><span style="color:#f92672">(</span>DbType<span style="color:#f92672">.</span><span style="color:#a6e22e">MYSQL</span><span style="color:#f92672">);</span>
+        mpg<span style="color:#f92672">.</span><span style="color:#a6e22e">setDataSource</span><span style="color:#f92672">(</span>dsc<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// 4、包配置
+</span><span style="color:#75715e"></span>        PackageConfig pc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PackageConfig<span style="color:#f92672">();</span>
+        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setModuleName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jobtone&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//模块名
+</span><span style="color:#75715e"></span>        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setParent</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.jbt&#34;</span><span style="color:#f92672">);</span>
+        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setController</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;controller&#34;</span><span style="color:#f92672">);</span>
+        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setEntity</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;entity&#34;</span><span style="color:#f92672">);</span>
+        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setService</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;service&#34;</span><span style="color:#f92672">);</span>
+        pc<span style="color:#f92672">.</span><span style="color:#a6e22e">setMapper</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;mapper&#34;</span><span style="color:#f92672">);</span>
+        mpg<span style="color:#f92672">.</span><span style="color:#a6e22e">setPackageInfo</span><span style="color:#f92672">(</span>pc<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// 5、策略配置
+</span><span style="color:#75715e"></span>        StrategyConfig strategy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StrategyConfig<span style="color:#f92672">();</span>
+        <span style="color:#75715e">//表名
+</span><span style="color:#75715e"></span>        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setInclude</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;company_account_funds_detail&#34;</span><span style="color:#f92672">);</span>
+        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setNaming</span><span style="color:#f92672">(</span>NamingStrategy<span style="color:#f92672">.</span><span style="color:#a6e22e">underline_to_camel</span><span style="color:#f92672">);</span><span style="color:#75715e">//数据库表映射到实体的命名策略
+</span><span style="color:#75715e"></span>        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setTablePrefix</span><span style="color:#f92672">(</span>pc<span style="color:#f92672">.</span><span style="color:#a6e22e">getModuleName</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;_&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//生成实体时去掉表前缀
+</span><span style="color:#75715e"></span>
+        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setColumnNaming</span><span style="color:#f92672">(</span>NamingStrategy<span style="color:#f92672">.</span><span style="color:#a6e22e">underline_to_camel</span><span style="color:#f92672">);</span><span style="color:#75715e">//数据库表字段映射到实体的命名策略
+</span><span style="color:#75715e"></span>        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setEntityLombokModel</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">// lombok 模型 @Accessors(chain = true) setter链式操作
+</span><span style="color:#75715e"></span>
+        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setRestControllerStyle</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//restful api风格控制器
+</span><span style="color:#75715e"></span>        strategy<span style="color:#f92672">.</span><span style="color:#a6e22e">setControllerMappingHyphenStyle</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//url中驼峰转连字符
+</span><span style="color:#75715e"></span>
+        mpg<span style="color:#f92672">.</span><span style="color:#a6e22e">setStrategy</span><span style="color:#f92672">(</span>strategy<span style="color:#f92672">);</span>
+
+
+        <span style="color:#75715e">// 6、执行
+</span><span style="color:#75715e"></span>        mpg<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="mybatisplusconfig代码">MybatisPlusConfig代码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.tang.config<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.core.injector.ISqlInjector<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.extension.injector.LogicSqlInjector<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.mybatis.spring.annotation.MapperScan<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Bean<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Configuration<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.context.annotation.Profile<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.transaction.annotation.EnableTransactionManagement<span style="color:#f92672">;</span>
+
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Created by Tang on 2020/8/30
+</span><span style="color:#75715e"> */</span>
+<span style="color:#75715e">//扫描Mapper文件夹
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@MapperScan</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.tang.mapper&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@EnableTransactionManagement</span>
+<span style="color:#a6e22e">@Configuration</span>  <span style="color:#75715e">//配置类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyBatisPlusConfig</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">//乐观锁插件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> OptimisticLockerInterceptor <span style="color:#a6e22e">optimisticLockerInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> OptimisticLockerInterceptor<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//分页插件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> PaginationInterceptor <span style="color:#a6e22e">paginationInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        PaginationInterceptor paginationInterceptor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PaginationInterceptor<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> paginationInterceptor<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//逻辑删除
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#66d9ef">public</span> ISqlInjector <span style="color:#a6e22e">sqlInjector</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> LogicSqlInjector<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#75715e">//SQL执行效率插件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Bean</span>
+    <span style="color:#a6e22e">@Profile</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;dev&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;test&#34;</span><span style="color:#f92672">})</span><span style="color:#75715e">// 设置 dev test 环境开启
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> PerformanceInterceptor <span style="color:#a6e22e">performanceInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        PerformanceInterceptor performanceInterceptor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PerformanceInterceptor<span style="color:#f92672">();</span>
+        performanceInterceptor<span style="color:#f92672">.</span><span style="color:#a6e22e">setMaxTime</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span> <span style="color:#75715e">//maxTime:SQL 执行最大时长，超过自动停止运行
+</span><span style="color:#75715e"></span>        performanceInterceptor<span style="color:#f92672">.</span><span style="color:#a6e22e">setFormat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span> <span style="color:#75715e">//format SQL SQL是否格式化，默认false
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> performanceInterceptor<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/" data-toggle="tooltip" data-placement="top" title="微信小程序-毕业设计完整项目介绍（微信小程序&#43;Java后台SSM框架）">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/" data-toggle="tooltip" data-placement="top" title="分库分表&amp;读写分离">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

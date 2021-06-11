@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Tang Blog</title>
+    <link>https://tangjiadong.gitee.io/tangblog/categories/</link>
+    <description>Recent content in Categories on Tang Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://tangjiadong.gitee.io/tangblog/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java</title>
+      <link>https://tangjiadong.gitee.io/tangblog/categories/java/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://tangjiadong.gitee.io/tangblog/categories/web/</link>
+      <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tangjiadong.gitee.io/tangblog/categories/web/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

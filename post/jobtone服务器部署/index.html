@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Tang Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg">
+    <meta property="twitter:image" content="https://tangjiadong.gitee.io/tangblog/https://tva1.sinaimg.cn/large/008i3skNgy1gqtn4hojr9j31hc0u0npg.jpg" />
+    
+
+    
+    <meta name="title" content="Linux服务器Java常用开发环境搭建" />
+    <meta property="og:title" content="Linux服务器Java常用开发环境搭建" />
+    <meta property="twitter:title" content="Linux服务器Java常用开发环境搭建" />
+    
+
+    
+    <meta name="description" content="Linux Server">
+    <meta property="og:description" content="Linux Server" />
+    <meta property="twitter:description" content="Linux Server" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/tangblog/img/favicon.ico">
+
+    <title>Linux服务器Java常用开发环境搭建-汤家栋的博客 | Tangjiadong Blog</title>
+
+    <link rel="canonical" href="/tangblog/tangblog/post/jobtone%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/">
+
+    <link rel="stylesheet" href="/tangblog/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/tangblog/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/tangblog/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/tangblog/js/jquery.min.js"></script>
+
+    
+    <script src="/tangblog/js/bootstrap.min.js"></script>
+
+    
+    <script src="/tangblog/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/tangblog/">Tang Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/tangblog/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/tangblog/categories/java">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tangblog/categories/web">web</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tangblog/top/resume/">Resume</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://tva1.sinaimg.cn/large/008i3skNgy1gqtpy9c0cxj31900u07oo.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                    </div>
+                    <h1>Linux服务器Java常用开发环境搭建</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            汤家栋
+                         
+                        on 
+                        Wednesday, February 24, 2021
+                        
+                            <span id="/tangblog/post/jobtone%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2/" class="leancloud_visitors meta_data_item" data-flag-title="">
+    <span class="post-meta-item-icon">
+      <span class="octicon octicon-eye"></span> 
+    </span>
+    <i class="fa fa-eye"></i>
+    <span class="old-visitors-count" style="display: none;"></span>
+    <span class="leancloud-visitors-count"></span>
+</span>
+
+
+
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+<script>
+	AV.initialize("", "");
+</script>
+
+<script type="text/javascript">
+function showTime(Counter) {
+    var query = new AV.Query(Counter);
+    var entries = [];
+    var $visitors = $(".leancloud_visitors");
+
+    $visitors.each(function() {
+        entries.push($(this).attr("id").trim());
+    });
+
+    query.containedIn('url', entries);
+    query.find()
+        .done(function(results) {
+            var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+            var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+
+            
+            
+            
+            
+
+            for (var i = 0; i < results.length; i++) {
+                var item = results[i];
+                var url = item.get('url');
+                var time = item.get('time');
+                var element = document.getElementById(url);
+
+                $(element).find(COUNT_CONTAINER_REF).text(time);
+            }
+            for (var i = 0; i < entries.length; i++) {
+                var url = entries[i];
+                var element = document.getElementById(url);
+                var countSpan = $(element).find(COUNT_CONTAINER_REF);
+                if (countSpan.text() == '') {
+                    var oldCountSpan = $(element).find(OLD_COUNT_CONTAINER_REF).text();
+                    if(oldCountSpan!=''){
+                        countSpan.text(0+parseInt(oldCountSpan));
+                    }else{
+                        countSpan.text(0);          
+                    }
+                }
+            }
+        })
+        .fail(function(object, error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+}
+
+function addCount(Counter) {
+    var $visitors = $(".leancloud_visitors");
+    var url = $visitors.attr('id').trim();
+    var title = $visitors.attr('data-flag-title').trim();
+    var query = new AV.Query(Counter);
+
+    query.equalTo("url", url);
+    query.find({
+        success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment("time");
+                counter.save(null, {
+                    success: function(counter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+                var newcounter = new Counter();
+                 
+                var acl = new AV.ACL();
+                acl.setPublicReadAccess(true);
+                acl.setPublicWriteAccess(true);
+                newcounter.setACL(acl);
+                 
+                newcounter.set("title", title);
+                newcounter.set("url", url);
+                var OLD_COUNT_CONTAINER_REF = '.old-visitors-count';
+                var $element = $(document.getElementById(url));
+                var oldCountSpan = $element.find(OLD_COUNT_CONTAINER_REF).text();
+                if(oldCountSpan!=''){
+                    newcounter.set("time", parseInt(oldCountSpan)+1);
+                }else{
+ 	                    newcounter.set("time",  1);
+                }
+                newcounter.save(null, {
+                    success: function(newcounter) {
+                        var $element = $(document.getElementById(url));
+                        $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                    },
+                    error: function(newcounter, error) {
+                        console.log('Failed to create');
+                    }
+                });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + " " + error.message);
+        }
+    });
+}
+$(function() {
+    var Counter = AV.Object.extend("Counter");
+    
+    
+    if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+    } else {
+        showTime(Counter);
+    }
+});
+</script>
+
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#linux常用命令">Linux常用命令</a></li>
+    <li><a href="#redis">Redis</a></li>
+    <li><a href="#mysql">MySql</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#创建新用户">创建新用户</a></li>
+      </ul>
+    </li>
+    <li><a href="#域名">域名</a>
+      <ul>
+        <li><a href="#ssl">SSL</a></li>
+      </ul>
+    </li>
+    <li><a href="#jenkins">Jenkins</a></li>
+  </ul>
+</nav>
+                
+                <h1 id="linux服务器部署">Linux服务器部署</h1>
+<blockquote>
+<p>jobtone环境部署过程记录</p>
+</blockquote>
+<p>139.196.19.64</p>
+<h2 id="linux常用命令">Linux常用命令</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#查看CentOS版本命令</span>
+cat /etc/redhat-release
+<span style="color:#75715e">#查看Redis版本命令</span>
+<span style="color:#f92672">[</span>root@iZbp11jns0niwirtdz4xacZ ~<span style="color:#f92672">]</span><span style="color:#75715e"># redis-cli</span>
+127.0.0.1:6379&gt; auth <span style="color:#ae81ff">123456</span>
+OK
+127.0.0.1:6379&gt; info
+<span style="color:#75715e"># Server</span>
+redis_version:3.2.12
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目</span>
+make MALLOC<span style="color:#f92672">=</span>libc
+</code></pre></div><h2 id="redis">Redis</h2>
+<p>密码:jobtone</p>
+<p>安装</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1godx3lgl8xj30sm0l0n11.jpg" alt="image-20210309201809305">
+
+</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># redis需要gcc的环境</span>
+yum -y install gcc
+<span style="color:#75715e"># install_server.sh</span> 
+<span style="color:#f92672">[</span>root@iZuf6bhe673f5seh11w4akZ utils<span style="color:#f92672">]</span><span style="color:#75715e"># ./install_server.sh</span> 
+Welcome to the redis service installer
+This script will help you easily set up a running redis server
+
+Please <span style="color:#66d9ef">select</span> the redis port <span style="color:#66d9ef">for</span> this instance: <span style="color:#f92672">[</span>6379<span style="color:#f92672">]</span> 
+Selecting default: <span style="color:#ae81ff">6379</span>
+Please <span style="color:#66d9ef">select</span> the redis config file name <span style="color:#f92672">[</span>/etc/redis/6379.conf<span style="color:#f92672">]</span> 
+Selected default - /etc/redis/6379.conf
+Please <span style="color:#66d9ef">select</span> the redis log file name <span style="color:#f92672">[</span>/var/log/redis_6379.log<span style="color:#f92672">]</span> 
+Selected default - /var/log/redis_6379.log
+Please <span style="color:#66d9ef">select</span> the data directory <span style="color:#66d9ef">for</span> this instance <span style="color:#f92672">[</span>/var/lib/redis/6379<span style="color:#f92672">]</span> 
+Selected default - /var/lib/redis/6379
+Please <span style="color:#66d9ef">select</span> the redis executable path <span style="color:#f92672">[</span>/usr/local/bin/redis-server<span style="color:#f92672">]</span> 
+Selected config:
+Port           : <span style="color:#ae81ff">6379</span>
+Config file    : /etc/redis/6379.conf
+Log file       : /var/log/redis_6379.log
+Data dir       : /var/lib/redis/6379
+Executable     : /usr/local/bin/redis-server
+Cli Executable : /usr/local/bin/redis-cli
+Is this ok? Then press ENTER to go on or Ctrl-C to abort.
+Copied /tmp/6379.conf <span style="color:#f92672">=</span>&gt; /etc/init.d/redis_6379
+Installing service...
+Successfully added to chkconfig!
+Successfully added to runlevels 345!
+Starting Redis server...
+Installation successful!
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 编辑 redis 配置⽂件</span>
+vim /etc/redis/6379.conf
+</code></pre></div><p>常用命令</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart redis_6379.service	<span style="color:#75715e">#重启</span>
+systemctl status redis_6379.service		<span style="color:#75715e">#状态</span>
+ps -aux | grep redis 									<span style="color:#75715e">#进程查看</span>
+</code></pre></div><h2 id="mysql">MySql</h2>
+<h3 id="安装">安装</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>mysql<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 设置mysql客户端默认字符集</span>
+default-character-set<span style="color:#f92672">=</span>utf8
+socket<span style="color:#f92672">=</span>/var/lib/mysql/mysql.sock
+
+<span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+skip-name-resolve
+<span style="color:#75715e">#设置3306端⼝</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">3306</span>
+socket<span style="color:#f92672">=</span>/var/lib/mysql/mysql.sock
+<span style="color:#75715e"># 设置mysql的安装⽬录</span>
+basedir<span style="color:#f92672">=</span>/usr/local/mysql
+<span style="color:#75715e"># 设置mysql数据库的数据的存放⽬录</span>
+datadir<span style="color:#f92672">=</span>/usr/local/mysql/data
+<span style="color:#75715e"># 允许最⼤连接数</span>
+max_connections<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>
+<span style="color:#75715e"># 服务端使⽤的字符集默认为8⽐特编码的latin1字符集</span>
+character-set-server<span style="color:#f92672">=</span>utf8
+<span style="color:#75715e"># 创建新表时将使⽤的默认存储引擎</span>
+default-storage-engine<span style="color:#f92672">=</span>INNODB
+lower_case_table_names<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+max_allowed_packet<span style="color:#f92672">=</span>16M
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /home/mysql 
+
+./bin/mysqld --initialize --user<span style="color:#f92672">=</span>mysql --basedir<span style="color:#f92672">=</span>/usr/local/mysql --datadir<span style="color:#f92672">=</span>/usr/local/mysql/data
+
+cp ./support-files/mysql.server /etc/init.d/mysqld
+
+错误信息：./bin/mysqld: error <span style="color:#66d9ef">while</span> loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+
+解决办法：yum install -y libaio
+</code></pre></div><p><a href="https://segmentfault.com/a/1190000023329133">解决Nacicat无法连接远程mysql 报错10038</a></p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1godvsuo07rj30yc0pctee.jpg" alt="image-20210309193312249">
+
+</p>
+<h3 id="创建新用户">创建新用户</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">、创建用户：</span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> <span style="color:#e6db74">&#39;jobtoneadmin&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;%&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;jobtone2021&#39;</span>;
+username<span style="color:#960050;background-color:#1e0010">：用户名；</span>
+<span style="color:#66d9ef">host</span><span style="color:#960050;background-color:#1e0010">：指定在哪个主机上可以登录，本机可用</span>localhost<span style="color:#960050;background-color:#1e0010">，</span><span style="color:#f92672">%</span><span style="color:#960050;background-color:#1e0010">通配所有远程主机；</span>
+password<span style="color:#960050;background-color:#1e0010">：用户登录密码</span>
+<span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">、授权：</span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> <span style="color:#f92672">*</span>.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> <span style="color:#e6db74">&#39;jobtoneadmin&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;%&#39;</span> IDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;jobtone2021&#39;</span>;
+<span style="color:#ae81ff">3</span><span style="color:#960050;background-color:#1e0010">、刷新：</span>flush <span style="color:#66d9ef">privileges</span>;  
+</code></pre></div><h2 id="域名">域名</h2>
+<p>步骤：https://www.jianshu.com/p/67ad1e6c99b4</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gofyibrvq7j315n0nxtbh.jpg" alt="image-20210311143759241">
+
+</p>
+<p>nginx.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">user  www www;
+
+worker_processes auto;
+
+error_log  /home/wwwlogs/nginx_error.log  crit;
+
+pid        /usr/local/nginx/logs/nginx.pid;
+
+<span style="color:#75715e">#Specifies the value for maximum file descriptors that can be opened by this process.</span>
+worker_rlimit_nofile 51200;
+
+events
+    <span style="color:#f92672">{</span>
+        use epoll;
+        worker_connections 51200;
+        multi_accept on;
+    <span style="color:#f92672">}</span>
+
+http
+    <span style="color:#f92672">{</span>
+        include       mime.types;
+        default_type  application/octet-stream;
+
+        server_names_hash_bucket_size 128;
+        client_header_buffer_size 32k;
+        large_client_header_buffers <span style="color:#ae81ff">4</span> 32k;
+        client_max_body_size 50m;
+
+        sendfile   on;
+        tcp_nopush on;
+
+        keepalive_timeout 60;
+
+        tcp_nodelay on;
+
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
+        fastcgi_buffer_size 64k;
+        fastcgi_buffers <span style="color:#ae81ff">4</span> 64k;
+        fastcgi_busy_buffers_size 128k;
+        fastcgi_temp_file_write_size 256k;
+
+        gzip on;
+        gzip_min_length  1k;
+        gzip_buffers     <span style="color:#ae81ff">4</span> 16k;
+        gzip_http_version 1.1;
+        gzip_comp_level 2;
+        gzip_types     text/plain application/javascript application/x-javascript text/javascript text/css application/xml application/xml+rss;
+        gzip_vary on;
+        gzip_proxied   expired no-cache no-store private auth;
+        gzip_disable   <span style="color:#e6db74">&#34;MSIE [1-6]\.&#34;</span>;
+
+        <span style="color:#75715e">#limit_conn_zone $binary_remote_addr zone=perip:10m;</span>
+        <span style="color:#75715e">##If enable limit_conn_zone,add &#34;limit_conn perip 10;&#34; to server section.</span>
+
+        server_tokens off;
+        access_log off;
+
+<span style="color:#75715e">#server</span>
+<span style="color:#75715e">#    {</span>
+<span style="color:#75715e">#        listen 80 default_server;</span>
+<span style="color:#75715e">#        #listen [::]:80 default_server ipv6only=on;</span>
+<span style="color:#75715e">#        server_name _;</span>
+<span style="color:#75715e">#        index index.html index.htm index.php;</span>
+<span style="color:#75715e">#        root  /home/wwwroot/default;</span>
+#
+<span style="color:#75715e">#        #error_page   404   /404.html;</span>
+#
+<span style="color:#75715e">#        # Deny access to PHP files in specific directory</span>
+<span style="color:#75715e">#        #location ~ /(wp-content|uploads|wp-includes|images)/.*\.php$ { deny all; }</span>
+#
+<span style="color:#75715e">#        include enable-php.conf;</span>
+#
+<span style="color:#75715e">#        location /nginx_status</span>
+<span style="color:#75715e">#        {</span>
+<span style="color:#75715e">#            stub_status on;</span>
+<span style="color:#75715e">#            access_log   off;</span>
+<span style="color:#75715e">#        }</span>
+#
+<span style="color:#75715e">#        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$</span>
+<span style="color:#75715e">#        {</span>
+<span style="color:#75715e">#            expires      30d;</span>
+<span style="color:#75715e">#        }</span>
+#
+<span style="color:#75715e">#        location ~ .*\.(js|css)?$</span>
+<span style="color:#75715e">#        {</span>
+<span style="color:#75715e">#            expires      12h;</span>
+<span style="color:#75715e">#        }</span>
+#
+<span style="color:#75715e">#        location ~ /.well-known {</span>
+<span style="color:#75715e">#            allow all;</span>
+<span style="color:#75715e">#        }</span>
+#
+<span style="color:#75715e">#        location ~ /\.</span>
+<span style="color:#75715e">#        {</span>
+<span style="color:#75715e">#            deny all;</span>
+<span style="color:#75715e">#        }</span>
+#
+<span style="color:#75715e">#        access_log  /home/wwwlogs/access.log;</span>
+<span style="color:#75715e">#    }</span>
+server
+    <span style="color:#f92672">{</span>
+        listen 80;
+        <span style="color:#75715e">#listen [::]:80;</span>
+        server_name www.jobtone.com.cn jobtone.com.cn;
+        index index.html index.htm index.php default.html default.htm default.php;
+        root  /home/jobol/wwwol/www.jobtone.com.cn/public;
+
+        include rewrite/thinkphp.conf;
+        <span style="color:#75715e">#error_page   404   /404.html;</span>
+
+        <span style="color:#75715e"># Deny access to PHP files in specific directory</span>
+        <span style="color:#75715e">#location ~ /(wp-content|uploads|wp-includes|images)/.*\.php$ { deny all; }</span>
+
+        include enable-php-pathinfo.conf;
+
+        location ~ .*<span style="color:#ae81ff">\.</span><span style="color:#f92672">(</span>gif|jpg|jpeg|png|bmp|swf<span style="color:#f92672">)</span>$
+        <span style="color:#f92672">{</span>
+            expires      30d;
+        <span style="color:#f92672">}</span>
+
+        location ~ .*<span style="color:#ae81ff">\.</span><span style="color:#f92672">(</span>js|css<span style="color:#f92672">)</span>?$
+        <span style="color:#f92672">{</span>
+            expires      12h;
+        <span style="color:#f92672">}</span>
+
+        location ~ /.well-known <span style="color:#f92672">{</span>
+            allow all;
+        <span style="color:#f92672">}</span>
+
+        location ~ /<span style="color:#ae81ff">\.</span>
+        <span style="color:#f92672">{</span>
+            deny all;
+        <span style="color:#f92672">}</span>
+
+        access_log  /data/wwwlogs/www.jobtone.com.cn.log;
+    <span style="color:#f92672">}</span>
+
+    server <span style="color:#f92672">{</span>
+	   listen 80;
+	   server_name api.jobtone.com.cn;
+	   location / <span style="color:#f92672">{</span>
+	   	 proxy_pass http://127.0.0.1:8081;
+	   <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    server <span style="color:#f92672">{</span>
+	   listen 80;
+	   server_name company.jobtone.com.cn;
+	   
+	   location / <span style="color:#f92672">{</span>
+	   	 root /home/jobtone-web-company/dist;
+	   <span style="color:#f92672">}</span>
+
+	   error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-company/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    server <span style="color:#f92672">{</span>
+	   listen 80;
+	   server_name admin.jobtone.com.cn;
+	   
+	   location / <span style="color:#f92672">{</span>
+	   	 root /home/jobtone-web-admin/dist;
+	   <span style="color:#f92672">}</span>
+
+	   error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-admin/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    server <span style="color:#f92672">{</span>
+	   listen 80;
+	   server_name user.jobtone.com.cn;
+	   
+	   location / <span style="color:#f92672">{</span>
+	   	 root /home/jobtone-web-wechat/dist;
+	   <span style="color:#f92672">}</span>
+
+	   error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-wechat/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    
+
+    server <span style="color:#f92672">{</span>
+        listen 8082;
+        server_name jobtone-web-company;
+
+        location / <span style="color:#f92672">{</span>
+            root /home/jobtone-web-company/dist;
+        <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-company/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    server <span style="color:#f92672">{</span>
+        listen 8083;
+        server_name admin.jobtone.com.cn;
+
+        location / <span style="color:#f92672">{</span>
+            root /home/jobtone-web-admin/dist;
+        <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-admin/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+	server <span style="color:#f92672">{</span>
+        listen 8084;
+        server_name jobtone-web-wechat;
+
+        location / <span style="color:#f92672">{</span>
+            root /home/jobtone-web-wechat/dist;
+        <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">404</span> /index.html;
+            location <span style="color:#f92672">=</span> /home/jobtone-web-wechat/dist/index.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+
+        error_page <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span> /50x.html;
+            location <span style="color:#f92672">=</span> /50x.html <span style="color:#f92672">{</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+include vhost/*.conf;
+<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="ssl">SSL</h3>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5aly5u00j315m0kj76p.jpg" alt="image-20210402123550944">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5alp7exkj31510gfgo2.jpg" alt="image-20210402123537117">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5an2xwoij30pt0gpace.jpg" alt="image-20210402123656557">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5anv2dl4j31000jdn0j.jpg" alt="image-20210402123741504">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5ao9hpstj312q0jr77l.jpg" alt="image-20210402123804820">
+
+</p>
+<p>
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp5aou2q3bj310d0ikjuh.jpg" alt="image-20210402123837991">
+
+</p>
+<h2 id="jenkins">Jenkins</h2>
+<p><!-- raw HTML omitted --></p>
+<p>实例配置</p>
+<p>Jenkins URL: http://118.31.122.172:8000/jenkins/</p>
+<p><a href="mailto:git@59.110.66.66">git@59.110.66.66</a>:new-jobTone-web</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/tangblog/post/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/" data-toggle="tooltip" data-placement="top" title="分库分表&amp;读写分离">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/tangblog/post/rabbitmq/" data-toggle="tooltip" data-placement="top" title="RabbitMQ消息中间">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tangblog/tags/java" title="java">
+                            java
+                        </a>
+                        
+                        
+                        
+                        <a href="/tangblog/tags/mysql" title="mysql">
+                            mysql
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tangblog/tags/wechat" title="wechat">
+                            wechat
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                    
+                    <li>
+                        <a href="mailto:tang897396324@163.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://gitee.com/tangjiadong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-git fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Tang Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>
