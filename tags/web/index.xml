@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on Tang Blog</title>
-    <link>https://tangjiadong.gitee.io/tangblog/tags/web/</link>
+    <link>https://tangjiadong.github.io/tags/web/</link>
     <description>Recent content in Web on Tang Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 05 Jun 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://tangjiadong.gitee.io/tangblog/tags/web/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tangjiadong.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vuex</title>
-      <link>https://tangjiadong.gitee.io/tangblog/post/vuex/</link>
+      <link>https://tangjiadong.github.io/post/vuex/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/post/vuex/</guid>
+      <guid>https://tangjiadong.github.io/post/vuex/</guid>
       <description>Vuex 1.Vuex概述 2.Vuex基本使用 3.使用Vuex完成todo案例 1.Vuex概述 组件之间共享数据的方式 父向子传值：v-bind 属性绑定</description>
     </item>
     

@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Tang Blog</title>
-    <link>https://tangjiadong.gitee.io/tangblog/tags/</link>
+    <link>https://tangjiadong.github.io/tags/</link>
     <description>Recent content in Tags on Tang Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://tangjiadong.gitee.io/tangblog/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tangjiadong.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Java</title>
-      <link>https://tangjiadong.gitee.io/tangblog/tags/java/</link>
+      <link>https://tangjiadong.github.io/tags/java/</link>
       <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/tags/java/</guid>
+      <guid>https://tangjiadong.github.io/tags/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>个人简历</title>
-      <link>https://tangjiadong.gitee.io/tangblog/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</link>
+      <link>https://tangjiadong.github.io/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</link>
       <pubDate>Wed, 05 May 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</guid>
+      <guid>https://tangjiadong.github.io/tags/%E4%B8%AA%E4%BA%BA%E7%AE%80%E5%8E%86/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MySQL</title>
-      <link>https://tangjiadong.gitee.io/tangblog/tags/mysql/</link>
+      <link>https://tangjiadong.github.io/tags/mysql/</link>
       <pubDate>Sat, 01 May 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/tags/mysql/</guid>
+      <guid>https://tangjiadong.github.io/tags/mysql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Wechat</title>
-      <link>https://tangjiadong.gitee.io/tangblog/tags/wechat/</link>
+      <link>https://tangjiadong.github.io/tags/wechat/</link>
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/tags/wechat/</guid>
+      <guid>https://tangjiadong.github.io/tags/wechat/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Web</title>
-      <link>https://tangjiadong.gitee.io/tangblog/tags/web/</link>
+      <link>https://tangjiadong.github.io/tags/web/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/tags/web/</guid>
+      <guid>https://tangjiadong.github.io/tags/web/</guid>
       <description></description>
     </item>
     

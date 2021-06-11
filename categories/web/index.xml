@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on Tang Blog</title>
-    <link>https://tangjiadong.gitee.io/tangblog/categories/web/</link>
+    <link>https://tangjiadong.github.io/categories/web/</link>
     <description>Recent content in Web on Tang Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 23 Dec 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://tangjiadong.gitee.io/tangblog/categories/web/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tangjiadong.github.io/categories/web/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>微信小程序-毕业设计完整项目介绍（微信小程序&#43;Java后台SSM框架）</title>
-      <link>https://tangjiadong.gitee.io/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</link>
+      <link>https://tangjiadong.github.io/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</link>
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</guid>
+      <guid>https://tangjiadong.github.io/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</guid>
       <description>基于微信小程序的培训机构管理系统 前言：该系统作为本科毕业设计，可能还有很多的不足。只是当时做这个系统的时候，由于需要使用java语言作为后端</description>
     </item>
     
     <item>
       <title>微信小程序-毕业设计完整项目配置搭建（微信小程序&#43;Java后台SSM框架）</title>
-      <link>https://tangjiadong.gitee.io/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</link>
+      <link>https://tangjiadong.github.io/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</link>
       <pubDate>Sun, 22 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</guid>
+      <guid>https://tangjiadong.github.io/post/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E5%AE%8C%E6%95%B4%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F&#43;java%E5%90%8E%E5%8F%B0ssm%E6%A1%86%E6%9E%B6/</guid>
       <description>开发工具 后台编辑器：IntelliJ IDEA 前台编辑器：微信开发者工具（如果不习惯该工具的编辑器，可以使用Visual Studio Code进行编码，仅使用微</description>
     </item>
     
     <item>
       <title>Vuex</title>
-      <link>https://tangjiadong.gitee.io/tangblog/post/vuex/</link>
+      <link>https://tangjiadong.github.io/post/vuex/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tangjiadong.gitee.io/tangblog/post/vuex/</guid>
+      <guid>https://tangjiadong.github.io/post/vuex/</guid>
       <description>Vuex 1.Vuex概述 2.Vuex基本使用 3.使用Vuex完成todo案例 1.Vuex概述 组件之间共享数据的方式 父向子传值：v-bind 属性绑定</description>
     </item>
     
